@@ -15,7 +15,7 @@ function viewItems() {
 				var idware = $(this).attr('hreff');
 				$('#txtindex').val(idware);
 				$('#txtwareid').val(idware);
-				//$('#WarehouseModal').modal('show', { backdrop: 'static' });
+				$('#WarehouseModal').modal('show', { backdrop: 'static' });
 			})
 		}
 	});
