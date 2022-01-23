@@ -104,8 +104,6 @@ function writeCodeItem($group){
 }
 ?>
 
-
-
 <html>
 <?php include 'menuhtml.php';?>
 <link rel="icon" href=".\img\logo\cappa_icon.jpg">
