@@ -6,7 +6,7 @@ function viewItems() {
 	$('#TableWarehouse').html('');
 	$.ajax({
 		type: "POST",
-		url: "./assets/scripts/ajax/getwarehouse.php",
+		url: "/assets/scripts/ajax/getwarehouse.php",
 		data: "",
 		success: function (response) {
 			$('#TableWarehouse').html('');
@@ -24,12 +24,9 @@ function viewItems() {
 $(document).ready(function () {
 	viewItems();
 	var path1 = '/assets/scripts/ajax/';
-	$('#title').removeClass();
-	$('#title').addClass("alert aler-danger");
-	$('#title').html("Hello");
-
+	
 	$('#btnAddNew').click(function () {
-		$('#h1-1').html('My Profile');
+		$('#h1-1').html('New Warehouse');
 		$('#txtindex').val('new');
 		$('#txtwareid').val('');
 		$('#txtnama').val('');
@@ -46,14 +43,13 @@ $(document).ready(function () {
 		var wareid = $('#txtwareid').val();
 		var name = $('#txtnama').val();
 		var loc = $('#txtloc').val();
-
-		if ((name.trim() == '') || (custid == '')) {
+		
+		if ((name.trim() == '') || (wareid == '')) {
 			$('#message').removeClass();
 			$('#message').addClass("alert alert-danger");
 			$('#message').html("Please Fill Blank Field");
 		}
 		else {
-
 			$.ajax({
 				type: "POST",
 				url: path1 + "savewarehouse.php",
@@ -82,7 +78,7 @@ $(document).ready(function () {
 				}
 			});
 		}
-	})
+	});
 
 
 	$('#WarehouseModal').on('shown.bs.modal', function () {

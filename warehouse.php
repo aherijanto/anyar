@@ -26,7 +26,7 @@
                     
     <div class=row style="background-color:#ffffff;">
         <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 col-md-6" style="padding:10px;">
-           	<div id="TableWareHouse"></div>
+           	<div id="TableWarehouse"></div>
         </div>
     </div>
 

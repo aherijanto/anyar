@@ -38,7 +38,7 @@
              }
 			else{
 
-                echo 'Data Error';
+                //echo 'Data Error';
 				//$arr = array('barcode' => '0',
 				//			 'namabarang' => '',
 				//			 'hpp' => '',

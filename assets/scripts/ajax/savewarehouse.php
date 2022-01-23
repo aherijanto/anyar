@@ -7,14 +7,17 @@
 	/*require_once('../../requires/config.php');
 	require_once('../../requires/fungsi.php');*/
    
-    
+   
 	if($_POST) {
         $flag=($_POST["flag"]);
        
 		$wareid = htmlspecialchars($_POST["wareid"]);
         $nama =htmlspecialchars($_POST["nm"]);
         $loc = htmlspecialchars($_POST['loc']);
-
+        
+        echo $wareid;
+        echo $nama;
+        echo $loc;
         
        if ($flag=='new'){
 			$conn2 = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
@@ -26,8 +29,7 @@
             }
             else{
                 echo 'ERROR';
-            }
-           
+            }   
         }
     
         else{
