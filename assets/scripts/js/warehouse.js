@@ -19,7 +19,7 @@ function viewItems() {
 			})
 		}
 	});
-}//
+}
 
 $(document).ready(function () {
 	viewItems();
@@ -78,7 +78,7 @@ $(document).ready(function () {
 				}
 			});
 		}
-	});
+	})
 
 
 	$('#WarehouseModal').on('shown.bs.modal', function () {
@@ -91,7 +91,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: "POST",
 			url: "/assets/scripts/ajax/getwarehousedetail.php",
-			data: 'id=' + custid,
+			data: 'id=' + wareid,
 			success: function (response) {
 				//var json = $.parseJSON(response);
 				//var json = JSON.stringify(response);
@@ -100,7 +100,7 @@ $(document).ready(function () {
 				$(jsonData).each(function (i, val) {
 					$.each(val, function (k, v) {
 						switch (k) {
-							case 'id': $('#txtindex').val(v);
+							case 'id': $('#txtwareid').val(v);
 								$('#h1-1').val('Edit ');
 								$('#txtwareid').val(v);
 								break;
@@ -111,13 +111,14 @@ $(document).ready(function () {
 							
 						}
 					})
-				})
+				});
 			}
-		})
-	});
+		});
+	})
 
 	$('#btnDelete').click(function () {
-		var indexDelete = $('#txtcustid').val();
+		var indexDelete = $('#txtwareid').val();
+		console.log(indexDelete);
 		swal({
 			title: "Delete Confirmation",
 			text: "Do you want to delete this data?",
@@ -129,7 +130,7 @@ $(document).ready(function () {
 			function () {
 				$.ajax({
 					type: "POST",
-					url: path1 + "deletecust.php",
+					url: path1 + "deletewarehouse.php",
 					data: "id=" + indexDelete,
 					success: function (response) {
 						if (response == 'OK') {
@@ -141,10 +142,10 @@ $(document).ready(function () {
 								showConfirmButton: true
 							});
 							viewItems();
-							$('#CustomerModal').modal('hide');		
+							$('#WarehouseModal').modal('hide');		
 						}
 					}
-				});
+				})
 				viewItems();
 			})
 	})

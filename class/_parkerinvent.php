@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set("display_errors","On");
 //include 'class/_parkerconnection.php';
@@ -21,10 +22,20 @@ class Inventory{
     var $i_cogs;
     var $i_kdsell;
     var $i_sell;
+    var $i_sell2;
+    var $i_sell3;
+    var $i_sell4;
+    var $i_sell5;
+    var $i_sell6;
+    var $i_sell7;
+    var $i_sell8;
+    var $i_sell9;
+    var $i_sell10;
     var $i_status;
+    var $i_wareid;
 
 
-   function __construct($i_code,$g_code,$i_supp,$i_barcode,$i_name,$i_qty,$i_qtymin,$i_unit,$i_ukuran,$i_warna,$i_merk,$i_artikel,$i_cogs,$i_kdsell,$i_sell,$i_status){
+   function __construct($i_code,$g_code,$i_supp,$i_barcode,$i_name,$i_qty,$i_qtymin,$i_unit,$i_ukuran,$i_warna,$i_merk,$i_artikel,$i_cogs,$i_kdsell,$i_sell,$i_sell2,$i_sell3,$i_sell4,$i_sell5,$i_sell6,$i_sell7,$i_sell8,$i_sell9,$i_sell10,$i_status,$i_wareid){
         $this->i_code=$i_code;
         $this->g_code=$g_code;
         $this->i_supp=$i_supp;
@@ -41,7 +52,17 @@ class Inventory{
         $this->i_cogs=$i_cogs;
         $this->i_kdsell=$i_kdsell;
         $this->i_sell=$i_sell;
+        $this->i_sell2=$i_sell2;
+        $this->i_sell3=$i_sell3;
+        $this->i_sell4=$i_sell4;
+        $this->i_sell5=$i_sell5;
+        $this->i_sell6=$i_sell6;
+        $this->i_sell7=$i_sell7;
+        $this->i_sell8=$i_sell8;
+        $this->i_sell9=$i_sell9;
+        $this->i_sell10=$i_sell10;
         $this->i_status=$i_status;
+        $this->i_wareid=$i_wareid;
     }
 
 
@@ -176,7 +197,13 @@ class Inventory{
            echo $this->i_status;
         }
 
+    function set_i_wareid($args){
+          $this->i_wareid = $args;
+    }
 
+   function get_i_wareid(){
+          echo $this->i_wareid;
+       }
 
 
     function save_inventory(){
@@ -198,14 +225,22 @@ class Inventory{
       $i_cogs=$this->i_cogs;
       $i_kdsell=$this->i_kdsell;
       $i_sell=$this->i_sell;
+      $i_sell2=$this->i_sell2;
+      $i_sell3=$this->i_sell3;
+      $i_sell4=$this->i_sell4;
+      $i_sell5=$this->i_sell5;
+      $i_sell6=$this->i_sell6;
+      $i_sell7=$this->i_sell7;
+      $i_sell8=$this->i_sell8;
+      $i_sell9=$this->i_sell9;
+      $i_sell10=$this->i_sell10;
       $i_status=$this->i_status;
-
-
+      $i_wareid=$this->i_wareid;
 
         try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = "INSERT INTO winventory (i_code,g_code,i_supp,i_barcode,i_name, i_qty,i_qtymin,i_unit,i_size,i_color,i_brands,i_article,i_cogs,i_kdsell,i_sell,i_status)
-                VALUES('$i_code','$g_code','$i_supp','$i_barcode','$i_name','$i_qty','$i_qtymin','$i_unit','$i_ukuran','$i_warna','$i_merk','$i_artikel','$i_cogs','$i_kdsell','$i_sell','$i_status')";
+            $stmt = "INSERT INTO winventory (i_code,g_code,i_supp,i_barcode,i_name, i_qty,i_qtymin,i_unit,i_size,i_color,i_brands,i_article,i_cogs,i_kdsell,i_sell,i_sell2,i_sell3,i_sell4,i_sell5,i_sell6,i_sell7,i_sell8,i_sell9,i_sell10,i_status,ware_id)
+                VALUES('$i_code','$g_code','$i_supp','$i_barcode','$i_name','$i_qty','$i_qtymin','$i_unit','$i_ukuran','$i_warna','$i_merk','$i_artikel','$i_cogs','$i_kdsell','$i_sell','$i_sell2','$i_sell3','$i_sell4','$i_sell5','$i_sell6','$i_sell7','$i_sell8','$i_sell9','$i_sell10','$i_status','$i_wareid')";
                 //echo '<br/>'.$stmt;
                 $pdo->exec($stmt);
         } catch(PDOException $e) {

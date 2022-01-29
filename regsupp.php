@@ -3,13 +3,10 @@ error_reporting(E_ALL);
 ini_set("display_errors","On");
 session_start();
 ob_start();
+
 $_SESSION['reports']='0';
 if (isset($_SESSION['user'])!="" ){
 include 'class/_parkersupplier.php';
-include 'menuhtml.php';
-
-
-
 
 	if (isset($_POST['savesupp'])){
 
@@ -29,18 +26,20 @@ include 'menuhtml.php';
 		$mysupp->get_s_code().'<br/>';
 		$mysupp->get_s_name().'<br/>';
 		$mysupp->get_s_contact().'<br/>';
+        $mysupp->get_s_addr().'<br/>';
 		$mysupp->get_s_phone().'<br/>';
 		$mysupp->save_supplier();
-
 }
-
 ?>
-
-
-
 <html>
-<link rel="icon" href=".\img\logo\cappa_icon.jpg">
-<body>
+    <head>
+    <?php
+        require_once('./assets/requires/config.php');
+        require_once('./assets/requires/header1.php');
+    ?> 
+    <link rel="icon" href=".\img\logo\cappa_icon.jpg">
+</head>
+    <body>
 
 <div>
 <table align="center">
@@ -111,6 +110,9 @@ include 'menuhtml.php';
 </form>
 </div>
 </p>
+ <div id="TableSupplier"></div>
+
+<script src="./assets/scripts/js/supplier.js"></script>
 </body>
 </html>
 <?php

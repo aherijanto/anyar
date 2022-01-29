@@ -4,7 +4,7 @@
 ?>
 <!DOCTYPE HTML>
 <html>
-<?php include 'menuhtml.php';?>
+
 <head>
    <?php
         require_once('./assets/requires/config.php');
@@ -15,12 +15,15 @@
 </head>
 <body>
     <div class=row style="background-color:#ffffff;">
-        <div class="col-sm-2" style="margin-left:50px;padding-top:10px;">
+        <div  style="margin-left:20px;padding-top:10px;">
+            <div id="title" style="font-size:58px;color:#e0aaff">Your Company</div>
+        </div>
+        <!--<div class="col-sm-2" style="margin-left:250px;padding-top:10px;floating:right;align:right;">
            	<div class="form-group">
                 <label class="control-label">&nbsp;</label>
                 <button class="btn btn-primary form-control" id="btnAddNew" >My Profile</button>
             </div>            
-        </div>      
+        </div> !-->     
     </div>
                     
     <div class=row style="background-color:#ffffff;">
@@ -104,9 +107,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>                
-                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="btnSave">Save</button>
                     <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
@@ -115,9 +116,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
-                
-           
-
 </body>
 <script src="./assets/scripts/js/inventory.js"></script>
 </html>

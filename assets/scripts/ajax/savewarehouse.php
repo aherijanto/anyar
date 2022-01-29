@@ -15,16 +15,11 @@
         $nama =htmlspecialchars($_POST["nm"]);
         $loc = htmlspecialchars($_POST['loc']);
         
-        echo $wareid;
-        echo $nama;
-        echo $loc;
-        
        if ($flag=='new'){
 			$conn2 = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
 			$result = mysqli_query($conn2,"insert into wwarehouse (ware_id, ware_name, ware_loc) values ('$wareid', '$nama','$loc');");
             
 			if($result){
-               
                 echo 'OK';
             }
             else{

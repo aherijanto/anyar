@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set("display_errors","On");
 //include 'class/_parkerconnection.php';
@@ -164,8 +165,7 @@ class Sales{
 
     function save_sell_head()
     {
-
-      include ('class/_parkerconnection.php');
+     // include ('./var/www/matahari/class/_parkerconnection.php');
 
       /*------------------DEFINE HEAD-----------------*/
 

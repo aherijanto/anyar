@@ -1,4 +1,5 @@
 <?php
- define('APPNAME','Inventory');
- define('PATH','http://registrasi.klinik-annisaa.com');
+ define('APPNAME','CappaInvent');
+ define('PATH','http://matahari.local/');
+ 
 ?>

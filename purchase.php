@@ -8,7 +8,7 @@ ini_set("display_errors","On");
 $_SESSION['reports']='0';
 include "class/_parkerpurchase.php";
 include "class/_parkerinvent.php";
-include 'menuhtml.php';
+
 include 'class/number.php';
 
 //$t_number="";
@@ -230,6 +230,10 @@ if(!empty($_GET["action"]))
 
 <html >
  <head>
+ <?php
+        require_once('./assets/requires/config.php');
+        require_once('./assets/requires/header1.php');
+    ?> 
 
 <script type="text/javascript">
 function readURL(input) {

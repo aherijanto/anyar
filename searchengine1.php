@@ -8,6 +8,14 @@ include 'class/_parkercustomer.php';
 ?>
 
 <html>
+  <head>
+  <?php
+        require_once('./assets/requires/config.php');
+        require_once('./assets/requires/header1.php');
+        
+      
+    ?> 
+</head>
 <body>
 <div>
 <p>

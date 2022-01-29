@@ -7,7 +7,7 @@ $_SESSION['reports']='0';
 
 if (isset($_SESSION['user'])!="" ){
 include 'class/_parkergroup.php';
-include 'menuhtml.php';
+
 
 
 
@@ -36,7 +36,13 @@ include 'menuhtml.php';
 
 
 <html>
-<link rel="icon" href=".\img\logo\cappa_icon.jpg">
+    <head>
+    <?php
+        require_once('./assets/requires/config.php');
+        require_once('./assets/requires/header1.php');
+    ?> 
+    <link rel="icon" href=".\img\logo\cappa_icon.jpg">
+</head>
 <body>
 
 <div>

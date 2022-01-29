@@ -4,23 +4,28 @@
 ?>
 <!DOCTYPE HTML>
 <html>
-<?php include 'menuhtml.php';?>
+
 <head>
    <?php
         require_once('./assets/requires/config.php');
         require_once('./assets/requires/header1.php');
         
-        //require_once './menuside.html';
+       
     ?> 
 </head>
 <body>
+    
     <div class=row style="background-color:#ffffff;">
-        <div class="col-sm-2" style="margin-left:50px;padding-top:10px;">
-            <div id="title"></div>
-           	<div class="form-group">
-                <label class="control-label">&nbsp;</label>
-                <button class="btn btn-primary form-control" id="btnAddNew" >Add Warehouse</button>
-            </div>            
+        <div class="col-sm-2" style="margin-left:10px;padding-top:10px;">
+            <div id="title" style="font-size:58px;color:#168aad">Warehouse</div>
+        </div>
+        
+        <div class="col-sm-2" style="margin-left:250px;floating:right;padding-top:10px;align:right;">
+           	    <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <button class="btn btn-primary form-control" id="btnAddNew" >Add Warehouse</button>
+                </div>            
+            </div>
         </div>      
     </div>
                     

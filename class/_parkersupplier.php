@@ -17,7 +17,7 @@ class Supplier{
         $this->s_code=$s_code;
         $this->s_name=$s_name;
         $this->s_contact=$s_contact;
-        $this->s_addrr=$s_addr;
+        $this->s_addr=$s_addr;
         $this->s_phone=$s_phone;
     }
 

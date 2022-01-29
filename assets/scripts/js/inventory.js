@@ -27,6 +27,14 @@ $(document).ready(function () {
 	$('#btnAddNew').hide();
 	$('#btnDelete').hide();
 
+	$('#saveinvent').click(function (){
+		if($('#slctwarehouse').val() == "0"){
+			$('#message').html('');
+			$('#message').html('Please Fill Blank Field');
+		}
+
+	})
+
 	$('#btnAddNew').click(function () {
 		$('#h1-1').html('My Profile');
 		$('#txtindex').val('new');

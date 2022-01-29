@@ -28,10 +28,10 @@
 
 <?php
 session_start();
-ob_start();
-$_SESSION['reports']='0';
-$myinvno1=$_GET['invno'];
 
+$_SESSION['reports']='0';
+$myinvno1=$_GET['noinv'];
+echo $myinvno1;
 $userInv=$_SESSION['user'];
 
 $payme=0;
@@ -62,7 +62,7 @@ $mytime=date("h:i:sa");
 
 echo '<tr><td colspan="2"><hr/></td></tr>';
 echo '</table>';
-$sqlinv="SELECT * FROM wselltail where s_code='$myinvno1'";
+$sqlinv="SELECT * FROM wsellhead,wselltail where wselltail.s_code='$myinvno1' and wsellhead.s_code=wselltail.s_code";
 $showdetail= mysqli_query($conn3,$sqlinv) or die(mysql_error());
 $item_total=0;
 $payme=0;
@@ -82,7 +82,7 @@ while ($row =mysqli_fetch_array($showdetail))
 	$disc2=$row['i_disc2'];
 	$disc3=$row['i_disc3'];
 
-	$sqlsatuan="SELECT * from winventory where i_barcode='$mykdbrg'";
+	$sqlsatuan="SELECT * from winventory where i_code='$mykdbrg'";
 	
 	$showsatuan= mysqli_query($conn3,$sqlsatuan) or die(mysql_error());
 	if ($row1 =mysqli_fetch_array($showsatuan))
@@ -112,7 +112,8 @@ while ($row =mysqli_fetch_array($showdetail))
 	}else{	
 		echo '<tr><td align="left" class="headerbtm">'.$row['i_qty'].' '.$myitemcode.' x '.number_format($row['i_sell']).'</td><td align="right" class="headerbtm">'.number_format($totaldisc3).'</td></tr>';
 	}
-	
+	$payme=$row['s_premi'];
+	$changeme=$row['s_deduct'];
 	$item_total+=$totaldisc3;
 	$itemcount=$itemcount+1;
 }
@@ -120,19 +121,12 @@ echo '<tr><td colspan="2" class="headerbtm"><hr/></td></tr>';
 //echo '</table>';
 //echo '<table width="100%">';
 echo '<tr><td align="left" class="headerbtm">TOTAL :</td><td align="right" class="headerbtm">'.number_format($item_total).'</td></tr>';
-if (isset($_SESSION['bayar'])){
-	$payme=$_SESSION['bayar'];
-}
-
-if (isset($_SESSION['kembali'])){
-	$changeme=$_SESSION['kembali'];
-}
 
 echo '<tr><td class="headerbtm">BAYAR :</td><td align="right" class="headerbtm">'.number_format($payme).'</td></tr>';
 echo '<tr><td class="headerbtm">KEMBALI :</td><td align="right" class="headerbtm">'.number_format($changeme).'</td></tr>';
 echo '<tr><td class="headerbtm">'.$itemcount.' Item(s)</td></tr>';
 echo '<td class="headerbtm" align="left">'.$mytime.' / '.$userInv.' / '.$myinvno1.'</td></tr>';
-echo '<tr><td colspan="2" class="headerbtm" align="center"><a href="salesdirect.php?action=new" style="text-decoration:none;color:#000000;">TERIMA KASIH ATAS KUNJUNGAN ANDA</a></td></tr>'; 
+echo '<tr><td colspan="2" class="headerbtm" align="center"><a href="/salesdirect.php" style="text-decoration:none;color:#000000;">TERIMA KASIH ATAS KUNJUNGAN ANDA</a></td></tr>'; 
 echo '</table>';
 $_SESSION['cust']='';
 $_SESSION['pay']=0;

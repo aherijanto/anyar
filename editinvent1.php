@@ -15,8 +15,7 @@ $mydeduct=0;
 if (!empty($_GET['codeinvent']))
 {
   $codeinvent=$_GET['codeinvent'];
-  
-  
+
   include ('class/_parkerconnection.php');
             
             try {
@@ -53,6 +52,15 @@ if (!empty($_GET['codeinvent']))
 
                $mykd_sell=$row->i_kdsell;
                $myi_sell=$row->i_sell;
+               $myi_sell2=$row->i_sell2;
+               $myi_sell3=$row->i_sell3;
+               $myi_sell4=$row->i_sell4;
+               $myi_sell5=$row->i_sell5;
+               $myi_sell6=$row->i_sell6;
+               $myi_sell7=$row->i_sell7;
+               $myi_sell8=$row->i_sell8;
+               $myi_sell9=$row->i_sell9;
+               $myi_sell10=$row->i_sell10;
                $myi_status=$row->i_status;
                
               
@@ -73,8 +81,6 @@ echo 'Image '.$myi_imgfile.'<br/>';*/
 <html>
 <head>
   
-
-
   <link rel = "stylesheet" type = "text/css" href = "css/raw_css.css" />
   <link rel = "stylesheet" type = "text/css" href = "css/editinvent.css" />
 
@@ -150,8 +156,44 @@ echo 'Image '.$myi_imgfile.'<br/>';*/
   </tr>
 
   <tr>
-    <td>Harga Jual</td>
+    <td>Harga Jual #1</td>
     <td><input type='text' name="mysell" value="<?php echo $myi_sell; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #2</td>
+    <td><input type='text' name="mysell2" value="<?php echo $myi_sell2; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #3</td>
+    <td><input type='text' name="mysell3" value="<?php echo $myi_sell3; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #4</td>
+    <td><input type='text' name="mysell4" value="<?php echo $myi_sell4; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #5</td>
+    <td><input type='text' name="mysell5" value="<?php echo $myi_sell5; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #6</td>
+    <td><input type='text' name="mysell6" value="<?php echo $myi_sell6; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #7</td>
+    <td><input type='text' name="mysell7" value="<?php echo $myi_sell7; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #8</td>
+    <td><input type='text' name="mysell8" value="<?php echo $myi_sell8; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #9</td>
+    <td><input type='text' name="mysell9" value="<?php echo $myi_sell9; ?>"></td>
+  </tr>
+  <tr>
+    <td>Harga Jual #10</td>
+    <td><input type='text' name="mysell10" value="<?php echo $myi_sell10; ?>"></td>
   </tr>
 
   <tr>
@@ -224,6 +266,15 @@ if (isset($_POST['update']))
   $mycogs=$_POST['mycogs'];
   $mykdsell=$_POST['mykdsell'];
   $mysell=$_POST['mysell'];
+  $mysell2=$_POST['mysell2'];
+  $mysell3=$_POST['mysell3'];
+  $mysell4=$_POST['mysell4'];
+  $mysell5=$_POST['mysell5'];
+  $mysell6=$_POST['mysell6'];
+  $mysell7=$_POST['mysell7'];
+  $mysell8=$_POST['mysell8'];
+  $mysell9=$_POST['mysell9'];
+  $mysell10=$_POST['mysell10'];
   $mystatus=$_POST['mystatus'];
   //$myimage=$_POST['myimage'];
 
@@ -231,7 +282,7 @@ if (isset($_POST['update']))
 
        try {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "UPDATE `winventory` SET `i_code`='$mycode',`g_code`='$mygroup',`i_supp`='$mysupp',`i_barcode`='$mybarcode',`i_name`='$myname',`i_qty`='$myqty',`i_qtymin`='$myqtymin',`i_unit`='$myunit',`i_size`='$myukuran',`i_color`='$mywarna',`i_brands`='$mymerk',`i_article`='$myartikel',`i_cogs`='$mycogs',`i_kdsell`='$mykdsell',`i_sell`='$mysell',`i_status`='$mystatus' WHERE `i_code`= '$mycode'";
+                $sql = "UPDATE `winventory` SET `i_code`='$mycode',`g_code`='$mygroup',`i_supp`='$mysupp',`i_barcode`='$mybarcode',`i_name`='$myname',`i_qty`='$myqty',`i_qtymin`='$myqtymin',`i_unit`='$myunit',`i_size`='$myukuran',`i_color`='$mywarna',`i_brands`='$mymerk',`i_article`='$myartikel',`i_cogs`='$mycogs',`i_kdsell`='$mykdsell',`i_sell`='$mysell',`i_sell2`='$mysell2',`i_sell3`='$mysell3',`i_sell4`='$mysell4',`i_sell5`='$mysell5',`i_sell6`='$mysell6',`i_sell7`='$mysell7',`i_sell8`='$mysell8',`i_sell9`='$mysell9',`i_sell10`='$mysell10',`i_status`='$mystatus' WHERE `i_code`= '$mycode'";
                 $stmt = $pdo->prepare($sql);
                 //$stmt->bindParam(':i_code', $codeinvent, PDO::PARAM_STR);
                 $stmt->execute();

@@ -9,8 +9,8 @@
 
 		$kdbrg = $_POST["id"];
 
-			$conn2 = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_senang');
-			$result = mysqli_query($conn2,"select KD_BRG,BARCODE,NM_BRG,HPP,HRG_JUALB from mstbrg where KD_BRG = $kdbrg;");
+			$conn2 = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
+			$result = mysqli_query($conn2,"select * from winventory where i_code = '$kdbrg';");
 			if(!$result){
 				die();
 				echo 'noresult';
@@ -18,13 +18,21 @@
 				$jumrec=mysqli_num_rows($result);
 			}
 			
-
 			if($jumrec>0){
 				$record = mysqli_fetch_array($result);
-				$arr = array('id' => $record["KD_BRG"],
-							 'nm' => $record["NM_BRG"],
-							 'hpp' => $record["HPP"],
-							 'hrgjual' => $record["HRG_JUALB"]
+				$arr = array('id' => $record["i_code"],
+							 'nm' => $record["i_name"],
+							 'qty' => "1",
+							 'hrg1' => $record["i_sell"],
+							 'hrg2' => $record["i_sell2"],
+							 'hrg3' => $record["i_sell3"],
+							 'hrg4' => $record["i_sell4"],
+							 'hrg5' => $record["i_sell5"],
+							 'hrg6' => $record["i_sell6"],
+							 'hrg7' => $record["i_sell7"],
+							 'hrg8' => $record["i_sell8"],
+							 'hrg9' => $record["i_sell9"],
+							 'hrg10' => $record["i_sell10"],
 							 );
 			}
 			else{
