@@ -8,12 +8,17 @@ if(isset($_SESSION['cart_item'])){
     if(!empty($_SESSION['cart_item'])){
         
         foreach($_SESSION["cart_item"] as $item){
-        $no++;    
-            $subtotal = $item['qty'] * $item['cogs'];
-            $subtotal = $subtotal*(1-($item['disc']/100));
-            //$totaldisc2 = $totaldisc1*(1-($item['disc2']/100));
-            $subtotal = $subtotal-$item['discrp'];
-            $sumtotaldisc = $subtotal*($item['disc']/100)+$item['discrp'];
+            $no++;    
+            $subtotal=0;
+	        $discperitem=0;
+			$diskpercentperitem=0;
+			
+
+            $discperitem = $item['cogs'] - $item['discrp'];
+			$subtotal = $item['qty'] * ($item['cogs']-$discrp);
+			$sumtotaldisc = $item['qty'] * $discrp;
+            
+							
             $grandtotal=$grandtotal+$subtotal;
         }
         $arrgrand = array('grandtotal' => number_format($grandtotal));

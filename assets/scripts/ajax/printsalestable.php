@@ -72,11 +72,11 @@ $itemcount=0;
 $totaldisc1=0;
 $totaldisc2=0;
 $totaldisc3=0;
-
+$grandtotal=0;
 echo '<table width="100%">';
 while ($row =mysqli_fetch_array($showdetail))
 {
-	//echo'<br/>';
+	$subtotal=0;
 	$mykdbrg=$row['i_code'];
 	$disc1=$row['i_disc1'];
 	$disc2=$row['i_disc2'];
@@ -87,31 +87,22 @@ while ($row =mysqli_fetch_array($showdetail))
 	$showsatuan= mysqli_query($conn3,$sqlsatuan) or die(mysql_error());
 	if ($row1 =mysqli_fetch_array($showsatuan))
 	{ 
-	$myitemcode=$row1['i_unit'];
+		$myitemcode=$row1['i_unit'];
 	}	
 
 	$mysub=$row['i_qty']*$row['i_sell'];
 	echo '<tr><td colspan="2" class="headerbtm">'.$row['i_name'].'</td></tr>';
-	$totaldisc1 = $mysub*(1-($disc1/100));
-	$totaldisc2 = $totaldisc1*(1-($disc2/100));
-	$totaldisc3 = $totaldisc2-$disc3;
-
 	
-	if($disc1<>0 || $disc2<>0 || $disc3<>0){
-					$totaldisc1ex=$mysub*$disc1/100;
-					$subtotaldisc1=$mysub-$totaldisc1ex;
-					$totaldisc2ex=$subtotaldisc1*($disc2/100);
-					$subtotaldisc2=$subtotaldisc1-$totaldisc2ex;
-					$gtotaldisc=$totaldisc1ex+$totaldisc2ex-$disc3;
-
-		echo '<tr>
+	$discperitem = $row['i_sell'] - $row['i_disc3'];
+	$subtotal = $row['i_qty'] * $discperitem;						
+	$sumtotaldisc = $row['i_qty'] * $row['i_disc3'];
+    $grandtotal=$grandtotal+$subtotal;
+	
+	echo '<tr>
 			<td align="left" class="headerbtm">'.$row['i_qty'].' '.$myitemcode.' x '.number_format($row['i_sell']).'</td></tr>
-			<tr><td class="headerbtm">DISCOUNT  '.number_format($gtotaldisc).'</td>
-			<td align="right" class="headerbtm">'.number_format($totaldisc3).'</td></tr>';
+			<tr><td class="headerbtm" style="padding-bottom:5px;">Hemat: '.number_format($sumtotaldisc).'</td>
+			<td align="right" class="headerbtm">'.number_format($subtotal).'</td></tr>';
 
-	}else{	
-		echo '<tr><td align="left" class="headerbtm">'.$row['i_qty'].' '.$myitemcode.' x '.number_format($row['i_sell']).'</td><td align="right" class="headerbtm">'.number_format($totaldisc3).'</td></tr>';
-	}
 	$payme=$row['s_premi'];
 	$changeme=$row['s_deduct'];
 	$item_total+=$totaldisc3;
@@ -120,7 +111,7 @@ while ($row =mysqli_fetch_array($showdetail))
 echo '<tr><td colspan="2" class="headerbtm"><hr/></td></tr>';
 //echo '</table>';
 //echo '<table width="100%">';
-echo '<tr><td align="left" class="headerbtm">TOTAL :</td><td align="right" class="headerbtm">'.number_format($item_total).'</td></tr>';
+echo '<tr><td align="left" class="headerbtm">TOTAL :</td><td align="right" class="headerbtm">'.number_format($grandtotal).'</td></tr>';
 
 echo '<tr><td class="headerbtm">BAYAR :</td><td align="right" class="headerbtm">'.number_format($payme).'</td></tr>';
 echo '<tr><td class="headerbtm">KEMBALI :</td><td align="right" class="headerbtm">'.number_format($changeme).'</td></tr>';
@@ -134,8 +125,5 @@ $_SESSION['change']=0;
 unset($_SESSION['bayar']);
 unset($_SESSION['kembali']);
 ?>
-
-
-
 </html>
 

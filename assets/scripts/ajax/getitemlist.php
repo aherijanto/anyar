@@ -16,11 +16,22 @@ if(isset($_SESSION['cart_item'])){
 				<th class="text-right" style="width:30%;">SUBTOTAL</th>
 			</tr>
 		</thead>';
-		$subtotal=0;
+		
 		$grandtotal=0;
 		$no=0;
 		foreach($_SESSION["cart_item"] as $item){
 			$no++;
+			$subtotal=0;
+			$discperitem=0;
+					$diskpercentperitem=0;
+					if($item['disc']==0){
+						$discpercent=($item['discrp']/$item['cogs'])*100;
+						$discrp=$item['discrp'];
+					}
+					if($item['discrp']==0){
+						$discrp=($item['disc']*$item['cogs'])/100;
+						$discpercent = $item['disc'];
+					}
 		$table.='<tbody>
 				<tr>
 					<td align="center">'.$no.'</td>
@@ -28,17 +39,19 @@ if(isset($_SESSION['cart_item'])){
 					<td align="left">'.$item['name'].'</td>
 					<td align="center">'.$item['qty'].'</td>
 					<td align="right">'.number_format($item['cogs']).'</td>
-					<td align="right">'.number_format($item['disc'],2).'</td>
-					<td align="right">'.number_format($item['discrp']).'</td>';
+					<td align="right">'.number_format($discpercent,2).'</td>
+					<td align="right">'.number_format($discrp).'</td>';
 					
-					$subtotal = $item['qty'] * $item['cogs'];
-					$subtotal = $subtotal*(1-($item['disc']/100));
-					//$totaldisc2 = $totaldisc1*(1-($item['disc2']/100));
-					$subtotal = $subtotal-$item['discrp'];
-					$sumtotaldisc = $subtotal*($item['disc']/100)+$item['discrp'];
-		$table.='<td align="right">'.number_format($sumtotaldisc).'</td>
-				<td align="right" style="font-weight:bold;font-size:18px;">'.number_format($subtotal).'</td>				
-				<td class="text-center"><a hreff="'.$item["code"].'" class="link1 btn btn-danger">Remove</a></td></tr>';
+					$discperitem = $item['cogs'] - $item['discrp'];
+							$subtotal = $item['qty'] * ($item['cogs']-$discrp);
+							$sumtotaldisc = $item['qty'] * $discrp;
+							$discperitem = $item['cogs'] - $item['discrp'];
+							
+							$subtotal = $item['qty'] * $discperitem;
+							
+							$table.='<td align="right">'.number_format($sumtotaldisc).'</td>
+							<td align="right" style="font-weight:bold;font-size:18px;">'.number_format($subtotal).'</td>
+							<td class="text-center"><a hreff="'.$item["code"].'" class="link1 btn btn-danger">Remove</a></td></tr>';
 		}
 		$table.='</tbody>
 				</table>';

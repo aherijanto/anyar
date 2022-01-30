@@ -10,11 +10,25 @@ if(isset($_SESSION['cart_item'])){
         $table.='<tbody>';
 		foreach($_SESSION["cart_item"] as $item){
 			$no++;
-            $subtotal = $item['qty'] * $item['cogs'];
-			$subtotal = $subtotal*(1-($item['disc']/100));
-					//$totaldisc2 = $totaldisc1*(1-($item['disc2']/100));
-			$subtotal = $subtotal-$item['discrp'];
-			$sumtotaldisc = $subtotal*($item['disc']/100)+$item['discrp'];
+
+            // $discperitem = $item['cogs'] - $item['discrp'];				
+			// $subtotal = $item['qty'] * $discperitem;
+			// $sumtotaldisc = $item['qty'] * $item['discrp'];
+			$subtotal=0;
+	        $discperitem=0;
+			$diskpercentperitem=0;
+			if($item['disc']==0){
+				$discpercent=($item['discrp']/$item['cogs'])*100;
+				$discrp=$item['discrp'];
+			}
+			if($item['discrp']==0){
+				$discrp=($item['disc']*$item['cogs'])/100;
+				$discpercent = $item['disc'];
+			}
+
+            $discperitem = $item['cogs'] - $item['discrp'];
+			$subtotal = $item['qty'] * ($item['cogs']-$discrp);
+			$sumtotaldisc = $item['qty'] * $discrp;
             $grandtotal=$grandtotal+$subtotal;
 		    $table.='
 				<tr>

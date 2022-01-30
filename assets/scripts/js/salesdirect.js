@@ -88,6 +88,7 @@ function newTrans() {
   });
 }
 function puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc1, discrp) {
+  
   $.ajax({
     type: "POST",
     url: "/assets/scripts/ajax/puttoarraysales.php",
@@ -101,9 +102,9 @@ function puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc1, discrp) {
       "&hrg=" +
       txtharga +
       "&disc=" +
-      disc1.trim() +
+      disc1str +
       "&discrp=" +
-      discrp.trim(),
+      discrpstr,
     success: function (response) {
       if (response) {
         $("#TableSales").html("");
@@ -154,6 +155,13 @@ function searchname() {
           url: "/assets/scripts/ajax/getinventdetail.php",
           data: "id=" + id,
           success: function (response) {
+            //calculate percent
+            $("#txtdiscrp").on("input", function(){
+              $("#txtdisc").val('0');
+          });
+          $("#txtdisc").on("focus", function(){
+            $("#txtdiscrp").val('0');
+        });
             var jsonData = $.parseJSON(response);
             $(jsonData).each(function (i, val) {
               $.each(val, function (k, v) {
@@ -312,6 +320,19 @@ function salesSave(){
   }
 }
 
+function calcdisc(txtHarga,txtDisc,txtCurr){
+  if(disc=='0'){ //currency exist
+    var curr = parseInt($('#txtharga').val());
+    disc1 = ((parseFloat(discrp) / curr ) * 100);
+    var disc1str = disc1.toString;
+  }
+
+  if(discrp=='0'){//discpercent exist
+    var prcnt = parseFloat(disc1);
+    discrp = (parseInt(txtharga)* parseFloat(disc1) / 100);
+    var discrpstr = discrp.toString;
+  }
+}
 //main
 $(document).ready(function () {
   searchnameEnterKey();
@@ -323,6 +344,8 @@ $(document).ready(function () {
     var itemQTY = $("#txtQty").val();
     var disc = $("#txtdisc").val();
     var discrp = $("#txtdiscrp").val();
+    
+    
 
     var txtharga = "";
     switch (idClicked) {
