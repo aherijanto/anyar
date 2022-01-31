@@ -5,15 +5,16 @@ if(isset($_SESSION['cart_item'])){
 		$table='<table class="table table-striped table-hover">';
 		$table.='<thead>
 			<tr>
-				<th class="text-center" style="width:5%;">NO</th>
-				<th class="text-center" style="width:5%;">ID</th>
-				<th class="text-center" style="width:40%;">NAME</th>
-				<th class="text-center" style="width:10%;">QTY</th>
-				<th class="text-right" style="width:10%;">HARGA</th>
-				<th class="text-right" style="width:10%;">DISC %</th>
-				<th class="text-right" style="width:10%;">DISC Rp</th>
-				<th class="text-right" style="width:10%;">TOTAL.DISC</th>
-				<th class="text-right" style="width:30%;">SUBTOTAL</th>
+			<th class="text-center" style="width:5%;">NO</th>
+			<th class="text-center" style="width:5%;">ID</th>
+			<th class="text-center" style="width:40%;">NAME</th>
+			<th class="text-center" style="width:10%;">LOC</th>
+			<th class="text-center" style="width:10%;">QTY</th>
+			<th class="text-right" style="width:10%;">HARGA</th>
+			<th class="text-right" style="width:10%;">DISC %</th>
+			<th class="text-right" style="width:10%;">DISC Rp</th>
+			<th class="text-right" style="width:10%;">TOTAL.DISC</th>
+			<th class="text-right" style="width:30%;">SUBTOTAL</th>
 			</tr>
 		</thead>';
 		
@@ -24,27 +25,21 @@ if(isset($_SESSION['cart_item'])){
 			$subtotal=0;
 			$discperitem=0;
 					$diskpercentperitem=0;
-					if($item['disc']==0){
-						$discpercent=($item['discrp']/$item['cogs'])*100;
-						$discrp=$item['discrp'];
-					}
-					if($item['discrp']==0){
-						$discrp=($item['disc']*$item['cogs'])/100;
-						$discpercent = $item['disc'];
-					}
+				
 		$table.='<tbody>
 				<tr>
 					<td align="center">'.$no.'</td>
 					<td align="center">'.$item["code"].'</td>
 					<td align="left">'.$item['name'].'</td>
+					<td align="left">'.$item['wareid'].'</td>
 					<td align="center">'.$item['qty'].'</td>
 					<td align="right">'.number_format($item['cogs']).'</td>
-					<td align="right">'.number_format($discpercent,2).'</td>
-					<td align="right">'.number_format($discrp).'</td>';
+					<td align="right">'.number_format($item['disc'],2).'</td>
+					<td align="right">'.number_format($item['discrp']).'</td>';
 					
-					$discperitem = $item['cogs'] - $item['discrp'];
-							$subtotal = $item['qty'] * ($item['cogs']-$discrp);
-							$sumtotaldisc = $item['qty'] * $discrp;
+							$discperitem = $item['cogs'] - $item['discrp'];
+							$subtotal = $item['qty'] * ($item['cogs']-$item['discrp']);
+							$sumtotaldisc = $item['qty'] * $item['discrp'];
 							$discperitem = $item['cogs'] - $item['discrp'];
 							
 							$subtotal = $item['qty'] * $discperitem;

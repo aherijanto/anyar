@@ -3,14 +3,11 @@ session_start();
 ob_start();
 $_SESSION['reports']='0';
 if (isset($_SESSION['user'])!="" ){
-  include 'menuhtml.php';
+  
 
 $mydate='';
 $mypremi=0;
 $mydeduct=0;
-
-
-
 
 if (!empty($_GET['codeinvent']))
 {
@@ -25,9 +22,6 @@ if (!empty($_GET['codeinvent']))
                 $stmt->bindParam(':c_code', $codeinvent, PDO::PARAM_STR);
                 $stmt->execute();
                 $total = $stmt->rowCount();
-                /*while ($row = $stmt->fetchObject()) {
-                  echo $row->c_code;
-                }*/
             } catch(PDOException $e) {
                 echo $e->getMessage();
             }
@@ -62,6 +56,7 @@ if (!empty($_GET['codeinvent']))
                $myi_sell9=$row->i_sell9;
                $myi_sell10=$row->i_sell10;
                $myi_status=$row->i_status;
+               $myware = $row->ware_id;
                
               
               }
@@ -83,7 +78,8 @@ echo 'Image '.$myi_imgfile.'<br/>';*/
   
   <link rel = "stylesheet" type = "text/css" href = "css/raw_css.css" />
   <link rel = "stylesheet" type = "text/css" href = "css/editinvent.css" />
-
+  <?php require_once('./assets/requires/config.php');
+    require_once('./assets/requires/header1.php');?>
 </head>
 <body>
 <label> <font color="red">WARNING!!! BEFORE UPDATE PLEASE RECHECK RECORDs </font></label>
@@ -102,6 +98,11 @@ echo 'Image '.$myi_imgfile.'<br/>';*/
   <tr>
     <td>Supplier</td>
     <td><input type='text' name="mysupp" value="<?php echo $mys_code; ?>" readonly></td>
+  </tr>
+
+  <tr>
+    <td>Warehouse</td>
+    <td><input type='text' name="myware" value="<?php echo $myware; ?>" readonly></td>
   </tr>
 
   <tr>
@@ -276,13 +277,14 @@ if (isset($_POST['update']))
   $mysell9=$_POST['mysell9'];
   $mysell10=$_POST['mysell10'];
   $mystatus=$_POST['mystatus'];
+  $mywareid=$_POST['myware'];
   //$myimage=$_POST['myimage'];
 
   include ('class/_parkerconnection.php');
 
        try {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "UPDATE `winventory` SET `i_code`='$mycode',`g_code`='$mygroup',`i_supp`='$mysupp',`i_barcode`='$mybarcode',`i_name`='$myname',`i_qty`='$myqty',`i_qtymin`='$myqtymin',`i_unit`='$myunit',`i_size`='$myukuran',`i_color`='$mywarna',`i_brands`='$mymerk',`i_article`='$myartikel',`i_cogs`='$mycogs',`i_kdsell`='$mykdsell',`i_sell`='$mysell',`i_sell2`='$mysell2',`i_sell3`='$mysell3',`i_sell4`='$mysell4',`i_sell5`='$mysell5',`i_sell6`='$mysell6',`i_sell7`='$mysell7',`i_sell8`='$mysell8',`i_sell9`='$mysell9',`i_sell10`='$mysell10',`i_status`='$mystatus' WHERE `i_code`= '$mycode'";
+                $sql = "UPDATE `winventory` SET `i_code`='$mycode',`g_code`='$mygroup',`i_supp`='$mysupp',`i_barcode`='$mybarcode',`i_name`='$myname',`i_qty`='$myqty',`i_qtymin`='$myqtymin',`i_unit`='$myunit',`i_size`='$myukuran',`i_color`='$mywarna',`i_brands`='$mymerk',`i_article`='$myartikel',`i_cogs`='$mycogs',`i_kdsell`='$mykdsell',`i_sell`='$mysell',`i_sell2`='$mysell2',`i_sell3`='$mysell3',`i_sell4`='$mysell4',`i_sell5`='$mysell5',`i_sell6`='$mysell6',`i_sell7`='$mysell7',`i_sell8`='$mysell8',`i_sell9`='$mysell9',`i_sell10`='$mysell10',`i_status`='$mystatus',`ware_id`='$mywareid' WHERE `i_code`= '$mycode'";
                 $stmt = $pdo->prepare($sql);
                 //$stmt->bindParam(':i_code', $codeinvent, PDO::PARAM_STR);
                 $stmt->execute();
@@ -292,7 +294,6 @@ if (isset($_POST['update']))
             } catch(PDOException $e) {
                 echo $e->getMessage();
             }
-
 }
 
 } else { echo 'Process cannot continue, please <a href="slogin.php">Login </a>';}

@@ -10,13 +10,15 @@ if(isset($_SESSION['cart_item'])){
         foreach($_SESSION["cart_item"] as $item){
             $no++;    
             $subtotal=0;
-	        $discperitem=0;
-			$diskpercentperitem=0;
+	        
 			
 
             $discperitem = $item['cogs'] - $item['discrp'];
-			$subtotal = $item['qty'] * ($item['cogs']-$discrp);
-			$sumtotaldisc = $item['qty'] * $discrp;
+            $subtotal = $item['qty'] * ($item['cogs']-$item['discrp']);
+            $sumtotaldisc = $item['qty'] * $item['discrp'];
+            $discperitem = $item['cogs'] - $item['discrp'];
+            
+            $subtotal = $item['qty'] * $discperitem;
             
 							
             $grandtotal=$grandtotal+$subtotal;

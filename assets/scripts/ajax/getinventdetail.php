@@ -23,6 +23,7 @@
 				$arr = array('id' => $record["i_code"],
 							 'nm' => $record["i_name"],
 							 'qty' => "1",
+							 'wareid'=> $record["ware_id"],
 							 'hrg1' => $record["i_sell"],
 							 'hrg2' => $record["i_sell2"],
 							 'hrg3' => $record["i_sell3"],

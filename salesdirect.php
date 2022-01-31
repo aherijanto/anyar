@@ -103,12 +103,16 @@
 							<div class="row">
                             	<label class="control-label" style="margin-left:10px;margin-top:5px;">Name :</label>  
                             	<input type="text" id="txtName" class="form-control input-sm" maxlength="100" style="width:200px;margin-left:41px;margin-top:5px;" disabled>
-                        
+                    		</div>
+							<div class="row">
+                            	<label class="control-label" style="margin-left:10px;margin-top:5px;">Ware :</label>  
+                            	<input type="text" id="txtWare" class="form-control input-sm" maxlength="100" style="width:200px;margin-left:47px;margin-top:5px;" readonly>
                     		</div>
 							<div class="row">
                             	<label class="control-label" style="margin-left:10px;margin-top:5px;">Qty :</label>  
                             	<input type="text" id="txtQty" class="form-control input-sm" maxlength="100" style="width:200px;margin-left:59px;margin-top:5px;">
                     		</div>
+							
 							<div class="row">
                             	<label class="control-label" style="margin-left:10px;margin-top:5px;">Disc% 1 :</label>  
                             	<input type="text" id="txtdisc" class="form-control input-sm" maxlength="100" style="width:80px;margin-left:27px;margin-top:5px;">

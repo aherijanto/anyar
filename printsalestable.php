@@ -87,11 +87,12 @@ while ($row =mysqli_fetch_array($showdetail))
 	$showsatuan= mysqli_query($conn3,$sqlsatuan) or die(mysql_error());
 	if ($row1 =mysqli_fetch_array($showsatuan))
 	{ 
-	$myitemcode=$row1['i_unit'];
+		$myitemcode=$row1['i_unit'];
+		$mywareid=$row1['ware_id'];
 	}	
 
 	$mysub=$row['i_qty']*$row['i_sell'];
-	echo '<tr><td colspan="2" class="headerbtm">'.$row['i_name'].'</td></tr>';
+	echo '<tr><td colspan="2" class="headerbtm">'.$row['i_name'].' - '.$mywareid.'</td></tr>';
 	$totaldisc1 = $mysub*(1-($disc1/100));
 	$totaldisc2 = $totaldisc1*(1-($disc2/100));
 	$totaldisc3 = $totaldisc2-$disc3;

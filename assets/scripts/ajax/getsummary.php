@@ -16,23 +16,15 @@ if(isset($_SESSION['cart_item'])){
 			// $sumtotaldisc = $item['qty'] * $item['discrp'];
 			$subtotal=0;
 	        $discperitem=0;
-			$diskpercentperitem=0;
-			if($item['disc']==0){
-				$discpercent=($item['discrp']/$item['cogs'])*100;
-				$discrp=$item['discrp'];
-			}
-			if($item['discrp']==0){
-				$discrp=($item['disc']*$item['cogs'])/100;
-				$discpercent = $item['disc'];
-			}
-
-            $discperitem = $item['cogs'] - $item['discrp'];
-			$subtotal = $item['qty'] * ($item['cogs']-$discrp);
-			$sumtotaldisc = $item['qty'] * $discrp;
-            $grandtotal=$grandtotal+$subtotal;
+			$discperitem = $item['cogs'] - $item['discrp'];
+							$subtotal = $item['qty'] * ($item['cogs']-$item['discrp']);
+							$sumtotaldisc = $item['qty'] * $item['discrp'];
+							$discperitem = $item['cogs'] - $item['discrp'];
+							$grandtotal=$grandtotal+$subtotal;
+							
 		    $table.='
 				<tr>
-					<td colspan="3">'.$item["name"].'</td>
+					<td colspan="3">'.$item["name"].' - '.$item['wareid'].'</td>
                 </tr>
                 <tr>
 					<td align="left width="15px;">'.$item['qty'].' *</td>

@@ -87,7 +87,7 @@ function newTrans() {
     },
   });
 }
-function puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc1, discrp) {
+function puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga,disc,discrp) {
   
   $.ajax({
     type: "POST",
@@ -99,12 +99,14 @@ function puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc1, discrp) {
       itemname.trim() +
       "&qty=" +
       itemQTY.trim() +
+      "&wareid=" +
+      wareid.trim() +
       "&hrg=" +
       txtharga +
       "&disc=" +
-      disc1str +
+      disc.trim() +
       "&discrp=" +
-      discrpstr,
+      discrp.trim(),
     success: function (response) {
       if (response) {
         $("#TableSales").html("");
@@ -175,6 +177,9 @@ function searchname() {
                   case "qty":
                     $("#txtQty").val(v);
                     break;
+                  case "wareid":
+                      $("#txtWare").val(v);
+                      break;
                   case "hrg1":
                     $("#txtharga1").val(v);
                     break;
@@ -276,6 +281,13 @@ function showSummary(){
     $("#txtchange").val(change);
     }
   });
+  $("#txtpayment").on("input", function (e) {
+    
+     pay = $('#txtpayment').val();
+     change = parseInt(pay) - parseInt(grandtotal1);
+    $("#txtchange").val(change);
+    
+  });
 }
 
 function printInvoice(){
@@ -286,7 +298,7 @@ function salesSave(){
   $('#messagesummary').html('');
   if ((pay=='')||(pay=='0')){
     $('#messagesummary').html('');
-    $('#messagesummary').html('Please Fill Payment');
+    $('#messagesummary').html('Please Fill Payment or Payment Less Than..');
   }else{
     var noinv =$("#invno").html();
     
@@ -320,19 +332,7 @@ function salesSave(){
   }
 }
 
-function calcdisc(txtHarga,txtDisc,txtCurr){
-  if(disc=='0'){ //currency exist
-    var curr = parseInt($('#txtharga').val());
-    disc1 = ((parseFloat(discrp) / curr ) * 100);
-    var disc1str = disc1.toString;
-  }
 
-  if(discrp=='0'){//discpercent exist
-    var prcnt = parseFloat(disc1);
-    discrp = (parseInt(txtharga)* parseFloat(disc1) / 100);
-    var discrpstr = discrp.toString;
-  }
-}
 //main
 $(document).ready(function () {
   searchnameEnterKey();
@@ -342,6 +342,7 @@ $(document).ready(function () {
     var itemcode = $("#txtCode").val();
     var itemname = $("#txtName").val();
     var itemQTY = $("#txtQty").val();
+    var wareid = $("#txtWare").val();
     var disc = $("#txtdisc").val();
     var discrp = $("#txtdiscrp").val();
     
@@ -351,52 +352,52 @@ $(document).ready(function () {
     switch (idClicked) {
       case "btnHarga1":
         txtharga = $("#txtharga1").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga2":
         txtharga = $("#txtharga2").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga3":
         txtharga = $("#txtharga3").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga4":
         txtharga = $("#txtharga4").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga5":
         txtharga = $("#txtharga5").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga6":
         txtharga = $("#txtharga6").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga7":
         txtharga = $("#txtharga7").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga8":
         txtharga = $("#txtharga8").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga9":
         txtharga = $("#txtharga9").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnHarga10":
         txtharga = $("#txtharga10").val();
-        puttoarrayphp(itemcode, itemname, itemQTY, txtharga, disc, discrp);
+        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
         getGrandTotal();
         break;
       case "btnnamesearch":

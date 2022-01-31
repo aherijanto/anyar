@@ -31,7 +31,7 @@ session_start();
 
 $_SESSION['reports']='0';
 $myinvno1=$_GET['noinv'];
-echo $myinvno1;
+
 $userInv=$_SESSION['user'];
 
 $payme=0;
@@ -82,16 +82,19 @@ while ($row =mysqli_fetch_array($showdetail))
 	$disc2=$row['i_disc2'];
 	$disc3=$row['i_disc3'];
 
-	$sqlsatuan="SELECT * from winventory where i_code='$mykdbrg'";
+	$sqlsatuan="SELECT * from winventory,wwarehouse where i_code='$mykdbrg' and winventory.ware_id=wwarehouse.ware_id;";
 	
 	$showsatuan= mysqli_query($conn3,$sqlsatuan) or die(mysql_error());
 	if ($row1 =mysqli_fetch_array($showsatuan))
 	{ 
 		$myitemcode=$row1['i_unit'];
+		$mywareid=$row1['ware_id'];
+		$mywarename=$row1['ware_name'];
+		
 	}	
 
 	$mysub=$row['i_qty']*$row['i_sell'];
-	echo '<tr><td colspan="2" class="headerbtm">'.$row['i_name'].'</td></tr>';
+	echo '<tr><td colspan="2" class="headerbtm">'.$row['i_name'].' - '.$mywarename.'</td></tr>';
 	
 	$discperitem = $row['i_sell'] - $row['i_disc3'];
 	$subtotal = $row['i_qty'] * $discperitem;						

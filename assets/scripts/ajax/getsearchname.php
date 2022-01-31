@@ -19,15 +19,27 @@
 								<th class="text-center" >CODE</th>
                                 <th class="text-center" >BARCODE</th>
                                 <th class="text-center" >NAME</th>
-                                <th class="text-center" >QTY</th>
+                                <th class="text-center" >LOC</th>
+								<th class="text-center" >ACTION</th>
 							</tr>
 						 </thead>
                          <tbody>';			
                 while($record = mysqli_fetch_array($result)){
+					//get warehouse from ware_id
+					$wareid=$record['ware_id'];
+					$resultware = mysqli_query($conn2,"select * from wwarehouse where ware_id = '$wareid';");
+            		$jumrecware = mysqli_num_rows($resultware);
+					if($jumrecware>0){
+						$recware = mysqli_fetch_array($resultware);
+						$warename = $recware['ware_name'];
+					}
+					
+
                     $table.='<tr>
                     <td><a href="#" hreff="'.$record["i_code"].'" class="linkk">'.$record["i_code"].'</a>
                     <td class="text-center">'.$record["i_barcode"].'</td>					
                     <td class="text-center"><a hreff="'.$record["i_name"].'" id="iname">'.$record["i_name"].'</a></td>
+					<td class="text-center"><a hreff="'.$record["ware_id"].'" id="iname">'.$warename.'</a></td>
                     <td class="text-center"><a hreff="'.$record["i_code"].'" class="linkk2 btn btn-primary">Pilih Harga</a></td>';
                 }
 
