@@ -352,10 +352,11 @@ class Customer{
                         <div class="card__title" align="center">';echo $mycode; echo '</div>
                             <div class="card__text" align="center">';echo $row->c_name;echo'</div>
                             <div class="card__text" align="center">';
-                                                echo '<br/>';echo $row->c_addr;
+              echo '<br/>';echo $row->c_addr;
                                                 //echo '<br/>Point Balance :  ';echo $myavpoint;
                                                 //echo '<br/><br/><a href="printmember.php?c_code='.$mycode.'">Print Member Card</a>';
-                                                echo '<br/><a href="sales.php?c_code='.$mycode.'">Sales</a>';
+              echo '<br/><a href="salesdirect.php?c_code='.$mycode.'&status=Cash">Sales Cash</a>';
+              echo '<br/><a href="salesdirect.php?c_code='.$mycode.'&status=A/R">Sales A/R</a>';
                                                 //echo '<br/><a href="addpoint.php?c_code='.$mycode.'">Add Point</a>';
                                                 //echo '<br/><a href="redpoint.php?c_code='.$mycode.'">Redeem Point</a>';
                                                 //echo '<br/><br/><a href="editprofile.php?c_code='.$mycode.'">Edit Profie</a>';
@@ -364,11 +365,7 @@ class Customer{
 
               echo '</div>
                     </li>';
-
-
               }
-
-
              echo '</ul>
                   </body>
                    </html>';

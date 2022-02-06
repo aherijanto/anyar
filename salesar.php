@@ -20,34 +20,33 @@
 <html>
 <link rel="icon" href=".\img\logo\cappa_icon.jpg">
  <head>
+     
 	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	 <?php require_once('./assets/requires/config.php');
     require_once('./assets/requires/header1.php');?>
+        
 	
 </head>
-<body >
+<body bgcolor="#ee9b00" >
 	<div>
 		
 		<div>
 			<table width="100%" font="calibri">
 				<tr>
 					<td align="center" style="width: 180px;font-size: 20px;background-color: #A569BD" id="invno"><?php echo $_SESSION['myinvdrm'];?></td>
-					<td align="center" style="font-size: 20px;color: white;background-color: #27AE60;">POINT OF SALES</td>
+					<td align="center" style="font-size: 20px;color: white;background-color: #27AE60;">SALES CUSTOMER</td>
 					<td align="center" style="width: 180px;font-size: 20px;background-color: #D35400;"><?php echo $_SESSION['xdate'];?></td>
+
 				</tr>
-				<tr>
-					<td align="center" style="width: 180px;font-size: 20px;background-color:">STATUS</td>
-					<td align="center" style="font-size: 20px;color:blue;background-color: "></td>
+                <tr>
+					<td align="center" style="width: 180px;font-size: 20px;background-color: "></td>
+					<td align="center" style="font-size: 20px;color:blue;background-color: ">DUE DATE</td>
 					<td align="center" style="width: 180px;font-size: 20px;color:blue;background-color: ">CUSTOMER</td>
 				</tr>
                 <tr>
-					<td align="center" style="width: 180px;font-size: 20px;background-color:">
-						<label id="statussales" mystat ="<?php echo $_GET['status'];?>" style="color:#277da1;font-size:30px;font-weight:bold;">
-						<?php echo $_GET['status'];?>
-						</label>
-					</td>
+					<td align="center" style="width: 180px;font-size: 20px;background-color: "></td>
 					<td align="center" style="font-size: 20px;color:blue;background-color: ">
-                       
+                        <input type="date" id="duedate">
                     </td>
 					<td align="center" style="width: 180px;font-size: 20px;color:blue;background-color: ">
                         <?php
@@ -60,7 +59,7 @@
                             $rowcust = mysqli_fetch_array($showcustname);
                             $custname = $rowcust['c_name'];
                         ?>
-                        <label id="custid" mycode ="<?php echo $custid;?>" style="color:brown;" ><?php echo $custid;?></label><br>
+                        <label id="custid"style="color:brown;" ><?php echo $custid;?></label><br>
                         <label id="custname" style="color:red;font-size:12px;"><?php echo $custname;?></label>
                     </td>
 				</tr>
@@ -232,20 +231,12 @@
 					<div id="TableSummary"></div>
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="payme">Pay : <input type="text" class="input input-sm" id="txtpayment"  style="text-align:right;margin-left:27px;width:164px;"></div>
+							<div>Pay : <input type="text" class="input input-sm" id="txtpayment"  style="text-align:right;margin-left:27px;width:164px;"></div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="mychange">Change : <input type="text" class="input input-sm" id="txtchange" style="text-align:right;margin-top:5px;width:164px;" readonly></div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="divdate">Due Date: 
-								<input type="date" data-date-format = "DD-MM-YYYY" value="<?php echo date('d-m-Y');?>" class="input input-sm" id="txtdate"  style="text-align:right;margin-left:27px;width:164px;">
-							</div>
+							<div>Change : <input type="text" class="input input-sm" id="txtchange" style="text-align:right;margin-top:5px;width:164px;" readonly></div>
 						</div>
 					</div>
                 </div>                
@@ -261,6 +252,6 @@
 
 
 </body>
-<script src="./assets/scripts/js/salesdirect.js"></script>
+<script src="./assets/scripts/js/salesar.js"></script>
 </html>
 

@@ -4,25 +4,19 @@
 <style type="text/css">
 	.auto-style1 {
 		font-family: Calibri;
-	font-size: small;
+		font-size: small;
+	}
 
-}
+	.title{
+		font-family: Baloo Chettan;
+		font-size: 2rem;
+		font-weight: bold;
+	}
 
-.title{
-	font-family: Baloo Chettan;
-	font-size: 2rem;
-	font-weight: bold;
-
-}
-
-.headerbtm{
-	font-family: Arial;
-	font-size:12px;
-
-}
-
-
-}
+	.headerbtm{
+		font-family: Arial;
+		font-size:12px;
+	}
 </style>
 </head>
 
@@ -45,16 +39,39 @@ $name = $rowcompany['name'];
 $addr1 = $rowcompany['address1'];
 $addr2 = $rowcompany['address2'];
 $city = $rowcompany['city'];
+
 $phone = $rowcompany['phone'];
+$conn_cust=mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
+$custquery = "select * from wsellhead,wcustomers where wsellhead.s_code = '$myinvno1' and wsellhead.c_code = wcustomers.c_code";
+
+
+
+$showcust = mysqli_query($conn_cust,$custquery);
+$rowcust = mysqli_fetch_array($showcust);
+$custname = $rowcust['c_name'];
+$custaddr = $rowcust['c_addr'];
+$custphone = $rowcust['c_phone'];
+$type = $rowcust['type'];
+
+
 //mysqli_select_db('inventory');
 
 echo '<table width="100%">';
-echo '<tr><td colspan="2" class="headerbtm" align="center" >'.$name.'</td></tr>';
-echo '<tr><td colspan="2" class="headerbtm" align="center" >'.$addr1.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$addr2.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$city.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$phone.'</td></tr>';
+echo '<tr><td class="headerbtm" align="left" >'.$name.'</td>
+		  <td class="headerbtm" align="right" >'.$custname.'</td>
+	  </tr>';
+echo '<tr>
+		<td class="headerbtm" align="left" >'.$addr1.'</td>
+		<td class="headerbtm" align="right" >'.$custaddr.'</td>
+	</tr>';
+echo '<tr><td  align="left" class="headerbtm">'.$addr2.'</td></tr>';
+echo '<tr><td  align="left" class="headerbtm">'.$city.'</td></tr>';
+echo '<tr>
+		<td  align="left" class="headerbtm">'.$phone.'</td>
+		<td  align="right" class="headerbtm">'.$custphone.'</td>
+	</tr>';
 //echo '<tr><td colspan="2" class="headerbtm" align="center">'.$myinvno1.'</td></tr>';
+echo '<tr><td class="headerbtm" align="left" style="font-size:14px;font-weight:bold;">'.$type.'</td>';
 echo '<tr><td class="headerbtm" align="left">'.date('d-m-Y').'</td>';
 date_default_timezone_set("Asia/Jakarta");
 $mytime=date("h:i:sa");
@@ -120,7 +137,7 @@ echo '<tr><td class="headerbtm">BAYAR :</td><td align="right" class="headerbtm">
 echo '<tr><td class="headerbtm">KEMBALI :</td><td align="right" class="headerbtm">'.number_format($changeme).'</td></tr>';
 echo '<tr><td class="headerbtm">'.$itemcount.' Item(s)</td></tr>';
 echo '<td class="headerbtm" align="left">'.$mytime.' / '.$userInv.' / '.$myinvno1.'</td></tr>';
-echo '<tr><td colspan="2" class="headerbtm" align="center"><a href="/salesdirect.php" style="text-decoration:none;color:#000000;">TERIMA KASIH ATAS KUNJUNGAN ANDA</a></td></tr>'; 
+echo '<tr><td colspan="2" class="headerbtm" align="center"><a href="/searchengine1.php" style="text-decoration:none;color:#000000;">TERIMA KASIH ATAS KUNJUNGAN ANDA</a></td></tr>'; 
 echo '</table>';
 $_SESSION['cust']='';
 $_SESSION['pay']=0;

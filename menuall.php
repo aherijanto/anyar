@@ -27,7 +27,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
             Transactions
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="salesdirect.php">Sales</a>
+            
             <a class="dropdown-item" href="retsales.php">Sales Return</a>
             <a class="dropdown-item" href="purchase.php?action=new">Purchase</a>
             <a class="dropdown-item" href="retpcs.php">Purchase Return</a>               

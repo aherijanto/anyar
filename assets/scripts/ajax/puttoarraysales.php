@@ -6,60 +6,52 @@ if (!isset($_SESSION['cart_item'])) {
 }
 
 if ($_POST['id']){
-				$itemcode1=$_POST['id'];
+	$itemcode1=$_POST['id'];
 				
-                $disc2=0;
-                //$_POST['disc1'];
-				$artikel='';
-				$iwarna='';
+    $disc2=0;
+	$artikel='';
+	$iwarna='';
 				
-				$disc=$_POST['disc'];
-				$discrp=$_POST['discrp'];
+	$disc=$_POST['disc'];
+	$discrp=$_POST['discrp'];
 
-				if ($discrp == '0'){
-					$discrp = $disc * $_POST['hrg']/100;
-				}
+	if ($discrp == '0'){
+		$discrp = $disc * $_POST['hrg']/100;
+	}
 
-				if ($disc == '0'){
-					$disc = $discrp / $_POST['hrg']*100;
-				}
+	if ($disc == '0'){
+		$disc = $discrp / $_POST['hrg']*100;
+	}
 
-				$itemArray = array('code'=>$_POST["id"],'name'=>$_POST['nm'], 'artikel'=>$artikel,'warna'=>$iwarna,'qty'=>$_POST["qty"],'wareid'=>$_POST['wareid'],'cogs'=>$_POST["hrg"],'disc'=>$disc,'disc2'=>$disc2,'discrp'=>$discrp);
+	$itemArray = array('code'=>$_POST["id"],'name'=>$_POST['nm'], 'artikel'=>$artikel,'warna'=>$iwarna,'qty'=>$_POST["qty"],'wareid'=>$_POST['wareid'],'cogs'=>$_POST["hrg"],'disc'=>$disc,'disc2'=>$disc2,'discrp'=>$discrp);
 
-				array_push($_SESSION['cart_item'],$itemArray);
+	array_push($_SESSION['cart_item'],$itemArray);
 					
-                $table='<table class="table table-striped table-hover">';
-		        $table.='<thead>
-							<tr>
-								<th class="text-center" style="width:5%;">NO</th>
-								<th class="text-center" style="width:5%;">ID</th>
-								<th class="text-center" style="width:40%;">NAME</th>
-								<th class="text-center" style="width:10%;">LOC</th>
-								<th class="text-center" style="width:10%;">QTY</th>
-								<th class="text-right" style="width:10%;">HARGA</th>
-								<th class="text-right" style="width:10%;">DISC %</th>
-								<th class="text-right" style="width:10%;">DISC Rp</th>
-								<th class="text-right" style="width:10%;">TOTAL.DISC</th>
-								<th class="text-right" style="width:30%;">SUBTOTAL</th>
-							</tr>
-						</thead>';
+    $table='<table class="table table-striped table-hover">';
+	$table.='<thead>
+				<tr>
+					<th class="text-center" style="width:5%;">NO</th>
+					<th class="text-center" style="width:5%;">ID</th>
+					<th class="text-center" style="width:40%;">NAME</th>
+					<th class="text-center" style="width:10%;">LOC</th>
+					<th class="text-center" style="width:10%;">QTY</th>
+					<th class="text-right" style="width:10%;">HARGA</th>
+					<th class="text-right" style="width:10%;">DISC %</th>
+					<th class="text-right" style="width:10%;">DISC Rp</th>
+					<th class="text-right" style="width:10%;">TOTAL.DISC</th>
+					<th class="text-right" style="width:30%;">SUBTOTAL</th>
+				</tr>
+			</thead>';
 				
-				$grandtotal=0;
-				$no=0;
-			    foreach($_SESSION["cart_item"] as $item){
-					$no++;
-					$subtotal=0;
-					//$discperitem=0;
-					$diskpercentperitem=0;
+	$grandtotal=0;
+	$no=0;
+	foreach($_SESSION["cart_item"] as $item){
+		$no++;
+		$subtotal=0;
+		$diskpercentperitem=0;
 					
-					// if($item['discrp']==0){
-					// 	$discrp=($item['disc']*$item['cogs'])/100;
-					// 	$item['discrp'] = $discrp;
-					// 	$discpercent = $item['disc'];
-					// }
-
-					$table.='<tbody>
-						<tr>
+		$table.='<tbody>
+					<tr>
 						<td align="center">'.$no.'</td>
                     		<td align="center">'.$item["code"].'</td>
 							<td align="left">'.$item['name'].'</td>
@@ -72,16 +64,14 @@ if ($_POST['id']){
 							
 							$discperitem = $item['cogs'] - $item['discrp'];
 							$subtotal = $item['qty'] * ($item['cogs']-$item['discrp']);
-							$sumtotaldisc = $item['qty'] * $item['discrp'];//$subtotal*($item['disc']/100)+$item['discrp'];
-						$table.='<td align="right">'.number_format($sumtotaldisc).'</td>
-						<td align="right" style="font-weight:bold;font-size:18px;">'.number_format($subtotal).'</td>
-						<td class="text-center"><a hreff="'.$item["code"].'" class="link1 btn btn-danger">Remove</a></td></tr>';
-                }
-		        $table.='</tbody>
-				        </table>';
-
+							$sumtotaldisc = $item['qty'] * $item['discrp'];
+							$table.='<td align="right">'.number_format($sumtotaldisc).'</td>
+							<td align="right" style="font-weight:bold;font-size:18px;">'.number_format($subtotal).'</td>
+							<td class="text-center"><a hreff="'.$item["code"].'" class="link1 btn btn-danger">Remove</a></td></tr>';
+    }// end foreach
+		$table.='</tbody>
+				</table>';
 		        echo $table;
-                //echo $_SESSION["cart_item"];
-}//if*/
+}//if
         
 ?>

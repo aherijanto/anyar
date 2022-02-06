@@ -3,7 +3,6 @@ var test = document.getElementById("TableWarehouse"); // js
 var grandtotal1;
 var pay;
 var change;
-var mstatus;
 
 function getGrandTotal() {
   $.ajax({
@@ -264,9 +263,6 @@ function searchnameEnterKey() {
 function showSummary(){
   grandtotal1 = '';
   grandtotal1 = $("#txtgrandtotal").html().replace(',','').replace(',','');
-  mstatus = $("#statussales").attr('mystat');
-  
-  console.log(mstatus);
   $.ajax({
     type: "POST",
     url: "/assets/scripts/ajax/getsummary.php",
@@ -278,106 +274,69 @@ function showSummary(){
       $("#txtpayment").val('0');
     }  
   });
-  if (mstatus=="Cash"){
-    $("#divdate").hide();
-    $("#txtpayment").on("keypress", function (e) {
-      if (e.which === 13) {
-        pay = $('#txtpayment').val();
-        change = parseInt(pay) - parseInt(grandtotal1);
-        $("#txtchange").val(change);
-      }
-    });
-    $("#txtpayment").on("input", function (e) {
-      
+  $("#txtpayment").on("keypress", function (e) {
+    if (e.which === 13) {
+     pay = $('#txtpayment').val();
+     change = parseInt(pay) - parseInt(grandtotal1);
+    $("#txtchange").val(change);
+    }
+  });
+  $("#txtpayment").on("input", function (e) {
+    
      pay = $('#txtpayment').val();
      change = parseInt(pay) - parseInt(grandtotal1);
     $("#txtchange").val(change);
     
-    });
-  }
+  });
+}
 
-  if(mstatus=="A/R"){
-    $("#payme").hide();
-    $("#mychange").hide();
-    //$("#txtDate").val($.datepicker.formatDate('mm/dd/yyyy', new Date()))
-  }
-
+function printInvoice(){
 }
 
 function salesSave(){
-  var error;
-  var duedate;
-  mstatus = $("#statussales").attr('mystat');
-  var _client;
-  _client = $("#custid").attr('mycode');
-  console.log(_client);
-  console.log(mstatus);
-  pay = $('#txtpayment').val();
+  
   $('#messagesummary').html('');
-  if(mstatus=="Cash"){
-    if ((pay=='')||(pay=='0')){
-      $('#messagesummary').html('');
-      $('#messagesummary').html('Please Fill Payment or Payment Less Than..');
-      error='yes';duedate='MF';
-      return false;
-    }else{ error='no'}
-  }
-  if(mstatus=="A/R"){
-    if($("#txtdate").val()==''){
-      $('#messagesummary').html('');
-      $('#messagesummary').html('Please Fill Date..');
-      error='yes';
-      
-      return false;
-    }else{ pay='0';
-    change='0';error='no';duedate=$("#txtdate").val();}
-  }
-
-  if(error="no"){  
+  if ((pay=='')||(pay=='0')){
+    $('#messagesummary').html('');
+    $('#messagesummary').html('Please Fill Payment or Payment Less Than..');
+  }else{
     var noinv =$("#invno").html();
-    console.log('date is : ' + duedate);
-    console.log('client is ' +_client);
-      $.ajax({
-        type: "POST",
-			  crossDomain: true,
-        url: "/assets/scripts/ajax/savesales.php",
-        data: "pay=" + pay +"&change=" + change + "&status=" + mstatus + "&duedate=" + duedate + "&client=" + _client,
-        success: function (response) {
-          if (response == "OKsave") {
-            swal({
-              title: "Item Has Been Saved",
-              text: "Saved Item",
-              timer: 3000,
-              type: "success",
-              showConfirmButton: false,
-            });
-            newTrans();
-            if(mstatus=="Cash"){
-              window.open("/assets/scripts/ajax/printsalestable.php?noinv=" + noinv,"_self");
-            }
-
-            if(mstatus=="A/R"){
-              window.open("/assets/scripts/ajax/printsalesar.php?noinv=" + noinv,"_self");
-            }
-            
-            window.open("/assets/scripts/ajax/printdostore.php?noinv=" + noinv);
-          } else {
-            swal({
-             title: "Save Data Invalid",
-              text: "Data cannot be saved.Please try again",
-              timer: 3000,
-              type: "error",
-              showConfirmButton: false,
-            });
-          }
-        } //response
-      }); //ajax
+    
+    $.ajax({
+      type: "POST",
+			crossDomain: true,
+      url: "/assets/scripts/ajax/savesales.php",
+      data: "pay=" + pay +"&change=" + change,
+      success: function (response) {
+        if (response == "OKsave") {
+          swal({
+            title: "Item Has Been Saved",
+            text: "Saved Item",
+            timer: 3000,
+            type: "success",
+            showConfirmButton: false,
+          });
+          newTrans();
+          window.open("/assets/scripts/ajax/printsalestable.php?noinv=" + noinv,"_self");
+          window.open("/assets/scripts/ajax/printdostore.php?noinv=" + noinv);
+        } else {
+          swal({
+            title: "Save Data Invalid",
+            text: "Data cannot be saved.Please try again",
+            timer: 3000,
+            type: "error",
+            showConfirmButton: false,
+          });
+        }
+      }, //response
+    }); //ajax
   }
 }
 
 
 //main
 $(document).ready(function () {
+   
   searchnameEnterKey();
   viewItems();
   $("button").click(function (e) {

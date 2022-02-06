@@ -12,8 +12,6 @@ include 'class/_parkercustomer.php';
   <?php
         require_once('./assets/requires/config.php');
         require_once('./assets/requires/header1.php');
-        
-      
     ?> 
 </head>
 <body>
@@ -81,10 +79,6 @@ if (isset($_POST['search'])){
         $myid->fetch_customer('caddr');
         break;
   }
-
-
-
-
 }
 
 } else { echo 'Process cannot continue, please <a href="slogin.php">Login </a>';}

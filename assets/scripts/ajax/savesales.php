@@ -9,14 +9,25 @@ if(!empty($_SESSION["cart_item"])){
 	 $myinvno=$_SESSION['myinvdrm'];
 	 $myrefno=$myinvno;
 	 $mydate1=date('Y-m-d');
-	 $mydateon=date('Y-m-d');
+	 
 	 $myuser='ary';//$_SESSION['user'];
-	 $mysupp='cash';
+	 $mysupp=$_POST['status'];;
 	 $mybayar=$_POST['pay'];//;
 	 $mykembali=$_POST['change'];//$_POST['change'];
+	 $mytype = $_POST['status'];
+	 $myclient=$_POST['client'];
 
+	 //$myduedate = strtotime(date('Y-m-d',$_POST['duedate']));
+	 if ($mytype=='Cash'){
+		$mydateon=date('Y-m-d');
+	 }
+
+	 if($mytype=='A/R'){
+		$mydateon=$_POST['duedate'];
+	 }
+	 	
      $conn2 = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
-	 $result = mysqli_query($conn2,"insert into wsellhead (s_code, s_date,s_dateinput, c_code, u_code,s_premi,s_deduct) values ('$myinvno', '$mydate1','$mydateon', '$mysupp','$myuser','$mybayar', '$mykembali');");
+	 $result = mysqli_query($conn2,"insert into wsellhead (s_code, s_date,s_dateinput,type,c_code, u_code,s_premi,s_deduct) values ('$myinvno', '$mydate1','$mydateon', '$mytype','$myclient','$myuser','$mybayar', '$mykembali');");
     
      if($result){
          echo 'OKsave';
