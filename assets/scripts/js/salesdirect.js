@@ -261,6 +261,29 @@ function searchnameEnterKey() {
   });
 }
 
+function daysPressed(){
+  $("#txtdays").on("keypress", function (e) {
+    if (e.which === 13) {
+      
+      var _days = ($("#txtdays").val());
+      if(_days == ''){
+        _days=0;
+      }
+      changeDate(_days);
+    }
+  });
+}
+
+function changeDate(days){
+
+  var nowDate = new Date();
+  var chooseDate=new Date();
+  chooseDate.setDate(nowDate.getDate() + parseInt(days));
+   // var futureDate = chooseDate.getFullYear()+'-'+('0'+(chooseDate.getMonth()+1)).slice(-2)+'-'+('0'+(chooseDate.getDate())).slice(-2);
+    console.log(chooseDate);
+    $("#txtdate").val(chooseDate.toISOString().split('T')[0]);
+}
+
 function showSummary(){
   grandtotal1 = '';
   grandtotal1 = $("#txtgrandtotal").html().replace(',','').replace(',','');
@@ -299,7 +322,12 @@ function showSummary(){
   if(mstatus=="A/R"){
     $("#payme").hide();
     $("#mychange").hide();
-    //$("#txtDate").val($.datepicker.formatDate('mm/dd/yyyy', new Date()))
+    var today = new Date().toISOString().split('T')[0];
+    //
+    //var mm = today.getMonth() + 1;
+    //daysPressed();
+    $("#txtdays").val('0');
+    $("#txtdate").val(today);
   }
 
 }
@@ -379,6 +407,7 @@ function salesSave(){
 //main
 $(document).ready(function () {
   searchnameEnterKey();
+  daysPressed();
   viewItems();
   $("button").click(function (e) {
     var idClicked = e.target.id;
