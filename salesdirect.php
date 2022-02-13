@@ -269,8 +269,6 @@ $_SESSION['myinvdrm'] = setnoinv();
 		</div><!-- /.modal-dialog -->
 	</div>
 	</div>
-
-
 </body>
 <script src="./assets/scripts/js/salesdirect.js"></script>
 

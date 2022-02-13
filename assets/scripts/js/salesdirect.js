@@ -351,6 +351,13 @@ function salesSave(){
     }else{ error='no'}
   }
   if(mstatus=="A/R"){
+    var _mydate = new Date().toISOString().split('T')[0];
+
+    if($("#txtdate").val() == _mydate){
+      $('#messagesummary').html('');
+      $('#messagesummary').html('Date cannot be the same..');
+      return false;
+    }
     if($("#txtdate").val()==''){
       $('#messagesummary').html('');
       $('#messagesummary').html('Please Fill Date..');
