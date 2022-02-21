@@ -303,6 +303,7 @@ function showSummary(){
   });
   if (mstatus=="Cash"){
     $("#divdate").hide();
+    $("#divdate1").hide();
     $("#txtpayment").on("keypress", function (e) {
       if (e.which === 13) {
         pay = $('#txtpayment').val();

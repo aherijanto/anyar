@@ -1,6 +1,6 @@
 <?php
 echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:#14213d;color:#f1faee;">
-    <a class="navbar-brand" href="#">Matahari</a>
+    <a class="navbar-brand" href="dashboard.php">Matahari</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,6 +36,17 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
 
         <li class="nav-item dropdown active">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Reports
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/reports/_rptsalesperdateperiod.php">Sales Per Period</a>
+            <a class="dropdown-item" href="/reports/_rptsalesperdateperioddetail.php">Sales Per Period Detail</a>
+            <a class="dropdown-item" href="/reports/_rptsalesperdateperinvoice.php">Sales Per Invoice</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Settings
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -47,9 +58,6 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
         <li class="nav-item  active">
             <a href="xlogout.php" class="nav-link nav-right"><span class="sr-only"></span> Logout</a>
         </li>
-        
       </ul>
-      
     </div>
   </nav>';
-  ?>

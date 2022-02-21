@@ -254,7 +254,7 @@ $_SESSION['myinvdrm'] = setnoinv();
 
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="divdate">Due Date:
+							<div id="divdate1">Due Date:
 								<input type="date" class="input input-sm" id="txtdate" style="text-align:right;margin-left:27px;width:164px; margin-top:5px;" readonly>
 							</div>
 						</div>

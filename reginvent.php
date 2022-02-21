@@ -188,7 +188,6 @@
                   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                   $sql = "SELECT * FROM wgroups ORDER BY g_code ASC";
                   $stmt = $pdo->prepare($sql);
-                  $stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
                   $stmt->execute();
                   $total = $stmt->rowCount();
                 
@@ -223,7 +222,6 @@
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql2 = "SELECT * FROM wwarehouse ORDER BY ware_name ASC;";
                 $stmt2 = $pdo->prepare($sql2);
-                $stmt2->bindParam(':c_code', $mcode1, PDO::PARAM_STR);
                 $stmt2->execute();
                 $total2 = $stmt2->rowCount();
               } catch(PDOException $e) {
@@ -256,7 +254,7 @@
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "SELECT * FROM wsuppliers ORDER BY s_name ASC";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
+                //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
                 $stmt->execute();
                 $total = $stmt->rowCount();
                 /*while ($row = $stmt->fetchObject()) {
