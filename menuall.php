@@ -1,6 +1,6 @@
 <?php
 echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:#14213d;color:#f1faee;">
-    <a class="navbar-brand" href="dashboard.php">Matahari</a>
+    <a class="navbar-brand" href="dashboard.php">Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,7 +30,8 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
             
             <a class="dropdown-item" href="retsales.php">Sales Return</a>
             <a class="dropdown-item" href="purchase.php?action=new">Purchase</a>
-            <a class="dropdown-item" href="retpcs.php">Purchase Return</a>               
+            <a class="dropdown-item" href="retpcs.php">Purchase Return</a>    
+            <a class="dropdown-item" href="account_r.php">Account Receivable</a>           
           </div>
         </li>
 

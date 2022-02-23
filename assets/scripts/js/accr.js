@@ -73,53 +73,35 @@ function viewItems() {
 function newTrans() {
   $.ajax({
     type: "POST",
-    url: "/assets/scripts/ajax/newsales.php",
+    url: "/assets/scripts/ajax/newaccr.php",
     data: "",
     success: function (response) {
+      console.log(response);
       if (response == "OK") {
-        $("#message").html("New Transaction");
-        $("#TableSales").html("");
-        $("#PriceModal").modal("hide");
-        $("#TableSearch").html("");
-        $("#message").html("");
-        $("#txtgrandtotal").html("0");
-        $("#SummaryModal").modal("hide");
-        $("#TableSummary").html("");
-        $("#txtpayment").val("0");
-        $("#txtchange").val("0");
-
-        getGrandTotal();
+        $("#accrdetail").html("");
       }
     },
   });
 }
-function puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga,disc,discrp) {
+function puttoarrayaccr(mydate,mytype,mynocheque,myamount) {
   
   $.ajax({
     type: "POST",
-    url: "/assets/scripts/ajax/puttoarraysales.php",
+    url: "/assets/scripts/ajax/puttoarrayaccr.php",
     data:
-      "id=" +
-      itemcode.trim() +
-      "&nm=" +
-      itemname.trim() +
-      "&qty=" +
-      itemQTY.trim() +
-      "&wareid=" +
-      wareid.trim() +
-      "&hrg=" +
-      txtharga +
-      "&disc=" +
-      disc.trim() +
-      "&discrp=" +
-      discrp.trim(),
+      "mydate=" +
+      mydate.trim() +
+      "&mytype=" +
+      mytype.trim() +
+      "&mynocheque=" +
+      mynocheque.trim()+
+      "&myamount=" +
+      myamount.trim(),
     success: function (response) {
       if (response) {
-        $("#TableSales").html("");
-        $("#TableSales").html(response);
-        $("#PriceModal").modal("hide");
-        $("#TableSearch").html("");
-        removeItems();
+        $("#accrdetail").html("");
+        $("#accrdetail").html(response);
+        //removeItems();
         //$('.link1').bind('click', function () {
         //	var idware = $(this).attr('hreff');
         //	$('#message').html(idware +' link clicked');
@@ -336,53 +318,19 @@ function showSummary(){
   }
 }
 
-function salesSave(){
-  var error;
-  var duedate;
-  mstatus = $("#statussales").attr('mystat');
-  var _client;
-  _client = $("#custid").attr('mycode');
-  console.log(_client);
-  console.log(mstatus);
-  pay = $('#txtpayment').val();
-  $('#messagesummary').html('');
-  if(mstatus=="Cash"){
-    if ((pay=='')||(pay=='0')){
-      $('#messagesummary').html('');
-      $('#messagesummary').html('Please Fill Payment or Payment Less Than..');
-      error='yes';duedate='MF';
-      return false;
-    }else{ error='no'}
-  }
-  if(mstatus=="A/R"){
-    var _mydate = new Date().toISOString().split('T')[0];
-
-    if($("#txtdate").val() == _mydate){
-      $('#messagesummary').html('');
-      $('#messagesummary').html('Date cannot be the same..');
-      return false;
-    }
-    if($("#txtdate").val()==''){
-      $('#messagesummary').html('');
-      $('#messagesummary').html('Please Fill Date..');
-      error='yes';
-      
-      return false;
-    }else{ pay='0';
-    change='0';error='no';duedate=$("#txtdate").val();}
-  }
-
-  if(error="no"){  
-    var noinv =$("#invno").html();
-    console.log('date is : ' + duedate);
-    console.log('client is ' +_client);
+function accrSave(noinv){
+  
+    var noinv =$("#noinv").html();
+   
       $.ajax({
         type: "POST",
 			  crossDomain: true,
-        url: "/assets/scripts/ajax/savesales.php",
-        data: "pay=" + pay +"&change=" + change + "&status=" + mstatus + "&duedate=" + duedate + "&client=" + _client,
+        url: "/assets/scripts/ajax/saveaccr.php",
+        data: "myinvno="+noinv.trim(),
         success: function (response) {
+          console.log(response);
           if (response == "OKsave") {
+
             swal({
               title: "Item Has Been Saved",
               text: "Saved Item",
@@ -390,16 +338,6 @@ function salesSave(){
               type: "success",
               showConfirmButton: false,
             });
-            newTrans();
-            if(mstatus=="Cash"){
-              window.open("/assets/scripts/ajax/printsalestable.php?noinv=" + noinv,"_self");
-              window.open("/assets/scripts/ajax/printdostore.php?noinv=" + noinv);
-            }
-
-            if(mstatus=="A/R"){
-              window.open("/assets/scripts/ajax/printsalesar.php?noinv=" + noinv,"_self");
-              window.open("/assets/scripts/ajax/printdostore.php?noinv=" + noinv);
-            }
           } else {
             swal({
              title: "Save Data Invalid",
@@ -411,88 +349,71 @@ function salesSave(){
           }
         } //response
       }); //ajax
-  }
+  
+}
+
+function getHistory(myinv){
+  $.ajax({
+    type: "POST",
+    url: "/assets/scripts/ajax/gethistoryaccr.php",
+    data: "inputinv=" + myinv,
+    success: function (response) {
+      console.log(response);
+      if(response=='0'){
+        $("#historyaccr").hide();
+      }else{
+        $("#historyaccr").html("");
+        $("#historyaccr").html(response);
+        $("#historyaccr").show();
+        $("#accr").show();
+      }
+    }
+  });
 }
 
 //main
 $(document).ready(function () {
-  searchnameEnterKey();
-  daysPressed();
-  viewItems();
-  $("button").click(function (e) {
-    var idClicked = e.target.id;
-    var itemcode = $("#txtCode").val();
-    var itemname = $("#txtName").val();
-    var itemQTY = $("#txtQty").val();
-    var wareid = $("#txtWare").val();
-    var disc = $("#txtdisc").val();
-    var discrp = $("#txtdiscrp").val();
-    var txtharga = "";
-    switch (idClicked) {
-      case "btnHarga1":
-        txtharga = $("#txtharga1").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga2":
-        txtharga = $("#txtharga2").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga3":
-        txtharga = $("#txtharga3").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga4":
-        txtharga = $("#txtharga4").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga5":
-        txtharga = $("#txtharga5").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga6":
-        txtharga = $("#txtharga6").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga7":
-        txtharga = $("#txtharga7").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga8":
-        txtharga = $("#txtharga8").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga9":
-        txtharga = $("#txtharga9").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnHarga10":
-        txtharga = $("#txtharga10").val();
-        puttoarrayphp(itemcode, itemname, itemQTY,wareid, txtharga, disc, discrp);
-        getGrandTotal();
-        break;
-      case "btnnamesearch":
-        searchname();
-        break;
-      case "btnnew":
-        newTrans();
-        break;
-      case "btnpayment":
-        showSummary();
-        break;
-      case "btnsavedata":
-        salesSave();
-        break;
-    }
-  });
+    $("#accr").hide();
+    $("#historyaccr").hide();
+    $("#btnsearch").click(function(e){
+        noinv = $("#srchInv").val();
+        $.ajax({
+            type: "POST",
+            url: "/assets/scripts/ajax/getinvaccr.php",
+            data: "inputinv=" + noinv,
+            success: function (response) {
+              $("#infoinvaccr").html("");
+              $("#infoinvaccr").html(response);
+              $("#accr").show();
+              getHistory(noinv);
+            }
+        });
 
-  /**/
+        /*$.ajax({
+            type: "POST",
+            url: "/assets/scripts/ajax/getinvaccr.php",
+            data: "inputinv=" + noinv,
+            success: function (response) {
+              $("#detailaccrr").html("");
+              $("#detailaccr").html(response);
+            }
+        });*/
+        
+    })
+
+    $("#addtolist").click(function(e){
+      mydate = $("#dateaccr").val();
+      mytype = $("#typepay").val();
+      mynocheque = $("#nocheque").val();
+      myamount = $("#amount").val();
+      console.log(mynocheque);
+      puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+    })
+
+    $("#btnsave").click(function(e){
+      myinvno = $("#noinv").html();
+      accrSave(myinvno);
+      getHistory(myinvno);
+      newTrans();
+    })
 });

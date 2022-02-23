@@ -9,11 +9,9 @@
   if (isset($_SESSION['user'])!="" ){
   include 'class/_parkerinvent.php';
 
-
   $mygroup1=0;
   $sequence='';
   if (isset($_POST['saveinvent'])){
-
 	  $i_code=$_POST['icode'];
 		$g_code=$_SESSION['gcode'];
     $i_supp=$_POST['isupp'];
