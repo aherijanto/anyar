@@ -32,7 +32,7 @@
     
     $mytable='<div class="card shadow-sm mb-5 bg-black rounded" style="background-color:#fde4cf;">';    
     $mytable.='<div class="card-body">';
-        $mytable.='<div class="card-title">History</div>';
+        $mytable.='<div class="card-title"><h3 style="color:#0a9396;font-weight:bold;">History</h3></div>';
         $mytable.='<p class="card-text">';
         $mytable.='<table width="100%">';
     $grandtotal=0;

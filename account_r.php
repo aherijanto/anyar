@@ -23,7 +23,7 @@
         <div id="historyaccr"></div>
         
         <div id="accr" style="padding-bottom:140px;">
-            <div class="card shadow-sm mb-5 bg-black rounded" style="background-color:#fcf6bd;"> 
+            <div class="card shadow-sm mb-5 bg-black rounded" style="background-color:#ffe6a7;"> 
                 <div class="card-body" >
                     <div class="card-title" id="cmd">
                         <div class="form-group row">

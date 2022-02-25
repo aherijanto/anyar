@@ -321,8 +321,8 @@ function getHistory(myinv){
         $("#historyaccr").html("");
         $("#historyaccr").html(response);
         $("#historyaccr").show();
-        var grandhist = parseInt($("#grandhist").html());
-        var grandtotal1 = parseInt($("#grandtotal1").html());
+        var grandhist = Math.round($("#grandhist").html());
+        var grandtotal1 = Math.round($("#grandtotal1").html());
         var remaining = (grandhist - grandtotal1).toLocaleString();
 
         // console.log(grandhist);
@@ -404,17 +404,19 @@ $(document).ready(function () {
       mytype = $("#typepay").val();
       mynocheque = $("#nocheque").val();
       myamount = $("#amount").val();
-      var grandtotal1 = parseInt($("#grandtotal1").html());
+      var grandtotal1 = Math.round($("#grandtotal1").html());
 
       if($("#remainingmedium").length){
-        var remaining = $("#remainingmedium").html().replace(",","").replace(",","");
-        var absremaining = Math.abs(parseInt(remaining));
+        
+        var remaining = Math.round($("#remainingmedium").html().replace(",","").replace(",",""));
+        var absremaining = Math.abs(remaining);//Math.abs(parseInt(remaining));
         var exist=true;
       }else{
         var absremaining=grandtotal1;
         var exist=false;
       }
-      // console.log("absreamining = "+absremaining);
+      console.log("absreamining = "+absremaining);
+      
       // console.log("myamount= "+ myamount);
       
       if(mydate!=''&&mytype!=''&&mynocheque!=''&&myamount!=0){ 
@@ -429,6 +431,8 @@ $(document).ready(function () {
           }
           //console.log("isi array " + mf_array);
           puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+          $("#nocheque").val('');
+          $("#amount").val('0'); 
           return false;
         }
 
@@ -445,6 +449,7 @@ $(document).ready(function () {
           //console.log("inside if = "+mf_array);
           $("#nocheque").val('');
           $("#amount").val('0'); 
+          console.log("grandmf>absremaining =" + mf_array);
           return false;
         }else{
           
@@ -455,7 +460,7 @@ $(document).ready(function () {
               grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
             }
             puttoarrayaccr(mydate,mytype,mynocheque,myamount);
-            //console.log("isi array " + mf_array);
+            console.log("grandmf<absremaining =" + mf_array);
           }
           if(grandmf==absremaining){
             grandtotalarray=0;
@@ -464,7 +469,7 @@ $(document).ready(function () {
               grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
             }
             puttoarrayaccr(mydate,mytype,mynocheque,myamount);
-            //console.log("isi array " + mf_array);
+            console.log("grandmf==absremaining =" + mf_array);
           }
         }
         // console.log("isi array = "+ mf_array);
