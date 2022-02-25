@@ -404,33 +404,74 @@ $(document).ready(function () {
       mytype = $("#typepay").val();
       mynocheque = $("#nocheque").val();
       myamount = $("#amount").val();
-      var remaining = $("#remainingmedium").html().replace(",","").replace(",","");
-      var absremaining = Math.abs(parseInt(remaining));
-      if(mydate!=''&&mytype!=''&&mynocheque!=''&&myamount!=0){
-        if(myamount>absremaining){
-          alert("Please input less than Remaining...");
-          return false;
-        }
+      var grandtotal1 = parseInt($("#grandtotal1").html());
+
+      if($("#remainingmedium").length){
+        var remaining = $("#remainingmedium").html().replace(",","").replace(",","");
+        var absremaining = Math.abs(parseInt(remaining));
+        var exist=true;
+      }else{
+        var absremaining=grandtotal1;
+        var exist=false;
+      }
+      // console.log("absreamining = "+absremaining);
+      // console.log("myamount= "+ myamount);
+      
+      if(mydate!=''&&mytype!=''&&mynocheque!=''&&myamount!=0){ 
         grandmf=0;
         grandmf = grandtotalarray + parseInt(myamount);
-        console.log("sebelum for = " +grandmf);
-        if(grandmf>absremaining){
-          alert("jumlah lebih besar dari remaining");
-          console.log("inside if = "+mf_array);
-          return false;
-        }else{
-          grandtotalarray=0;
+        console.log("GranMF = " +grandmf);
+        if((myamount==absremaining)&&(grandmf==absremaining)){
           mf_array.push(myamount);
+          
           for(var loop=0;loop < mf_array.length; loop++){
             grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
           }
-          console.log("isi array " + mf_array);
+          //console.log("isi array " + mf_array);
+          puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+          return false;
         }
-        //console.log(mf_array);
-        //console.log("GrandTotal =" + grandtotalarray);
+
+        if(myamount>absremaining) {
+          alert("Please input less than Remaining...");
+          $("#nocheque").val('');
+          $("#amount").val('0'); 
+          return false;
+        }
+        
+        //console.log("grand sebelum for = " +grandmf);
+        if((grandmf>absremaining)){
+          alert("Reach maximum payment");
+          //console.log("inside if = "+mf_array);
+          $("#nocheque").val('');
+          $("#amount").val('0'); 
+          return false;
+        }else{
+          
+          if(grandmf<absremaining){
+            grandtotalarray=0;
+            mf_array.push(myamount);
+            for(var loop=0;loop < mf_array.length; loop++){
+              grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
+            }
+            puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+            //console.log("isi array " + mf_array);
+          }
+          if(grandmf==absremaining){
+            grandtotalarray=0;
+            mf_array.push(myamount);
+            for(var loop=0;loop < mf_array.length; loop++){
+              grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
+            }
+            puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+            //console.log("isi array " + mf_array);
+          }
+        }
+        // console.log("isi array = "+ mf_array);
+        // console.log("GrandTotal =" + grandtotalarray);
         //console.log("remaining ="+Math.abs(parseInt(remaining)));
         
-        puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+        
         $("#nocheque").val('');
         $("#amount").val('0');        
       }else{
@@ -452,5 +493,6 @@ $(document).ready(function () {
       mf_array=[];
       grand_mf=0;
       grandtotalarray=0;
+      absremaining=0;
     })
 });
