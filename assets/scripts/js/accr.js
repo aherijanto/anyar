@@ -10,6 +10,7 @@ var pay;
 var change;
 var mstatus;
 
+
 function getGrandTotal() {
   $.ajax({
     type: "POST",
@@ -101,6 +102,7 @@ function puttoarrayaccr(mydate,mytype,mynocheque,myamount) {
       if (response) {
         $("#accrdetail").html("");
         $("#accrdetail").html(response);
+        checkdetailaccr();
         //removeItems();
         //$('.link1').bind('click', function () {
         //	var idware = $(this).attr('hreff');
@@ -270,53 +272,7 @@ function changeDate(days){
     $("#txtdate").val(chooseDate.toISOString().split('T')[0]);
 }
 
-function showSummary(){
-  grandtotal1 = '';
-  grandtotal1 = $("#txtgrandtotal").html().replace(',','').replace(',','');
-  mstatus = $("#statussales").attr('mystat');
-  
-  console.log(mstatus);
-  $.ajax({
-    type: "POST",
-    url: "/assets/scripts/ajax/getsummary.php",
-    data: "",
-    success: function (response) {
-      $("#TableSummary").html("");
-      $("#TableSummary").html(response);
-      $("#SummaryModal").modal("show", { backdrop: "static" });
-      $("#txtpayment").val('0');
-    }  
-  });
-  if (mstatus=="Cash"){
-    $("#divdate").hide();
-    $("#divdate1").hide();
-    $("#txtpayment").on("keypress", function (e) {
-      if (e.which === 13) {
-        pay = $('#txtpayment').val();
-        change = parseInt(pay) - parseInt(grandtotal1);
-        $("#txtchange").val(change);
-      }
-    });
-    $("#txtpayment").on("input", function (e) {
-      
-     pay = $('#txtpayment').val();
-     change = parseInt(pay) - parseInt(grandtotal1);
-    $("#txtchange").val(change);
-    
-    });
-  }
-
-  if(mstatus=="A/R"){
-    $("#payme").hide();
-    $("#mychange").hide();
-    var today = new Date().toISOString().split('T')[0];
-    //
-    //var mm = today.getMonth() + 1;
-    //daysPressed();
-    $("#txtdays").val('0');
-    $("#txtdate").val(today);
-  }
-}
+// 
 
 function accrSave(noinv){
   
@@ -365,16 +321,50 @@ function getHistory(myinv){
         $("#historyaccr").html("");
         $("#historyaccr").html(response);
         $("#historyaccr").show();
-        $("#accr").show();
+        var grandhist = parseInt($("#grandhist").html());
+        var grandtotal1 = parseInt($("#grandtotal1").html());
+        var remaining = (grandhist - grandtotal1).toLocaleString();
+
+        // console.log(grandhist);
+        // console.log(grandtotal1);
+        // console.log(remaining);
+        if(remaining=='0'){
+          $("#remainingmedium").css({
+            'color':'#008000',
+            'font-size':'24px',
+            'font-weight':'bold'
+          });  
+          $("#accr").hide();
+        }else{
+          $("#remainingmedium").css({
+            'color':'red',
+            'font-size':'24px',
+            'font-weight':'bold'
+          });
+          $("#accr").show();
+        }
+
+        $("#remainingmedium").html(remaining);
+        
       }
     }
   });
 }
 
+function checkdetailaccr(){
+  if($("#accrdetail").html()==''){
+    $("#btnaction").hide();
+  }else{
+    $("#btnaction").show();
+  }
+}
 //main
 $(document).ready(function () {
+  newTrans();
+  var mf_array=[];
     $("#accr").hide();
     $("#historyaccr").hide();
+    checkdetailaccr();
     $("#btnsearch").click(function(e){
         noinv = $("#srchInv").val();
         $.ajax({
@@ -382,32 +372,70 @@ $(document).ready(function () {
             url: "/assets/scripts/ajax/getinvaccr.php",
             data: "inputinv=" + noinv,
             success: function (response) {
-              $("#infoinvaccr").html("");
-              $("#infoinvaccr").html(response);
-              $("#accr").show();
-              getHistory(noinv);
+             
+              if(response=='NotFound'){
+                $("#accr").hide();
+              }else{
+                $("#infoinvaccr").html("");
+                $("#infoinvaccr").html(response);
+                $("#accr").show();
+                $("#nocheque").val();
+                $("#amount").val('0');
+                getHistory(noinv);
+              }
             }
-        });
-
-        /*$.ajax({
-            type: "POST",
-            url: "/assets/scripts/ajax/getinvaccr.php",
-            data: "inputinv=" + noinv,
-            success: function (response) {
-              $("#detailaccrr").html("");
-              $("#detailaccr").html(response);
-            }
-        });*/
-        
+        });        
     })
-
+    
+    $('#typepay').on('change', function() {
+      var mytype =$("#typepay").val();
+      if(mytype=="cash"){
+        $("#nocheque").val(mytype);
+      }else{
+        $("#nocheque").val('');
+      }
+      
+    });
+    var grandtotalarray=0;
+    var grand_mf;
     $("#addtolist").click(function(e){
+      //
       mydate = $("#dateaccr").val();
       mytype = $("#typepay").val();
       mynocheque = $("#nocheque").val();
       myamount = $("#amount").val();
-      console.log(mynocheque);
-      puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+      var remaining = $("#remainingmedium").html().replace(",","").replace(",","");
+      var absremaining = Math.abs(parseInt(remaining));
+      if(mydate!=''&&mytype!=''&&mynocheque!=''&&myamount!=0){
+        if(myamount>absremaining){
+          alert("Please input less than Remaining...");
+          return false;
+        }
+        grandmf=0;
+        grandmf = grandtotalarray + parseInt(myamount);
+        console.log("sebelum for = " +grandmf);
+        if(grandmf>absremaining){
+          alert("jumlah lebih besar dari remaining");
+          console.log("inside if = "+mf_array);
+          return false;
+        }else{
+          grandtotalarray=0;
+          mf_array.push(myamount);
+          for(var loop=0;loop < mf_array.length; loop++){
+            grandtotalarray=grandtotalarray + parseInt(mf_array[loop]);
+          }
+          console.log("isi array " + mf_array);
+        }
+        //console.log(mf_array);
+        //console.log("GrandTotal =" + grandtotalarray);
+        //console.log("remaining ="+Math.abs(parseInt(remaining)));
+        
+        puttoarrayaccr(mydate,mytype,mynocheque,myamount);
+        $("#nocheque").val('');
+        $("#amount").val('0');        
+      }else{
+        alert('Please input value ');
+      }
     })
 
     $("#btnsave").click(function(e){
@@ -415,5 +443,14 @@ $(document).ready(function () {
       accrSave(myinvno);
       getHistory(myinvno);
       newTrans();
+     $("#btnaction").hide();
+    })
+
+    $("#btnclear").click(function(e){
+      newTrans();
+      $("#btnaction").hide();
+      mf_array=[];
+      grand_mf=0;
+      grandtotalarray=0;
     })
 });

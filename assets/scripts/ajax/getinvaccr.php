@@ -26,6 +26,9 @@
         echo $e->getMessage();
     }
     $grandtotal1 = 0;
+    if($totalpcsGlob==0){
+        echo 'NotFound';
+    }else{
     while ($rowpcsGlob = $stmtpcsGlob->fetchObject()) {
         //echo $row->c_code;
         $gcodeHead = $rowpcsGlob->s_code;
@@ -81,13 +84,14 @@
         } //
         $mytable.= '</table>';
     } //while*/
-    
+    //
     $mytable.='<table width="100%">';
-    $mytable.='<tr><td align="right" colspan="6">' . number_format($grandtotal1) . '</td></tr>';
+    $mytable.='<tr><td align="right" colspan="6"><label id="grandtotal1" hidden>' .$grandtotal1 . '</label>' . number_format($grandtotal1) . '</td></tr>';
     $mytable.= "</table>";
     $mytable.='</p>
                 <div class="card-footer">INFO</div>
                </div>';
     echo $mytable;
+}
 //$_SESSION['reports'] = '0';
 ?>

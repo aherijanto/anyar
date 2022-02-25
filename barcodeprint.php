@@ -1,5 +1,5 @@
 <?php
-(for i=1;i<=$wantPrint;i++){
+for ($i=1;$i<=$wantPrint;$i++){
 	switch ($colPos){
 	case 1:
 		

@@ -47,15 +47,19 @@
         $mytable.='<tr style="font-size:12px;"><td width="20%" id="noinv">' . $mydate . '</td><td width="20%">' .  strtoupper($mytype) . '</td><td width="20%">' . $mycheque . '</td><td width="20%" align="right">'.number_format($myamount) . '</td></tr>';
         
         
-    } //while*/
+    } //while*///
     $mytable.= '</table>';
     $mytable.='</p>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col">BALANCE</div>
+                        <div class="col">GRAND TOTAL</div>
                     
-                    <div class="col" align="right"><medium>'.number_format($grandtotal).'
+                    <div class="col" align="right"><label id="grandhist" hidden>' .$grandtotal . '</label><medium>'.number_format($grandtotal).'
                     </medium></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">REMAINING</div>
+                        <div class="col" align="right"><medium id="remainingmedium"></medium></div>
                     </div>
                 </div>
                </div>';

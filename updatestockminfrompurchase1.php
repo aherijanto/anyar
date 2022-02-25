@@ -24,7 +24,7 @@ session_start();
                 echo $e->getMessage();
             }
 
-        $total
+        $total;
 
         while ($rowInvent = $stmtInvent->fetchObject()) {
 							//echo $row->c_code;
@@ -54,6 +54,3 @@ session_start();
 
 		}//while*/
 		echo $totalInv.'Records Updated';
-
-
-?>

@@ -58,8 +58,15 @@
                     </div>
                     <p class="card-text" id="accrdetail"></p>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary" id="btnsave">Save</button>
+                <div class="card-footer" id="btnaction">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success" id="btnsave">Save</button>
+                        </div>
+                        <div class="col col-sm-2">
+                            <button class="btn btn-danger" id="btnclear">Clear List</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

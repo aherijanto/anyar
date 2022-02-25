@@ -25,12 +25,12 @@ if ($_POST['mytype']){
                     		<td align="center">'.$item["mydate"].'</td>
 							<td align="center">'.strtoupper($item['mytype']).'</td>
 							<td align="center">'.$item["mynocheque"].'</td>
-							<td align="right">'.number_format($item['myamount']).'</td>
-							<td class="text-center"><a hreff="'.$item["code"].'" class="link1 btn btn-danger">Remove</a></td></tr>';
+							<td align="right">'.number_format($item['myamount']).'</td></tr>';
+							
     }// end foreach
-		$table.='</tbody>
-				</table>';
+		$table.='</tbody></table>';
 		echo $table;
+		//
 }//if
         
 ?>
