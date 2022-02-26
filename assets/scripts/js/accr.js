@@ -360,6 +360,9 @@ function checkdetailaccr(){
 }
 //main
 $(document).ready(function () {
+  var grandtotalarray=0;
+  var grandmf;
+  var grandtotal1;
   newTrans();
   var mf_array=[];
     $("#accr").hide();
@@ -378,6 +381,8 @@ $(document).ready(function () {
               }else{
                 $("#infoinvaccr").html("");
                 $("#infoinvaccr").html(response);
+                grandtotal1 = Math.round($("#grandtotal1").html());
+                console.log("grandtotal1-search = " + grandtotal1);
                 $("#accr").show();
                 $("#nocheque").val();
                 $("#amount").val('0');
@@ -396,26 +401,30 @@ $(document).ready(function () {
       }
       
     });
-    var grandtotalarray=0;
-    var grand_mf;
+    
     $("#addtolist").click(function(e){
       //
       mydate = $("#dateaccr").val();
       mytype = $("#typepay").val();
       mynocheque = $("#nocheque").val();
       myamount = $("#amount").val();
-      var grandtotal1 = Math.round($("#grandtotal1").html());
-
+      grandtotal1 = Math.round($("#grandtotal1").html());
+      console.log('grandtotal1 = '+grandtotal1);
       if($("#remainingmedium").length){
         
         var remaining = Math.round($("#remainingmedium").html().replace(",","").replace(",",""));
         var absremaining = Math.abs(remaining);//Math.abs(parseInt(remaining));
+        if(absremaining==0){
+          absremaining=grandtotal1;
+        }
+        console.log("absreamingng-length= "+absremaining);
         var exist=true;
       }else{
         var absremaining=grandtotal1;
+        console.log("absreamingng-else= "+absremaining);
         var exist=false;
       }
-      console.log("absreamining = "+absremaining);
+      //console.log("absreamining-after = "+absremaining);
       
       // console.log("myamount= "+ myamount);
       
@@ -443,13 +452,13 @@ $(document).ready(function () {
           return false;
         }
         
-        //console.log("grand sebelum for = " +grandmf);
         if((grandmf>absremaining)){
           alert("Reach maximum payment");
           //console.log("inside if = "+mf_array);
           $("#nocheque").val('');
           $("#amount").val('0'); 
           console.log("grandmf>absremaining =" + mf_array);
+          grandmf=0;
           return false;
         }else{
           
@@ -461,6 +470,7 @@ $(document).ready(function () {
             }
             puttoarrayaccr(mydate,mytype,mynocheque,myamount);
             console.log("grandmf<absremaining =" + mf_array);
+            grandmf=0;
           }
           if(grandmf==absremaining){
             grandtotalarray=0;
@@ -470,11 +480,10 @@ $(document).ready(function () {
             }
             puttoarrayaccr(mydate,mytype,mynocheque,myamount);
             console.log("grandmf==absremaining =" + mf_array);
+            grandmf=0;
           }
         }
-        // console.log("isi array = "+ mf_array);
-        // console.log("GrandTotal =" + grandtotalarray);
-        //console.log("remaining ="+Math.abs(parseInt(remaining)));
+       
         
         
         $("#nocheque").val('');
@@ -489,6 +498,9 @@ $(document).ready(function () {
       accrSave(myinvno);
       getHistory(myinvno);
       newTrans();
+      grandmf = 0;
+      mf_array=[];
+      grandtotalarray=0;
      $("#btnaction").hide();
     })
 
