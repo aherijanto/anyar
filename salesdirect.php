@@ -13,16 +13,8 @@ include "class/_parkerinvent.php";
 //include 'menuhtml.php';
 include 'class/number.php';
 
-//$t_number="";
-//$icode="";
 $itemcode1="";
-//$t_cust="";
-
-
-
-//$db_handle = new DBController();
 $item_total = 0;
-
 
 function subtotal($qty,$price)
 {
@@ -30,7 +22,6 @@ $subtotal1=0;
  $subtotal1 = $qty * $price;
 return $subtotal1;
 }
-
 
 function setnoinv(){
 	$myRandNo=rand(10000,99999);
@@ -114,15 +105,12 @@ if(!empty($_GET["action"]))
 	{
 		case "new":
 			unset($_SESSION["cart_item"]);
-				
-				
-				unset($_SESSION["xdate"]);
-				unset($_SESSION["scode"]);
-				unset($_SESSION["myinvdrm"]);
-				unset($_SESSION["totalcart"]);
-			
-			$_SESSION["xdate"]=date('Y-m-d');
-			
+								
+			unset($_SESSION["xdate"]);
+			unset($_SESSION["scode"]);
+			unset($_SESSION["myinvdrm"]);
+			unset($_SESSION["totalcart"]);			
+			$_SESSION["xdate"]=date('Y-m-d');			
 			$_SESSION['myinvdrm']=setnoinv();
 			$_SESSION["totalcart"]=0;
 			$_SESSION["bayar"]='';
@@ -133,9 +121,7 @@ if(!empty($_GET["action"]))
 			$_SESSION['lblgrand']=0;
 			break;
 	
-
-		case "addname":
-			
+		case "addname":		
 			if (isset($_POST['addtolist']))
 			{
 				$itemcode1=$_POST['code'];
@@ -177,13 +163,9 @@ if(!empty($_GET["action"]))
 
 		case "add":
 			if (isset($_POST['idsubmit']))
-        	{    
-
-        	
+        	{            	
             	$i_code=$_POST['itemcode'];
             	include ('class/_parkerconnection.php');
-				
-
 				try {
              		   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 		$searchpromoitem="SELECT * FROM wpromoitemhead,wpromoitemtail WHERE (wpromoitemtail.i_code='$i_code') AND (wpromoitemtail.s_code=wpromoitemhead.s_code) ";
@@ -237,23 +219,14 @@ if(!empty($_GET["action"]))
 						
 						calculateGrandTotal();
        				}
-         
-						
-
 			break;
 
 		case "updatearray":
-			
 			if (isset($_POST['qtysubmit']))
 			{
-
 				if ($_POST['xqty']!=''){
-					
-
   				 foreach ($_SESSION["cart_item"] as $key => &$val) {
-           			
   					if($_GET["codetr"] == $_SESSION["cart_item"][$key]["code"]){
-						
 				//		echo "<script type='text/javascript'>alert('ifff');</script)";
 						$_SESSION["cart_item"][$key]['qty'] = $_POST['xqty'];
 						$_SESSION["cart_item"][$key]['disc1'] = $_POST['xdisc1'];
@@ -271,10 +244,7 @@ if(!empty($_GET["action"]))
 			
 		case "remove":
 				if(isset($_SESSION["cart_item"]))
-				
-
 			{
-				
 				foreach($_SESSION["cart_item"] as $k=>$v) 
 				{
 				//	echo 'forearch';
@@ -290,13 +260,9 @@ if(!empty($_GET["action"]))
 				}
 				calculateGrandTotal();
 			}
-
-
-						break;
-
+			break;
 		
 		case "save":
-
 			if(!empty($_SESSION["cart_item"])) 
 			{
 				if (($_SESSION['bayar']=='') || ($_SESSION['bayar']==0)){
@@ -311,10 +277,9 @@ if(!empty($_GET["action"]))
 				$mysupp='cash';
 				$mybayar=$_SESSION['bayar'];
 				$mykembali=$_SESSION['kembali'];
-				$drmSales = new Sales($myinvno,$mydate1,$mydateon,$mysupp,$myuser,$mybayar,$mykembali,'0','0','0','0','0','0','0'); 
+				$mytype = 'Cash';
+				$drmSales = new Sales($myinvno,$mydate1,$mydateon,$mytype,$mysupp,$myuser,$mybayar,$mykembali,'0','0','0','0','0','0','0'); 
 				$drmSales->save_sell_head();
-
-
 				foreach($_SESSION["cart_item"] as $myItem) 
 				{
 						$myInvNo=$myinvno;
@@ -331,38 +296,27 @@ if(!empty($_GET["action"]))
 						$myDisc3=$myItem["disc3"];
 						
 
-						$salesDetail = new Sales($myinvno,$mydate1,$mydateon,$mysupp,$myuser,'0','0',$myItemCode,$myItemName,$myQty,$myPrice,$myDisc1,$myDisc2,$myDisc3); 
+						$salesDetail = new Sales($myinvno,$mydate1,$mydateon,$mytype,$mysupp,$myuser,'0','0',$myItemCode,$myItemName,$myQty,$myPrice,$myDisc1,$myDisc2,$myDisc3); 
 				
 						$salesDetail->save_sell_tail();
 						
 
 					/*UPDATE INVENTORY*/
-						$myinvent = new Inventory('','','','','','','','','','','','','','','','');	
+						$myinvent = new Inventory('','','','','','','','','','','','','','','','','','','','','','','','','','');	
 						$myinvent->update_inventory($myItemCode,$myQty);
 					
 					
 				}
 				
 				header ("Location:printsalestable.php?invno=$myInvNo");
-
-
 				unset($_SESSION["cart_item"]);
-				
 				unset($_SESSION["xdate"]);
-				
 				unset($_SESSION["myinvdrm"]);
-
 				$_SESSION["xdate"]=date('Y-m-d');
-			
 				$_SESSION["myinvdrm"]=setnoinv();
-		
-				 
-
-
 			}
 				break;
-		
-		
+
 		case "empty":
 		unset($_SESSION["cart_item"]);
 		$_SESSION["totalcart"]=0;
@@ -375,23 +329,19 @@ if(!empty($_GET["action"]))
 }
 ?>
 
-
-
-<html >
+<html>
  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  	
 <script type="text/javascript">
 function readURL(input) {
       if (input.files && input.files[0]) {
           var reader = new FileReader();
-
           reader.onload = function (e) {
               $('#blah')
                   .attr('src', e.target.result)
                   .width(150)
                   .height(100);
           };
-
           reader.readAsDataURL(input.files[0]);
       }
   }
@@ -414,7 +364,6 @@ function readURL(input) {
 	font-family: Calibri;
 	font-size: medium;
 	color:white;
-
 }
 
 table {
@@ -424,7 +373,6 @@ table {
 }
 
 td, th {
-    
     color:white;
     font-size: 10px;
     padding: 10px;
@@ -436,8 +384,7 @@ tr:nth-child(even) {
 
 input[type=text] {
   
-  padding: 10px 10px;
-  width:260px;
+  width:260px;height:40px;
   box-sizing: border-box;
   border: 1px solid #555;
   outline: none;
@@ -454,11 +401,12 @@ input[type=submit] {
   border-radius: 4px;
   border: none;
   color: white;
-  padding: 15px 10px;
+  padding: 5px 5px;
   text-decoration: none;
-  margin: 16px 12px;
+  margin: 10px 8px;
   cursor: pointer;
-  width:180px;
+  width:120px;
+  height:40px;
 }
 
 #footer {
@@ -468,7 +416,6 @@ input[type=submit] {
   width: 100%;
   height: 2.5rem;            /* Footer height */
 }
-
 
 img.sticky {
   position: -webkit-sticky;
@@ -586,23 +533,17 @@ img.sticky {
 		</table>
 	</div>
 	</form>
-
 		<br/>
 		<div class="txt-heading" align="right">
 	</div>
-
-
 	</div>
-
-
-
 
 <div class="product-item">
 	<table>
 		<tr>
 			<form method="post" action="salesdirect.php?action=add">
 				<td>
-					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;" id="itemcode" placeholder="..........." autofocus>
+					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;padding:0px5px;height:80px;" id="itemcode" placeholder="..........." autofocus>
 					<input type="submit" name="idsubmit" style="background-color: #C0392B;" value="Search ID" hidden>
 				</td>
 			</form>
@@ -617,7 +558,8 @@ img.sticky {
 	<tr>		
 		<form method="post" action="salesdirect.php?action=search">
 		<td align="left">
-			<input name="itemname" type="text" align="center" id="itemname"><input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
+			<input name="itemname" type="text" align="center" id="itemname">
+			<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
 		</td>
 		</form>
 
@@ -731,7 +673,7 @@ $totItem=0;
 				
 				<tr>
 					<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
-					<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" />
+					<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
 					</td>
 				</tr>
 </tbody>

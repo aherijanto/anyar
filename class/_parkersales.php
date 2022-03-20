@@ -21,17 +21,18 @@ class Sales{
     var $i_disc3;
     var $s_premi;
     var $s_deduct;
+    var $s_type;
 
 
 
-   function __construct($s_code,$s_date,$s_dateinput,$c_code,$u_code,$s_premi,$s_deduct,$i_code,$i_name,$i_qty,$i_sell,$i_disc1,$i_disc2,$i_disc3)
+   function __construct($s_code,$s_date,$s_dateinput,$s_type,$c_code,$u_code,$s_premi,$s_deduct,$i_code,$i_name,$i_qty,$i_sell,$i_disc1,$i_disc2,$i_disc3)
    {
         $this->s_code=$s_code;
         $this->s_date=$s_date;
         $this->s_dateinput=$s_dateinput;
+        $this->s_type = $s_type;
         $this->c_code=$c_code;
         $this->u_code=$u_code;
-
         $this->i_code=$i_code;
         $this->i_name=$i_name;
         $this->i_qty=$i_qty;
@@ -43,8 +44,6 @@ class Sales{
         $this->s_deduct=$s_deduct;
     }
 
-
-
     function set_s_code($args){
         $this->b_code = $args;
      }
@@ -52,8 +51,6 @@ class Sales{
     function get_s_code(){
         echo $this->b_code;
      }
-
-    
 
     function set_s_date($args){
         $this->b_date = $args;
@@ -86,8 +83,6 @@ class Sales{
     function get_u_code(){
            echo $this->u_code;
         }
-
-  
 
     function set_i_code($args){
            $this->i_code = $args;
@@ -165,26 +160,24 @@ class Sales{
 
     function save_sell_head()
     {
-     // include ('./var/www/matahari/class/_parkerconnection.php');
+     include ('class/_parkerconnection.php');
 
       /*------------------DEFINE HEAD-----------------*/
 
       $s_code=$this->s_code;
-      
       $s_date=$this->s_date;
       $s_dateinput=$this->s_dateinput;
+      $s_type = $this->s_type;
       $c_code=$this->c_code;
       $u_code=$this->u_code;
       $s_premi=$this->s_premi;
       $s_deduct=$this->s_deduct;
 
-      
-
 /*--------------INSERT INTO WBUYHEAD---------------------------------------------------------------------------*/
         try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = "INSERT INTO wsellhead (s_code,s_date,s_dateinput,c_code,u_code,s_premi,s_deduct)
-                VALUES('$s_code','$s_date','$s_dateinput','$c_code','$u_code','$s_premi','$s_deduct')";
+            $stmt = "INSERT INTO wsellhead (s_code,s_date,s_dateinput,type,c_code,u_code,s_premi,s_deduct)
+                VALUES('$s_code','$s_date','$s_dateinput','$s_type','$c_code','$u_code','$s_premi','$s_deduct')";
                 //echo '<br/>'.$stmt;
                 $pdo->exec($stmt);
         } catch(PDOException $e) {
