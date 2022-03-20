@@ -1,11 +1,8 @@
 <?php
 session_start();
-
-
 	try
        {
          $pdo = new PDO('mysql:host=localhost;dbname=utama', 'root', 'root');
-
        }
        catch (PDOException $e)
        {
@@ -33,8 +30,6 @@ session_start();
 
 						echo $gcodeTail.' - '.$icodeTail.' - '.$qtyTail.'<br/>';
 
-				
-			
 				try {
                 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 	$updateInv="UPDATE `winventory` SET i_qty=$qtyTail WHERE ((i_code='$gcodeTail') AND (i_barcode='$icodeTail'))";

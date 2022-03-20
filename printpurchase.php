@@ -13,7 +13,7 @@ function getPurchaseHead($inv)
 {
 	try
        {
-         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_sbk', 'mimj5729_myroot', 'myroot@@##');
+         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_matahari', 'mimj5729_myroot', 'myroot@@##');
 
        }
        catch (PDOException $e)
@@ -58,7 +58,7 @@ if (!empty($_GET['invno']))
   $psupp=$_SESSION['psupp'];
 	try
        {
-         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_sbk', 'mimj5729_myroot', 'myroot@@##');
+         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_matahari', 'mimj5729_myroot', 'myroot@@##');
 
        }
        catch (PDOException $e)
@@ -116,7 +116,7 @@ tr:nth-child(even) {
 <body>
 <table height="40px" width="100%">
 	<tr>
-		<td>SBK<br/><br/>BREBES<br/><br/><br/></td>
+		<td>TB.MATAHARI<br/><br/>TEGAL<br/><br/><br/></td>
 		<td align="center" ><font face="calibri" color="black"><b><br/> PURCHASING</b></font></td>
 		<td></td>
 		<td align="right"><?php echo $_SESSION['psupp'];?> <br/> <?php echo $mys_name; ?><br/> <?php echo $mys_addr; ?><br/>
@@ -212,7 +212,9 @@ tr:nth-child(even) {
     <td align="right" colspan="2" style="color:black;font-weight: bold;font-size:16px;"><?php echo number_format($mygrand);?> </td>
   </tr>
 </table>
-<footer align="center"><a href="purchase.php?action=new"><font face="calibri" size="2">&copySBK</font><a></footer>
+<div align="center">
+<footer align="center"><a href="purchase.php?action=new"><font face="calibri" size="2">&copyMatahari</font><a></footer>
+            </div>
 </body>
 </html>
 <?php } else { echo 'You are not authorized to access this page<br/><br/>'; 

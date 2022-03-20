@@ -40,7 +40,6 @@ class Inventory{
         $this->g_code=$g_code;
         $this->i_supp=$i_supp;
         $this->i_barcode=$i_barcode;
-
         $this->i_name=$i_name;
         $this->i_qty=$i_qty;
         $this->i_qtymin=$i_qtymin;

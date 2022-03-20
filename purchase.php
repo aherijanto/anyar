@@ -188,7 +188,7 @@ if(!empty($_GET["action"]))
 
 
 					/*UPDATE INVENTORY*/
-						$myinvent=new Inventory('','','','','','','','','','','','','','','','');
+						$myinvent=new Inventory('','','','','','','','','','','','','','','','','','','','','','','','','','');
 
 						$myinvent->update_inventory_purchase($myItemCode,$myQty);
 				}
