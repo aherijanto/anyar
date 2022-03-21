@@ -249,7 +249,7 @@ class Inventory{
 
      function update_inventory($myitemcode,$deductqty)
      {
-
+      echo 'Update Inventory';
       $i_code=$this->i_code;
       include ('class/_parkerconnection.php');
 
@@ -257,16 +257,17 @@ class Inventory{
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "SELECT * FROM `winventory` WHERE i_barcode ='$myitemcode'";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':c_code', $i_code, PDO::PARAM_STR);
+                //$stmt->bindParam(':c_code', $i_code, PDO::PARAM_STR);
                 $stmt->execute();
                 $total = $stmt->rowCount();
                 $row = $stmt->fetchObject();
                 $beforeqty=$row->i_qty;
+                var_dump($sql);
                 }
             catch(PDOException $e) {
                 echo $e->getMessage();
             }
-
+      echo $sql;
       $i_code=$this->i_code;
       
       $balanceqty=$beforeqty-$deductqty;
@@ -275,7 +276,7 @@ class Inventory{
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "UPDATE `winventory` SET `i_qty`='$balanceqty' WHERE i_barcode = '$myitemcode' ";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':i_code', $i_code, PDO::PARAM_STR);
+                //$stmt->bindParam(':i_code', $i_code, PDO::PARAM_STR);
                 $stmt->execute();
                 $total = $stmt->rowCount();
                 /*while ($row = $stmt->fetchObject()) {

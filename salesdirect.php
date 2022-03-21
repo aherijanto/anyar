@@ -284,28 +284,20 @@ if(!empty($_GET["action"]))
 				{
 						$myInvNo=$myinvno;
 						$myItemCode= $myItem["code"];//
-						
 						$myItemName= $myItem["name"];
 						$myQty= $myItem["qty"];//$_SESSION["cart_item"][$k]["name"];
-						
-							$myPrice=$myItem["cogs"];
-						
-						
+						$myPrice=$myItem["cogs"];
 						$myDisc1=$myItem["disc1"];
 						$myDisc2=$myItem["disc2"];
 						$myDisc3=$myItem["disc3"];
 						
-
 						$salesDetail = new Sales($myinvno,$mydate1,$mydateon,$mytype,$mysupp,$myuser,'0','0',$myItemCode,$myItemName,$myQty,$myPrice,$myDisc1,$myDisc2,$myDisc3); 
 				
 						$salesDetail->save_sell_tail();
 						
-
 					/*UPDATE INVENTORY*/
 						$myinvent = new Inventory('','','','','','','','','','','','','','','','','','','','','','','','','','');	
 						$myinvent->update_inventory($myItemCode,$myQty);
-					
-					
 				}
 				
 				header ("Location:printsalestable.php?invno=$myInvNo");
@@ -475,7 +467,6 @@ img.sticky {
                background-color: white;
                border-radius: 0.25rem;
                box-shadow: 0 30px 60px -14px rgba(0,0,0,0.25);
-
              }
 
                .cards {
@@ -554,7 +545,6 @@ img.sticky {
 			</table>
 	<table>
 	
-	<th class="auto-style3" align="left">SEARCH BY NAME</th><th class="auto-style3" align="right">ACTIONS</th>
 	<tr>		
 		<form method="post" action="salesdirect.php?action=search">
 		<td align="left">
@@ -645,7 +635,7 @@ $totItem=0;
 				<tr><td colspan="12"><hr/></td></tr>
 				<tr>
 					<td align="left" style="color: yellow ;font-size: 12px;"><?php echo 'Item : '.$totItem.' record(s)';?></td>
-					<td colspan="3" align="left" style="color: yellow ;font-size: 13px;font-style: italic;">Untuk update QTY,DISC, silahkan isi angka kemudian tekan ENTER
+					<td colspan="3" align="left" style="color: yellow ;font-size: 15px;font-style: italic;">Untuk update QTY,DISC, silahkan isi angka kemudian tekan ENTER
 					<td align="right" colspan="7" style="color: white ;font-size: 28px;" hidden>TOTAL</td>
 					<td colspan="11" align="right" class="auto-style3" hidden><input type="text" name="gtotal"  style="text-align:right;width: 180px;background-color: #AED6F1;font-size:28px;" value="<?php echo number_format($grandtotal); ?>" readonly hidden></td>
 				</tr>
