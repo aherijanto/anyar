@@ -7,7 +7,7 @@ function querytable($mytablename,$mygroup)
 
   try
   {
-  	$pdo = new PDO('mysql:host=localhost;dbname=waletmas', 'root', 'root');
+  	$pdo = new PDO('mysql:host=localhost;dbname=mimj5729_anyar', 'mimj5729_myroot', 'myroot@@##');
 
   }
   catch (PDOException $e)
@@ -40,10 +40,6 @@ function querytable($mytablename,$mygroup)
    
     return $count;
 }
-
-
-
-
 
 function setnumber_invent($tablename,$group)
 {

@@ -9,53 +9,53 @@ if (isset($_SESSION['user'])!="")
     include 'class/_number.php';
 
 
-if (isset($_GET['c_code']))
-                {
-                $code=$_GET['c_code'];
-                $_SESSION['regcustcode']=$code;
-                echo $code;
-                }
+// if (isset($_GET['c_code']))
+//                 {
+//                 $code=$_GET['c_code'];
+//                 $_SESSION['regcustcode']=$code;
+//                 echo $code;
+//                 }
                 
 
-                     /*if (isset($_COOKIE["groupitem1"]))
-                        {
-                        //echo 'cookie id:'.$_COOKIE["myrefno"];
-                            $_SESSION["group"]=$_COOKIE["groupitem1"];
-                        //echo '<br/>session id:'.$_SESSION["myblur1"];
-                            $prefix=$_SESSION["group"];
+//                      /*if (isset($_COOKIE["groupitem1"]))
+//                         {
+//                         //echo 'cookie id:'.$_COOKIE["myrefno"];
+//                             $_SESSION["group"]=$_COOKIE["groupitem1"];
+//                         //echo '<br/>session id:'.$_SESSION["myblur1"];
+//                             $prefix=$_SESSION["group"];
                             
-                        }
-                        else{
-                            $_COOKIE["groupitem1"]="";
-                            $_SESSION["group"]="";
+//                         }
+//                         else{
+//                             $_COOKIE["groupitem1"]="";
+//                             $_SESSION["group"]="";
 
-                        }
+//                         }
 
-                        //echo $_SESSION['cart_item']['code'];
-                        $rownumber=setnumber_invent('winventory',$prefix);
+//                         //echo $_SESSION['cart_item']['code'];
+//                         $rownumber=setnumber_invent('winventory',$prefix);
                         
 
-                        //$itemcode1=$prefix.strval(setnumber_invent('winventory',$prefix));
+//                         //$itemcode1=$prefix.strval(setnumber_invent('winventory',$prefix));
                         
-                        if (empty($_SESSION['cart_item']))
-                        {
-                            $itemcode1=$prefix.strval($rownumber+1);
-                        }
+//                         if (empty($_SESSION['cart_item']))
+//                         {
+//                             $itemcode1=$prefix.strval($rownumber+1);
+//                         }
 
 
-                        if(!empty($_SESSION['cart_item']))
-                        {
+//                         if(!empty($_SESSION['cart_item']))
+//                         {
                             
-                            $itemcode1=$prefix.strval($rownumber+1);
+//                             $itemcode1=$prefix.strval($rownumber+1);
 
-                            while(array_key_exists($itemcode1,$_SESSION['cart_item']))
-                                {
-                                    $rownumber=$rownumber+1;
-                                    $itemcode1=$prefix.strval($rownumber);
-                                }             
+//                             while(array_key_exists($itemcode1,$_SESSION['cart_item']))
+//                                 {
+//                                     $rownumber=$rownumber+1;
+//                                     $itemcode1=$prefix.strval($rownumber);
+//                                 }             
                            
                         
-                        }*/
+//                         }*/
 
                         
 ?>

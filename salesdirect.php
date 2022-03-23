@@ -90,22 +90,18 @@ function calculateGrandTotal(){
 			$totaldisc31 = $totaldisc21-$myItem['disc3'];
 			$grandtotalitem=$grandtotalitem+$totaldisc31;
 			$_SESSION['lblgrand']=$grandtotalitem; 
-		}
-		
+		}	
 	}else{
 		$_SESSION['lblgrand']=0;
 	}
-	
 }
 
-if(!empty($_GET["action"])) 
 
-{
+if(!empty($_GET["action"])) {
 	switch($_GET["action"])
 	{
 		case "new":
-			unset($_SESSION["cart_item"]);
-								
+			unset($_SESSION["cart_item"]);	
 			unset($_SESSION["xdate"]);
 			unset($_SESSION["scode"]);
 			unset($_SESSION["myinvdrm"]);
@@ -140,16 +136,17 @@ if(!empty($_GET["action"]))
 				if ($disc3=='') {
 					$disc3=0;
 				}
-				
 		
-				
-				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$_POST["cogs"],'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));
-
-				
+				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$_POST["cogs"],'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
 				if(!empty($_SESSION["cart_item"])){
 					$itemcheck=$_SESSION['cart_item'];
 					if(in_array($itemcode1, array_column($itemcheck, 'code'))) {
-    					
+    					$itemCheckSession = $_SESSION['cart_item'];
+									foreach ($_SESSION["cart_item"] as $key => $val) {
+										if($itemcode1 == $_SESSION["cart_item"][$key]["code"]){
+											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
+										}
+									}									
 					}else{
 						$_SESSION['cart_item']=array_merge($_SESSION['cart_item'],$itemArray);
 					}
@@ -160,7 +157,6 @@ if(!empty($_GET["action"]))
 			}//if
 			break;
 
-
 		case "add":
 			if (isset($_POST['idsubmit']))
         	{            	
@@ -170,7 +166,7 @@ if(!empty($_GET["action"]))
              		   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 		$searchpromoitem="SELECT * FROM wpromoitemhead,wpromoitemtail WHERE (wpromoitemtail.i_code='$i_code') AND (wpromoitemtail.s_code=wpromoitemhead.s_code) ";
                 		$stmt = $pdo->prepare($searchpromoitem);
-                	//$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
+                
                 		$stmt->execute();
                 		$totalpromoitem = $stmt->rowCount();
                			$rowpromo = $stmt->fetchObject(); 
@@ -178,15 +174,15 @@ if(!empty($_GET["action"]))
                 		echo $e->getMessage();
             		}
             		$discPromo=0;
-            		if ($totalpromoitem > 0){
-            			
+            		if ($totalpromoitem > 0){	
             			$promcode=$i_code;
             			$promCode0=$rowpromo->s_code;
             			$promname=$rowpromo->i_name;
             			$promartikel=$rowpromo->i_article;
             			$promowarna=$rowpromo->i_color;
             			$discPromo=$rowpromo->i_disc;
-            		}            			
+            		} 
+
             		try {
                 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 		$sql = "SELECT * FROM winventory WHERE i_barcode = '$i_code'";
@@ -204,19 +200,24 @@ if(!empty($_GET["action"]))
                				$iwarna=$row->i_color;
                				$itemArray = array($mycode=>array('code'=>$mycode,'name'=>$itemname, 'artikel'=>$myarticle,'warna'=>$iwarna,'qty'=>1,'cogs'=>$mysell,'disc1'=>$discPromo,'disc2'=>0,'disc3'=>0));
                				if(!empty($_SESSION["cart_item"])){
-					
-								$_SESSION['cart_item']=array_merge($_SESSION['cart_item'],$itemArray);
-					
+								$itemCheckSession = $_SESSION['cart_item'];
+								if(in_array($mycode, array_column($itemCheckSession, 'code'))) {
+									foreach ($_SESSION["cart_item"] as $key => $val) {
+										if($mycode == $_SESSION["cart_item"][$key]["code"]){
+											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
+										}
+									}									
+								}else{
+									$_SESSION['cart_item']=array_merge($_SESSION['cart_item'],$itemArray);
+								}			
 							}else
 							{
 								$_SESSION["cart_item"] = $itemArray;
-							}
-						
-               				}
-            			} catch(PDOException $e) {
+							}	
+               		}
+            	} catch(PDOException $e) {
                 			echo $e->getMessage();
-            			}
-						
+            		}
 						calculateGrandTotal();
        				}
 			break;
@@ -243,24 +244,19 @@ if(!empty($_GET["action"]))
 			break;
 			
 		case "remove":
-				if(isset($_SESSION["cart_item"]))
-			{
-				foreach($_SESSION["cart_item"] as $k=>$v) 
-				{
-				//	echo 'forearch';
-					if($_GET["codetr"] == $_SESSION["cart_item"][$k]["code"]){
-						
-				//		echo "<script type='text/javascript'>alert('ifff');</script)";
-						unset($_SESSION["cart_item"][$k]);
-					}
+				if(isset($_SESSION["cart_item"])){
+					foreach($_SESSION["cart_item"] as $k=>$v){ 
+						if($_GET["codetr"] == $_SESSION["cart_item"][$k]["code"]){
+							unset($_SESSION["cart_item"][$k]);
+						}
 
-				if(empty($_SESSION["cart_item"])){
-					unset($_SESSION["cart_item"]);
+						if(empty($_SESSION["cart_item"])){
+							unset($_SESSION["cart_item"]);
+						}
 					}
+					calculateGrandTotal();
 				}
-				calculateGrandTotal();
-			}
-			break;
+				break;
 		
 		case "save":
 			if(!empty($_SESSION["cart_item"])) 
@@ -510,7 +506,7 @@ img.sticky {
                }
  </style>
 </head>
-<body bgcolor="#000000">
+<body bgcolor="#00000">
 	<div>
 	<form action="" method="post">
 	<div>
