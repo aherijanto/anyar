@@ -137,16 +137,82 @@ if(!empty($_GET["action"])) {
 					$disc3=0;
 				}
 		
-				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$_POST["cogs"],'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
+				
+									
+				$mycodetr = $_POST['code'];
+				include ('class/_parkerconnection.php');
+				try {
+					$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$mycodetr'";
+					$stmtMF = $pdo->prepare($sqlMF);
+					$stmtMF->execute();
+					$totalMF = $stmtMF->rowCount();
+					$rowMF = $stmtMF->fetchObject();
+				} catch(PDOException $e) {
+					echo $e->getMessage();
+				}
+				$mysessionqty = $_POST["qty"];
+				if (($mysessionqty == 1) || ($mysessionqty < 3)){
+					$mycogs=$rowMF->i_sell;
+				}
+
+				if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+					$mycogs = $rowMF->i_sell2;
+					if ($mycogs == 0){
+						$mycogs = $rowMF->i_sell;
+						
+					}else{
+						$mycogs = $rowMF->i_sell2;
+					}
+				}
+
+				if ($mysessionqty >= 6){
+					$mycogs = $rowMF->i_sell3;
+					if ($mycogs == 0){
+						$mycogs = $rowMF->i_sell4;
+					}else{
+						$mycogs = $rowMF->i_sell3;
+					}
+				}
+
+				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
 				if(!empty($_SESSION["cart_item"])){
 					$itemcheck=$_SESSION['cart_item'];
 					if(in_array($itemcode1, array_column($itemcheck, 'code'))) {
     					$itemCheckSession = $_SESSION['cart_item'];
-									foreach ($_SESSION["cart_item"] as $key => $val) {
-										if($itemcode1 == $_SESSION["cart_item"][$key]["code"]){
-											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
-										}
-									}									
+						foreach ($_SESSION["cart_item"] as $key => $val) {
+							if($itemcode1 == $_SESSION["cart_item"][$key]["code"]){
+								$_SESSION["cart_item"][$key]['qty']=$_POST['qty'] ;
+								$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
+								if (($mysessionqty == 1) || ($mysessionqty < 3)){
+									$mycogs=$rowMF->i_sell;
+									$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+								}
+
+								if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+									$mycogs = $rowMF->i_sell2;
+									if ($mycogs == 0){
+										$mycogs = $rowMF->i_sell;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+						
+									}else{
+										$mycogs = $rowMF->i_sell2;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+									}
+								}
+
+								if ($mysessionqty >= 6){
+									$mycogs = $rowMF->i_sell3;
+									if ($mycogs == 0){
+										$mycogs = $rowMF->i_sell4;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+									}else{
+										$mycogs = $rowMF->i_sell3;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+									}
+								}
+							}
+						}									
 					}else{
 						$_SESSION['cart_item']=array_merge($_SESSION['cart_item'],$itemArray);
 					}
@@ -193,8 +259,8 @@ if(!empty($_GET["action"])) {
                		
                			if ($total > 0){
                				$mycode=$row->i_barcode;
-               				$mysell=$row->i_sell;
                				$myqty=$row->i_qty;
+							$mysell=$row->i_sell;
                				$myarticle=$row->i_article;
                				$itemname=$row->i_name;
                				$iwarna=$row->i_color;
@@ -205,6 +271,32 @@ if(!empty($_GET["action"])) {
 									foreach ($_SESSION["cart_item"] as $key => $val) {
 										if($mycode == $_SESSION["cart_item"][$key]["code"]){
 											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
+											$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
+											if (($mysessionqty == 1) || ($mysessionqty < 3)){
+												$mysell=$row->i_sell;
+												$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+											}
+											if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+												$mysell = $row->i_sell2;
+												if ($mysell == 0){
+													$mysell = $row->i_sell;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}else{
+													$mysell = $row->i_sell2;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}
+											}
+
+											if ($mysessionqty >= 6){
+												$mysell = $row->i_sell3;
+												if ($mysell == 0){
+													$mysell = $row->i_sell4;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}else{
+													$mysell = $row->i_sell3;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}
+											}
 										}
 									}									
 								}else{
@@ -228,12 +320,49 @@ if(!empty($_GET["action"])) {
 				if ($_POST['xqty']!=''){
   				 foreach ($_SESSION["cart_item"] as $key => &$val) {
   					if($_GET["codetr"] == $_SESSION["cart_item"][$key]["code"]){
-				//		echo "<script type='text/javascript'>alert('ifff');</script)";
+						$mycodetr = $_GET['codetr'];
+						include ('class/_parkerconnection.php');
+						try {
+							$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+							$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$mycodetr'";
+							$stmtMF = $pdo->prepare($sqlMF);
+							$stmtMF->execute();
+							$totalMF = $stmtMF->rowCount();
+							$rowMF = $stmtMF->fetchObject();
+						} catch(PDOException $e) {
+							echo $e->getMessage();
+						}
+
 						$_SESSION["cart_item"][$key]['qty'] = $_POST['xqty'];
 						$_SESSION["cart_item"][$key]['disc1'] = $_POST['xdisc1'];
 						$_SESSION["cart_item"][$key]['disc2'] = $_POST['xdisc2'];
 						$_SESSION["cart_item"][$key]['disc3'] = $_POST['xdisc3'];
-						//unset($_SESSION["cart_item"][$k]);
+						$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
+						if (($mysessionqty == 1) || ($mysessionqty < 3)){
+							$mysell=$rowMF->i_sell;
+							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+						}
+						if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+							$mysell = $rowMF->i_sell2;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell2;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}
+						}
+
+						if ($mysessionqty >= 6){
+							$mysell = $rowMF->i_sell3;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell4;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell3;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}
+						}
 					} 	
            			 // Add this
        			 }
@@ -712,7 +841,7 @@ $totItem=0;
                 echo '<td width="150px" class="auto-style3" >'.$myarticle.'</td><input type="hidden" name="iartikel" value="'.$myarticle.'" />';
                 echo '<td width="80px" class="auto-style3" >'.$iwarna.'</td><input type="hidden" name="iwarna" value="'.$iwarna.'" />';    
                 echo '<td width="80px" align="center" ><input type="text" name="qty" style="text-align: center;width:80px;" value="1" autofocus="true"></td>';
-                echo '<td width="100px" align="center" ><input type="text" name="cogs" style="text-align: center;width:100px;" value="'.$mysell.'" readonly/></td>';
+               // echo '<td width="100px" align="center" ><input type="text" name="cogs" style="text-align: center;width:100px;" value="'.$mysell.'" readonly/></td>';
                 echo '<td width="50px" align="center" ><input type="text" name="disc1" style="text-align: center;width:20px;" /></td>';
                 echo '<td width="50px"align="center" ><input type="text" name="disc2" style="text-align: center;width:20px;" /></td>';
                 echo '<td width="50px" align="center" ><input type="text" name="disc3" style="text-align: center;width:20px;" /></td>';
