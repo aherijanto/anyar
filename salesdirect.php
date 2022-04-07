@@ -479,7 +479,7 @@ function readURL(input) {
 }
 .auto-style3 {
 	font-family: Calibri;
-	font-size: medium;
+	font-size: 16px;
 	color:white;
 }
 
