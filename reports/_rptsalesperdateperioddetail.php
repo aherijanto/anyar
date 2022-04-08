@@ -75,7 +75,7 @@ if (isset($_POST['datesubmit'])) {
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$selectpcsGlob="SELECT * FROM `wbuyhead`,`wbuytail` WHERE wbuytail.b_code=wbuyhead.b_code";
-        $selectpcsGlob = "SELECT * FROM wsellhead,wcustomers WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype' AND wsellhead.c_code = wcustomers.c_code";
+        $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype'";
         $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
 
@@ -93,7 +93,7 @@ if (isset($_POST['datesubmit'])) {
     while ($rowpcsGlob = $stmtpcsGlob->fetchObject()) {
         //echo $row->c_code;
         $gcodeHead = $rowpcsGlob->s_code;
-        $cname = $rowpcsGlob->c_name;
+        $cname = $rowpcsGlob->c_code;
         $date1 = $rowpcsGlob->s_date;
         $duedate = $rowpcsGlob->s_dateinput;
         $bayar = $rowpcsGlob->s_premi;
@@ -148,7 +148,7 @@ $_SESSION['reports'] = '0';
 ?>
 <footer align="center">
     <label id="back" style="color:blue;cursor:pointer;padding:12px 12px;" onclick="window.open('/reginvent.php','_self')">
-        &copyMatahari</label>
+        &copyAnyar</label>
 </footer>
 
 </html>
