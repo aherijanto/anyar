@@ -824,7 +824,7 @@ $totItem=0;
          }
           
            
-           	 echo '<table width="100%;">';
+           	echo '<table width="100%;">';
            echo '<tr><td colspan="10" style="background-color:#873600  ;">RESULT::  '.$total.' record(s)</td></tr>';
              while ($row = $stmt->fetchObject()) {
                //echo $row->c_code;

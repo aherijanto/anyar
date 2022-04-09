@@ -86,7 +86,6 @@ if (isset($_POST['datesubmit'])) {
         $bayar = $rowpcsGlob->s_premi;
         $kembali = $rowpcsGlob->s_deduct;
         $type = $rowpcsGlob->type;
-
         try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //$selectpcsGlob="SELECT * FROM `wbuyhead`,`wbuytail` WHERE wbuytail.b_code=wbuyhead.b_code";
@@ -105,7 +104,6 @@ if (isset($_POST['datesubmit'])) {
         echo '<table width="100%"> <tr>';
         echo '<td width="20%">' . $gcodeHead . '</td><td width="20%">' .  $cname . '</td><td width="20%">' . date('d-m-Y', strtotime($date1)) . '</td><td width="20%">' . date('d-m-Y', strtotime($duedate)) . '</td><td width="20%">' . $type . '</td>';
         echo '</tr></table>';
-
         echo '<table width="100%" class="mf">';
         while ($rowpcsGlob1 = $stmtpcsGlob1->fetchObject()) {
             $i_qty = $rowpcsGlob1->i_qty;
