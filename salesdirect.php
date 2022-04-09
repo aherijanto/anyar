@@ -306,7 +306,9 @@ if(!empty($_GET["action"])) {
 							{
 								$_SESSION["cart_item"] = $itemArray;
 							}	
-               		}
+               			}else{
+							   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
+						   }
             	} catch(PDOException $e) {
                 			echo $e->getMessage();
             		}
@@ -692,7 +694,8 @@ img.sticky {
 if(isset($_SESSION["cart_item"])){
     $item_total = 0;
 ?>
-<table cellpadding="10" cellspacing="1" width="100%">
+
+<table class="table" id="tablelist" cellpadding="10" cellspacing="1"  style="overflow-y:scroll;height:250px;display:block;width:auto;">
 <tbody>
 <tr bgcolor="#228FF5">
 <th align="center" class="auto-style1"><strong>KODE BARANG</strong></th>
@@ -754,9 +757,16 @@ $totItem=0;
         		$totItem++;
 				$grandtotal=$grandtotal+$totaldisc3;
 				$_SESSION['totalcart']=$grandtotal;
-		}
-		?>
 
+		}
+		echo '<script>
+				var div = document.getElementById("tablelist");
+				div.scrollTop = div.scrollHeight - div.clientHeight;
+			 </script>';
+		?>
+				</table>
+	
+				<table>
 				<tr><td colspan="12"><hr/></td></tr>
 				<tr>
 					<td align="left" style="color: yellow ;font-size: 12px;"><?php echo 'Item : '.$totItem.' record(s)';?></td>
@@ -793,6 +803,7 @@ $totItem=0;
 				</tr>
 </tbody>
 </table>
+
   <?php
 }
 ?>
