@@ -16,7 +16,7 @@ include './class/_parkerconnection.php';
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <label for="gol">Group Name</label>
+                <label for="gol">Group Name</label><br/>
                 <select id="gol" name="gol" class="form-select form-select-lg mb-3"  aria-label=".form-select-lg" style="height:calc(1.5em + .75rem + 2px);">
                     <?php
                         try{
@@ -54,7 +54,7 @@ include './class/_parkerconnection.php';
     </div>
     <div id="queryResult" style="padding:15px 15px;margin-top:15px;">
     </div>
-    <div align="center" style="margin-top:10px;">
+    <div align="center" style="margin-top:10px;margin-bottom:30px;">
         <button id="updateall" class="btn btn-primary">Update All</button>
     </div>
 </html>

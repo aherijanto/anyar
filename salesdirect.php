@@ -685,7 +685,7 @@ table {
 td, th {
     color:white;
     font-size: 10px;
-    padding: 5px;
+    padding: 1px;
 }
 
 tr:nth-child(even) {
@@ -842,9 +842,6 @@ img.sticky {
 		</table>
 	</div>
 	</form>
-		
-		<div class="txt-heading" align="right">
-	</div>
 	</div>
 
 <div class="product-item">
@@ -852,7 +849,7 @@ img.sticky {
 		<tr>
 			<form method="post" action="salesdirect.php?action=add">
 				<td>
-					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;padding:0px5px;height:80px;" id="itemcode" placeholder="..........." autofocus>
+					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;height:80px;" id="itemcode" placeholder="..........." autofocus>
 					<input type="submit" name="idsubmit" style="background-color: #C0392B;" value="Search ID" hidden>
 				</td>
 			</form>
@@ -894,8 +891,9 @@ img.sticky {
     		$item_total = 0;
 	?>
 	<div class="table-responsive" >
-		<table class="table" id="tablelist"  cellspacing="1"  style="overflow-y:scroll;height:340px;display:block; max-width: 100%;">
-			<thead bgcolor="#228FF5">
+		<table class="table" id="tablelist"  cellspacing="1"  style="overflow-y:scroll;height:300px;display:block; max-width: 100%;">
+			<tr style="padding-top:1px;">
+			<thead bgcolor="#228FF5" style="padding-top:1px 1px;">
 				<!-- <tr bgcolor="#228FF5"> -->
 				<th align="center" class="auto-style1">No</th>
 					<th align="center" class="auto-style1" >PLU CODE</th>
@@ -912,6 +910,7 @@ img.sticky {
 					<th class="auto-style1" style="text-align:center;">ACTION</th>
 				<!-- </tr> -->
 			</thead>
+		</tr>
 			<tbody>
 		<?php
 		$grandtotal=0;
@@ -965,10 +964,10 @@ img.sticky {
 			 </script>';
 		?>
 		</table></div>
-		<hr>
+		
 		<div id="payment" style="margin-right:15px;">
 				<table>
-				<tr><td colspan="12" style="color:white;"><hr/></td></tr>
+				<!-- <tr><td colspan="12" style="color:white;"><hr/></td></tr> -->
 				<tr>
 					<td align="left" style="color: yellow ;font-size: 12px;"><?php echo 'Item : '.$totItem.' record(s)';?></td>
 					<td colspan="3" align="left" style="color: yellow ;font-size: 15px;font-style: italic;">Untuk update QTY,DISC, silahkan isi angka kemudian tekan ENTER
@@ -985,10 +984,9 @@ img.sticky {
 							}
 
 							if($_POST['bayar']>=$grandtotal){
-							
-							$_SESSION['bayar']=$_POST['bayar'];
-							$kembali=$_SESSION['bayar']- $grandtotal;
-							$_SESSION['kembali']=$kembali;
+								$_SESSION['bayar']=$_POST['bayar'];
+								$kembali=$_SESSION['bayar']- $grandtotal;
+								$_SESSION['kembali']=$kembali;
 							}
 						}
 					}
