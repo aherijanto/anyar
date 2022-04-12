@@ -360,7 +360,7 @@ function checkdetailaccr(){
 }
 //main
 $(document).ready(function () {
-    
+    $("#updateall").hide();
     $("#golbutton").click(function(e){
         var golsearch = $("#gol").val();
         
@@ -376,16 +376,53 @@ $(document).ready(function () {
               }else{
                 $("#queryResult").html("");
                 $("#queryResult").html(response);
-                
+                $("#updateall").show();
               }
             }
         });        
     })
-    $("#getConsole").click(function(e){
+
+    $("#plunamebutton").click(function(e){
+      var pluname = $("#pluname").val();
+      
+      $.ajax({
+          type: "POST",
+          url: "/assets/scripts/ajax/getplu.php",
+          data: "iname=" + pluname.trim(),
+          success: function (response) {
+           
+            if(response=='NotFound'){
+                alert('Data Not Found');
+              $("#queryResult").hide();
+            }else{
+              $("#queryResult").html("");
+              $("#queryResult").html(response);
+              $("#updateall").show();
+            }
+          }
+      });        
+  })
+
+    $("#updateall").click(function(e){
         $("[name='barcode']").each(function() {
             var realbarcode = $(this).attr('id');
             console.log("Edited Barcode : " + this.value + " REAL BARCODE : " + realbarcode);
+            $.ajax({
+              type: "POST",
+              url: "/assets/scripts/ajax/updateinventbarcode.php",
+              data: "barcode=" + realbarcode.trim() +"&edited=" + this.value.trim(),
+              success: function (response) {
+                if(response=='NotFound'){
+                    alert('Data Not Found');
+                }else{
+                  //alert("Data Updated");
+                  
+                }
+              }
+          });        
         });
+        $("#queryResult").html("");
+        $("#updateall").hide();
     });
   
 });

@@ -54,7 +54,9 @@ include './class/_parkerconnection.php';
     </div>
     <div id="queryResult" style="padding:15px 15px;margin-top:15px;">
     </div>
-    
+    <div align="center" style="margin-top:10px;">
+        <button id="updateall" class="btn btn-primary">Update All</button>
+    </div>
 </html>
 <script src="./assets/scripts/js/adjustinvent.js"></script>
 

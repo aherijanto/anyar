@@ -4,7 +4,7 @@
     session_start();
     $upone = dirname(__DIR__);
 
-    $gcode = $_POST['gcode'];
+    $iname = $_POST['iname'];
     $db='mimj5729_anyar';$user='mimj5729_myroot';$pwd='myroot@@##';
     try 
     {
@@ -18,7 +18,7 @@
 
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $selectpcsGlob = "SELECT * FROM winventory WHERE g_code = '$gcode'";
+        $selectpcsGlob = "SELECT * FROM winventory WHERE i_name LIKE '%$iname%'";
         $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         $stmtpcsGlob->execute();
         $totalpcsGlob = $stmtpcsGlob->rowCount();

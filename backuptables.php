@@ -52,9 +52,9 @@ function backupDatabaseTables($dbHost, $dbUsername, $dbPassword, $dbName, $table
     }
 
     //save file
-    $handle = fopen('./home/bistique/Documents/db-backup-' . time() . '.sql', 'w+');
+    $handle = fopen('db-backup-' . time() . '.sql', 'w+');
     fwrite($handle, $return);
     fclose($handle);
 }
 
-backupDatabaseTables('localhost', 'mimj5729_myroot', 'myroot@@##', 'mimj5729_anyar');
+backupDatabaseTables('localhost', 'mimj5729_myroot', 'myroot@@##', 'mimj5729_anyar','*');

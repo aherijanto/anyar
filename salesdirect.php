@@ -1,6 +1,8 @@
 <?php
 ob_start();
 session_start();
+// require_once('./assets/requires/config.php');
+// require_once('./assets/requires/header1.php');
 error_reporting(E_ALL);
 ini_set("display_errors","On");
 date_default_timezone_set("Asia/Bangkok");
@@ -12,7 +14,8 @@ include "class/_parkersales.php";
 include "class/_parkerinvent.php";
 //include 'menuhtml.php';
 include 'class/number.php';
-
+ require_once('./assets/requires/config.php');
+ require_once('./assets/requires/headersales.php');
 $itemcode1="";
 $item_total = 0;
 
@@ -109,7 +112,7 @@ if(!empty($_GET["action"])) {
 			$_SESSION["xdate"]=date('Y-m-d');			
 			$_SESSION['myinvdrm']=setnoinv();
 			$_SESSION["totalcart"]=0;
-			$_SESSION["bayar"]='';
+			$_SESSION["bayar"]=0;
 			$_SESSION["kembali"]=0;
 			$_SESSION['selectpromo']='nonpromo';
 			$total=0;
@@ -136,9 +139,7 @@ if(!empty($_GET["action"])) {
 				if ($disc3=='') {
 					$disc3=0;
 				}
-		
-				
-									
+							
 				$mycodetr = $_POST['code'];
 				include ('class/_parkerconnection.php');
 				try {
@@ -174,7 +175,8 @@ if(!empty($_GET["action"])) {
 						$mycogs = $rowMF->i_sell3;
 					}
 				}
-
+				$_SESSION["bayar"]=0;
+			$_SESSION["kembali"]=0;
 				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
 				if(!empty($_SESSION["cart_item"])){
 					$itemcheck=$_SESSION['cart_item'];
@@ -256,7 +258,8 @@ if(!empty($_GET["action"])) {
                 		$stmt->execute();
                 		$total = $stmt->rowCount();
                 		$row = $stmt->fetchObject();
-               		
+						$_SESSION["bayar"]=0;
+			$_SESSION["kembali"]=0;
                			if ($total > 0){
                				$mycode=$row->i_barcode;
                				$myqty=$row->i_qty;
@@ -334,7 +337,8 @@ if(!empty($_GET["action"])) {
 						} catch(PDOException $e) {
 							echo $e->getMessage();
 						}
-
+						$_SESSION["bayar"]=0;
+						$_SESSION["kembali"]=0;
 						$_SESSION["cart_item"][$key]['qty'] = $_POST['xqty'];
 						$_SESSION["cart_item"][$key]['disc1'] = $_POST['xdisc1'];
 						$_SESSION["cart_item"][$key]['disc2'] = $_POST['xdisc2'];
@@ -450,26 +454,10 @@ if(!empty($_GET["action"])) {
 
 <html>
  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 	
-<script type="text/javascript">
-function readURL(input) {
-      if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-              $('#blah')
-                  .attr('src', e.target.result)
-                  .width(150)
-                  .height(100);
-          };
-          reader.readAsDataURL(input.files[0]);
-      }
-  }
-  </script>
-
 <style type="text/css">
 .auto-style1 {
 	font-family: Calibri;
-	font-size:medium;
+	font-size:small;
 }
 .auto-style2 {
 	border-style: none;
@@ -481,20 +469,20 @@ function readURL(input) {
 }
 .auto-style3 {
 	font-family: Calibri;
-	font-size: 16px;
+	font-size: 14px;
 	color:white;
 }
 
 table {
     font-family: arial, sans-serif;
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
     width: 100%;
 }
 
 td, th {
     color:white;
     font-size: 10px;
-    padding: 10px;
+    padding: 5px;
 }
 
 tr:nth-child(even) {
@@ -503,7 +491,7 @@ tr:nth-child(even) {
 
 input[type=text] {
   
-  width:260px;height:40px;
+  width:260px;height:30px;
   box-sizing: border-box;
   border: 1px solid #555;
   outline: none;
@@ -637,7 +625,7 @@ img.sticky {
                }
  </style>
 </head>
-<body bgcolor="#00000">
+<body style="background-color:#0000;" id="mybody">
 	<div>
 	<form action="" method="post">
 	<div>
@@ -651,7 +639,7 @@ img.sticky {
 		</table>
 	</div>
 	</form>
-		<br/>
+		
 		<div class="txt-heading" align="right">
 	</div>
 	</div>
@@ -669,67 +657,74 @@ img.sticky {
 				<label id="grandtotal" style="color:white;font-size:60px;"><?php echo number_format($_SESSION['lblgrand']);?></label>
 			</td>
 		</tr>
-			</table>
-	<table>
+	</table>
 	
-	<tr>		
-		<form method="post" action="salesdirect.php?action=search">
-		<td align="left">
-			<input name="itemname" type="text" align="center" id="itemname">
-			<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
-		</td>
-		</form>
+	<table>
+		<tr>		
+			<form method="post" action="salesdirect.php?action=search">
+				<td align="left">
+					<input name="itemname" type="text" align="center" id="itemname">
+					<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
+				</td>
+			</form>
 
-		<td align="right" class="txt-heading">
-			<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
-			<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
-			<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
-		</td>
-	</tr>
-</table>
+			<td align="right" class="txt-heading">
+				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
+				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
+				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
+			</td>
+		</tr>
+	</table>
 </div>
 
 <div id="shopping-cart">						
-<?php
-if(isset($_SESSION["cart_item"])){
-    $item_total = 0;
-?>
-
-<table class="table" id="tablelist" cellpadding="10" cellspacing="1"  style="overflow-y:scroll;height:250px;display:block;width:auto;">
-<tbody>
-<tr bgcolor="#228FF5">
-<th align="center" class="auto-style1"><strong>KODE BARANG</strong></th>
-<th class="auto-style1"><strong>NAMA BARANG</strong></th>
-<th class="auto-style1"><strong>ARTIKEL</strong></th>
-<th class="auto-style1"><strong>WARNA</strong></th>
-<th class="auto-style1"><strong>QTY</strong></th>
-<th class="auto-style1"><strong>HARGA</strong></th>
-<th class="auto-style1"><strong>JUMLAH</strong></th>
-<th class="auto-style1"><strong>DISC %1</strong></th>
-<th class="auto-style1"><strong>DISC %2</strong></th>
-<th class="auto-style1"><strong>DISC Rp</strong></th>
-<th class="auto-style1"><strong>SUBTOTAL</strong></th>
-<th class="auto-style1"><strong>ACTION</strong></th>
-</tr>
-<?php
-$grandtotal=0;
-$totItem=0;
-    foreach ($_SESSION["cart_item"] as $item)
-    {
-		?>
-				<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post">
-				<tr>
-				<td class="auto-style3"><strong><?php echo $item["code"]; ?></strong>
+	<?php
+		if(isset($_SESSION["cart_item"])){
+    		$item_total = 0;
+	?>
+	<div class="table-responsive" >
+		<table class="table" id="tablelist"  cellspacing="1"  style="overflow-y:scroll;height:340px;display:block; max-width: 100%;">
+			<thead bgcolor="#228FF5">
+				<!-- <tr bgcolor="#228FF5"> -->
+				<th align="center" class="auto-style1">No</th>
+					<th align="center" class="auto-style1" >PLU CODE</th>
+					<th class="auto-style1">PLU NAME</th>
+					<th class="auto-style1">ARTIKEL</th>
+					<th class="auto-style1">WARNA</th>
+					<th class="auto-style1" style="text-align:center;">QTY</th>
+					<th class="auto-style1" style="text-align:right;">HARGA</th>
+					<th class="auto-style1" style="text-align:right;">JUMLAH</th>
+					<th class="auto-style1" style="text-align:center;">DISC %1</th>
+					<th class="auto-style1" style="text-align:center;">DISC %2</th>
+					<th class="auto-style1" style="text-align:center;">DISC Rp</th>
+					<th class="auto-style1" style="text-align:right;">SUBTOTAL</th>
+					<th class="auto-style1" style="text-align:center;">ACTION</th>
+				<!-- </tr> -->
+			</thead>
+			<tbody>
+		<?php
+		$grandtotal=0;
+		$totItem=0;
+		$nourut = 0;
+    	foreach ($_SESSION["cart_item"] as $item)
+    	{
+			$nourut++;
+	?>
+		
+		<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post">
+			<tr>
+				<td class="auto-style3" style="width:2%;"><?php echo $nourut;?></td>
+				<td class="auto-style3" style="width:10%;"><strong><?php echo $item["code"]; ?></strong>
 					<input type="text" name="xcode" value="<?php echo $item['code'] ?>" hidden="true">
 				</td>
-				<td align="left" class="auto-style3"><?php echo $item["name"]; ?></td>
-				<td align="left" class="auto-style3"><?php echo $item["artikel"]; ?></td>
-				<td align="left" class="auto-style3"><?php echo $item["warna"]; ?></td>
-				<td align="center" class="auto-style3">
+				<td align="left" class="auto-style3" style="width:20%;"><?php echo $item["name"]; ?></td>
+				<td align="center" class="auto-style3" style="width:5%;" ><?php echo $item["artikel"]; ?></td>
+				<td align="center" class="auto-style3" style="width:5%;"><?php echo $item["warna"]; ?></td>
+				<td align="center" class="auto-style3" style="width:5%;">
 					<input type="text" name="xqty" id="xqty" value="<?php echo $item['qty'] ?>" style="width:50px;text-align: center;font-size: 12px;">
 				</td>
 		
-				<td align="right" class="auto-style3"><?php echo "Rp. ".number_format($item["cogs"]); ?></td>
+				<td align="right" class="auto-style3" style="width:8%;"><?php echo "Rp. ".number_format($item["cogs"]); ?></td>
 				<?php
 					$mysubtotal= $item["qty"] * $item["cogs"];
 					$totaldisc1 = $mysubtotal*(1-($item['disc1']/100));
@@ -737,26 +732,20 @@ $totItem=0;
 					$totaldisc3 = $totaldisc2-$item['disc3'];
         			//$totaldisc3 = $totaldisc2*(1-($item['disc3']/100)); 
 				?>
-				<td align="right" class="auto-style3"> <?php echo 'Rp. '.number_format($mysubtotal,0); ?> </td>
-				
-				
-				<td><input type="text" name="xdisc1" id="xdisc1" value="<?php echo number_format($item['disc1'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-				
-				<td><input type="text" name="xdisc2" id="xdisc2" value="<?php echo number_format($item['disc2'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-
-				<td><input type="text" name="xdisc3" id="xdisc3" value="<?php echo $item['disc3'] ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-
-				<td align="right" class="auto-style3"><?php echo number_format($totaldisc3); ?></td>
-				<td align="center" class="auto-style3"><a href="/salesdirect.php?action=remove&codetr=<?php echo $item["code"]; ?>" class="auto-style3" style="color:white;background-color:  #8e44ad; border-radius: 5px;text-decoration: none;padding: 10px 5px;margin:5px;">Remove Item</a></td>
-
+				<td align="right" class="auto-style3" style="width:8%;" > <?php echo 'Rp. '.number_format($mysubtotal,0); ?> </td>
+				<td style="width:8%;text-align:center;"><input type="text" name="xdisc1" id="xdisc1" value="<?php echo number_format($item['disc1'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+				<td style="width:8%;text-align:center;" ><input type="text" name="xdisc2" id="xdisc2" value="<?php echo number_format($item['disc2'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+				<td style="width:8%;text-align:center;"><input type="text" name="xdisc3" id="xdisc3" value="<?php echo $item['disc3'] ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+				<td align="right" class="auto-style3" style="width:2%;"><?php echo number_format($totaldisc3); ?></td>
+				<td align="center" class="auto-style3" style="width:15%;"><a href="/salesdirect.php?action=remove&codetr=<?php echo $item["code"]; ?>" class="auto-style3" style="color:white;background-color:  #8e44ad; border-radius: 5px;text-decoration: none;padding: 10px 5px;margin:5px;">Remove Item</a></td>
 				<input type="submit" name="qtysubmit" value="qtysubmit" hidden="true">	
-									
-				</tr>
-				</form>
-				<?php
-        		$totItem++;
-				$grandtotal=$grandtotal+$totaldisc3;
-				$_SESSION['totalcart']=$grandtotal;
+				
+			</tr>
+		</form>
+		<?php
+        	$totItem++;
+			$grandtotal=$grandtotal+$totaldisc3;
+			$_SESSION['totalcart']=$grandtotal;
 
 		}
 		echo '<script>
@@ -764,10 +753,11 @@ $totItem=0;
 				div.scrollTop = div.scrollHeight - div.clientHeight;
 			 </script>';
 		?>
-				</table>
-	
+		</table></div>
+		<hr>
+		<div id="payment" style="margin-right:15px;">
 				<table>
-				<tr><td colspan="12"><hr/></td></tr>
+				<tr><td colspan="12" style="color:white;"><hr/></td></tr>
 				<tr>
 					<td align="left" style="color: yellow ;font-size: 12px;"><?php echo 'Item : '.$totItem.' record(s)';?></td>
 					<td colspan="3" align="left" style="color: yellow ;font-size: 15px;font-style: italic;">Untuk update QTY,DISC, silahkan isi angka kemudian tekan ENTER
@@ -775,10 +765,12 @@ $totItem=0;
 					<td colspan="11" align="right" class="auto-style3" hidden><input type="text" name="gtotal"  style="text-align:right;width: 180px;background-color: #AED6F1;font-size:28px;" value="<?php echo number_format($grandtotal); ?>" readonly hidden></td>
 				</tr>
 				
-					<?php 
+					
+				<?php 
+					if(isset($_POST['byrsubmit'])){
 						if (isset($_POST['bayar'])){
 							if ($_POST['bayar']<$grandtotal){
-								$_SESSION['bayar']='';
+								$_SESSION['bayar']=0;
 							}
 
 							if($_POST['bayar']>=$grandtotal){
@@ -788,21 +780,94 @@ $totItem=0;
 							$_SESSION['kembali']=$kembali;
 							}
 						}
+					}
 					?>
-				<form method="post" action="">
-				<tr>
-					<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;">BAYAR</td>
-					<td align="right" class="auto-style3" style=""><input type="text" name="bayar"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo ($_SESSION['bayar']); ?>" /></td>
-				</tr>
-				</form>
 				
-				<tr>
-					<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
-					<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
-					</td>
-				</tr>
+
+					<form method="post" action="">
+						<tr>
+							<td align="left" colspan="8" class="auto-style3" >
+							<input type="text" value="REGULER" style="text-decoration:none;font-size:32px;border:none;background-color:black;color:#8eecf5;" readonly></td>
+							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
+							<td align="right" class="auto-style3" style="">
+								<input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo number_format($_SESSION['bayar']); ?>" />
+								<input type="submit" name="byrsubmit" value="submit" hidden/>
+							</td>
+						</tr>
+					</form>
+				
+						<tr>
+							<td align="left" class="auto-style3" style="font-size: 16px;color:white;padding-left:15px;">
+								
+  									
+									  
+								
+							</td>
+							<td align="left" colspan="7" class="auto-style3" style="font-size: 16px;color:white;">
+							
+								
+							</td>
+							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
+							<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
+							</td>
+						</tr>
+		</div>
+		
 </tbody>
 </table>
+<div class="modal fade" id="SummaryModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h1 class="modal-title" id="h1-2">Summary</h1>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div id="messagesummary" class="alert alert-danger"></div>
+						</div>
+					</div>
+
+					<div id="TableSummary"></div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div id="payme">Pay : <input type="text" class="input input-sm" id="txtpayment" style="text-align:right;margin-left:27px;width:164px;"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div id="mychange">Change : <input type="text" class="input input-sm" id="txtchange" style="text-align:right;margin-top:5px;width:164px;" readonly></div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div id="divdate">Days:
+								<input type="text" class="input input-sm" id="txtdays" style="text-align:right;margin-left:59px;width:164px;">&nbsp;&nbsp;<label style="font-size:12px;color:red;font-style:italic;">After typing press ENTER</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div id="divdate1">Due Date:
+								<input type="date" class="input input-sm" id="txtdate" style="text-align:right;margin-left:27px;width:164px; margin-top:5px;" readonly>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="btnsavedata">Save</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
 
   <?php
 }
@@ -859,23 +924,21 @@ $totItem=0;
                	echo '<td ><input type="submit"   name="addtolist" style="text-align: center;background-color:#1F618D;padding:12px 5px;" value="Add to cart"/></td>';
                	echo '</tr></form>';
                 }
-                 
-
               echo '</table>';
               $total=0;
               $stmt=null;
-	
-            	
+	     	
     }           
 ?>
-
+	
 </body>
+
  <!--<div id="mybutton" ><img src="/img/logo/doremi.jpg" width="180px" height="86px"></div>!-->
 </html>
+
 <?php
 
 }else { 
 	echo 'Process cannot continue, please <a href="slogin.php">Login </a>';
 }
 ?>
- 
