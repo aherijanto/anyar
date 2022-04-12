@@ -259,7 +259,7 @@ if(!empty($_GET["action"])) {
                 		$total = $stmt->rowCount();
                 		$row = $stmt->fetchObject();
 						$_SESSION["bayar"]=0;
-			$_SESSION["kembali"]=0;
+						$_SESSION["kembali"]=0;
                			if ($total > 0){
                				$mycode=$row->i_barcode;
                				$myqty=$row->i_qty;
