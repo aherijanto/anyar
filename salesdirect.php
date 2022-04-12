@@ -115,11 +115,157 @@ if(!empty($_GET["action"])) {
 			$_SESSION["bayar"]=0;
 			$_SESSION["kembali"]=0;
 			$_SESSION['selectpromo']='nonpromo';
+			$_SESSION['typesell']="reguler";
 			$total=0;
 			$stmt=0;
 			$_SESSION['lblgrand']=0;
 			break;
-	
+		
+		case 'changetype':
+			if(isset($_POST['typesell'])){
+				include ('class/_parkerconnection.php');
+				$_SESSION['typesell'] = $_POST['typesell'];
+				$mytypeSales = $_SESSION['typesell'];
+				
+				if($mytypeSales=="reguler"){
+					if(isset($_SESSION['cart_item'])){
+						foreach ($_SESSION["cart_item"] as $key => &$val) {
+							$plucode = $_SESSION["cart_item"][$key]['code'];
+							try {
+								$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+								$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
+								$stmtMF = $pdo->prepare($sqlMF);
+								$stmtMF->execute();
+								$totalMF = $stmtMF->rowCount();
+								$rowMF = $stmtMF->fetchObject();
+							} catch(PDOException $e) {
+								echo $e->getMessage();
+							}
+							$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
+								if (($mysessionqty == 1) || ($mysessionqty < 3)){
+									$mysell=$rowMF->i_sell;
+									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								}
+								if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+									$mysell = $rowMF->i_sell2;
+									if ($mysell == 0){
+										$mysell = $rowMF->i_sell;
+										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+									}else{
+										$mysell = $rowMF->i_sell2;
+										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+									}
+								}
+		
+								if ($mysessionqty >= 6){
+									$mysell = $rowMF->i_sell3;
+									if ($mysell == 0){
+										$mysell = $rowMF->i_sell2;
+										if($mysell==0){
+											$mysell = $rowMF->i_sell;
+										}
+										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+									}else{
+										$mysell = $rowMF->i_sell3;
+										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+									}
+								}			
+						}
+					}
+				}
+
+				if($mytypeSales=="grocier"){
+					if(isset($_SESSION['cart_item'])){
+						foreach ($_SESSION["cart_item"] as $key => &$val) {
+							$plucode = $_SESSION["cart_item"][$key]['code'];
+							try {
+								$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+								$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
+								$stmtMF = $pdo->prepare($sqlMF);
+								$stmtMF->execute();
+								$totalMF = $stmtMF->rowCount();
+								$rowMF = $stmtMF->fetchObject();
+							} catch(PDOException $e) {
+								echo $e->getMessage();
+							}
+						
+							$mysell = $rowMF->i_sell4;
+							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+						}
+					}
+		
+				}
+			}
+			break;
+		
+		case "grocier":
+			include ('class/_parkerconnection.php');
+			if(isset($_SESSION['cart_item'])){
+				foreach ($_SESSION["cart_item"] as $key => &$val) {
+					$plucode = $_SESSION["cart_item"][$key]['code'];
+					try {
+						$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+						$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
+						$stmtMF = $pdo->prepare($sqlMF);
+						$stmtMF->execute();
+						$totalMF = $stmtMF->rowCount();
+						$rowMF = $stmtMF->fetchObject();
+					} catch(PDOException $e) {
+						echo $e->getMessage();
+					}
+				
+					$mysell = $rowMF->i_sell4;
+					$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+				}
+			}
+			break;
+		
+		case "reguler":
+			include ('class/_parkerconnection.php');
+			if(isset($_SESSION['cart_item'])){
+				foreach ($_SESSION["cart_item"] as $key => &$val) {
+					$plucode = $_SESSION["cart_item"][$key]['code'];
+					try {
+						$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+						$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
+						$stmtMF = $pdo->prepare($sqlMF);
+						$stmtMF->execute();
+						$totalMF = $stmtMF->rowCount();
+						$rowMF = $stmtMF->fetchObject();
+					} catch(PDOException $e) {
+						echo $e->getMessage();
+					}
+					$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
+						if (($mysessionqty == 1) || ($mysessionqty < 3)){
+							$mysell=$rowMF->i_sell;
+							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+						}
+						if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+							$mysell = $rowMF->i_sell2;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell2;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}
+						}
+
+						if ($mysessionqty >= 6){
+							$mysell = $rowMF->i_sell3;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell2;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell3;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}
+						}
+					
+				}
+			}
+			break;
+
 		case "addname":		
 			if (isset($_POST['addtolist']))
 			{
@@ -153,32 +299,42 @@ if(!empty($_GET["action"])) {
 					echo $e->getMessage();
 				}
 				$mysessionqty = $_POST["qty"];
-				if (($mysessionqty == 1) || ($mysessionqty < 3)){
-					$mycogs=$rowMF->i_sell;
-				}
 
-				if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-					$mycogs = $rowMF->i_sell2;
-					if ($mycogs == 0){
-						$mycogs = $rowMF->i_sell;
-						
-					}else{
+				if($_SESSION['typesell']=="reguler"){
+					if (($mysessionqty == 1) || ($mysessionqty < 3)){
+						$mycogs=$rowMF->i_sell;
+					}
+
+					if (($mysessionqty >= 3) && ($mysessionqty < 6)){
 						$mycogs = $rowMF->i_sell2;
+						if ($mycogs == 0){
+							$mycogs = $rowMF->i_sell;
+						
+						}else{
+							$mycogs = $rowMF->i_sell2;
+						}
+					}
+
+					if ($mysessionqty >= 6){
+						$mycogs = $rowMF->i_sell3;
+						if ($mycogs == 0){
+							$mycogs = $rowMF->i_sell2;
+							if($mycogs==0){
+								$mycogs = $rowMF->i_sell;
+							}
+						}else{
+							$mycogs = $rowMF->i_sell3;
+						}
 					}
 				}
 
-				if ($mysessionqty >= 6){
-					$mycogs = $rowMF->i_sell3;
-					if ($mycogs == 0){
-						$mycogs = $rowMF->i_sell4;
-					}else{
-						$mycogs = $rowMF->i_sell3;
-					}
+				if($_SESSION['typesell']=="grocier"){
+					$mycogs = $rowMF->i_sell4;
 				}
-				$_SESSION["bayar"]=0;
-			$_SESSION["kembali"]=0;
-				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
-				if(!empty($_SESSION["cart_item"])){
+					$_SESSION["bayar"]=0;
+					$_SESSION["kembali"]=0;
+					$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
+					if(!empty($_SESSION["cart_item"])){
 					$itemcheck=$_SESSION['cart_item'];
 					if(in_array($itemcode1, array_column($itemcheck, 'code'))) {
     					$itemCheckSession = $_SESSION['cart_item'];
@@ -186,32 +342,43 @@ if(!empty($_GET["action"])) {
 							if($itemcode1 == $_SESSION["cart_item"][$key]["code"]){
 								$_SESSION["cart_item"][$key]['qty']=$_POST['qty'] ;
 								$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-								if (($mysessionqty == 1) || ($mysessionqty < 3)){
-									$mycogs=$rowMF->i_sell;
-									$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-								}
-
-								if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-									$mycogs = $rowMF->i_sell2;
-									if ($mycogs == 0){
-										$mycogs = $rowMF->i_sell;
+								
+								if($_SESSION['typesell']=="reguler"){
+									if (($mysessionqty == 1) || ($mysessionqty < 3)){
+										$mycogs=$rowMF->i_sell;
 										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-						
-									}else{
+									}
+
+									if (($mysessionqty >= 3) && ($mysessionqty < 6)){
 										$mycogs = $rowMF->i_sell2;
-										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+										if ($mycogs == 0){
+											$mycogs = $rowMF->i_sell;
+											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+						
+										}else{
+											$mycogs = $rowMF->i_sell2;
+											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+										}
+									}
+
+									if ($mysessionqty >= 6){
+										$mycogs = $rowMF->i_sell3;
+										if ($mycogs == 0){
+											$mycogs = $rowMF->i_sell2;
+											if($mycogs==0){
+												$mycogs = $rowMF->i_sell;
+											}
+											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+										}else{
+											$mycogs = $rowMF->i_sell3;
+											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+										}
 									}
 								}
 
-								if ($mysessionqty >= 6){
-									$mycogs = $rowMF->i_sell3;
-									if ($mycogs == 0){
-										$mycogs = $rowMF->i_sell4;
-										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-									}else{
-										$mycogs = $rowMF->i_sell3;
-										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-									}
+								if($_SESSION['typesell']=="grocier"){
+									$mycogs = $rowMF->i_sell4;
+									$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
 								}
 							}
 						}									
@@ -267,38 +434,64 @@ if(!empty($_GET["action"])) {
                				$myarticle=$row->i_article;
                				$itemname=$row->i_name;
                				$iwarna=$row->i_color;
+
+							   
+							
+							if($_SESSION['typesell']=="reguler"){
+									$mysell=$row->i_sell;
+							}
+
+							if($_SESSION['typesell']=="grocier"){
+								$mysell = $row->i_sell4;
+							}
+							
+
                				$itemArray = array($mycode=>array('code'=>$mycode,'name'=>$itemname, 'artikel'=>$myarticle,'warna'=>$iwarna,'qty'=>1,'cogs'=>$mysell,'disc1'=>$discPromo,'disc2'=>0,'disc3'=>0));
-               				if(!empty($_SESSION["cart_item"])){
+               				
+							
+							   if(!empty($_SESSION["cart_item"])){
 								$itemCheckSession = $_SESSION['cart_item'];
 								if(in_array($mycode, array_column($itemCheckSession, 'code'))) {
 									foreach ($_SESSION["cart_item"] as $key => $val) {
 										if($mycode == $_SESSION["cart_item"][$key]["code"]){
 											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
 											$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-											if (($mysessionqty == 1) || ($mysessionqty < 3)){
-												$mysell=$row->i_sell;
-												$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-											}
-											if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-												$mysell = $row->i_sell2;
-												if ($mysell == 0){
-													$mysell = $row->i_sell;
+											
+											if($_SESSION['typesell']=="reguler"){
+												if (($mysessionqty == 1) || ($mysessionqty < 3)){
+													$mysell=$row->i_sell;
 													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-												}else{
+												}
+												if (($mysessionqty >= 3) && ($mysessionqty < 6)){
 													$mysell = $row->i_sell2;
-													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+													if ($mysell == 0){
+														$mysell = $row->i_sell;
+														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+													}else{
+														$mysell = $row->i_sell2;
+														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+													}
+												}
+
+												if ($mysessionqty >= 6){
+													$mysell = $row->i_sell3;
+													if ($mysell == 0){
+														$mysell = $row->i_sell2;
+														if($mysell==0){
+															$mysell = $rowMF->i_sell;
+														}
+														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+													}else{
+														$mysell = $row->i_sell3;
+														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+													}
 												}
 											}
 
-											if ($mysessionqty >= 6){
-												$mysell = $row->i_sell3;
-												if ($mysell == 0){
-													$mysell = $row->i_sell4;
-													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-												}else{
-													$mysell = $row->i_sell3;
-													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-												}
+											if($_SESSION['typesell']=="grocier"){
+												
+												$mysell = $row->i_sell4;
+												$_SESSION["cart_item"][$key]['cogs'] = $mysell;
 											}
 										}
 									}									
@@ -344,30 +537,40 @@ if(!empty($_GET["action"])) {
 						$_SESSION["cart_item"][$key]['disc2'] = $_POST['xdisc2'];
 						$_SESSION["cart_item"][$key]['disc3'] = $_POST['xdisc3'];
 						$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-						if (($mysessionqty == 1) || ($mysessionqty < 3)){
-							$mysell=$rowMF->i_sell;
-							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-						}
-						if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-							$mysell = $rowMF->i_sell2;
-							if ($mysell == 0){
-								$mysell = $rowMF->i_sell;
+						if($_SESSION['typesell']=="reguler"){
+							if (($mysessionqty == 1) || ($mysessionqty < 3)){
+								$mysell=$rowMF->i_sell;
 								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}else{
+							}
+							if (($mysessionqty >= 3) && ($mysessionqty < 6)){
 								$mysell = $rowMF->i_sell2;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								if ($mysell == 0){
+									$mysell = $rowMF->i_sell;
+									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								}else{
+									$mysell = $rowMF->i_sell2;
+									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								}
+							}
+
+							if ($mysessionqty >= 6){
+								$mysell = $rowMF->i_sell3;
+								if ($mysell == 0){
+									$mysell = $rowMF->i_sell2;
+									if($mysell==0){
+										$mysell = $rowMF->i_sell;
+									}
+									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								}else{
+									$mysell = $rowMF->i_sell3;
+									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+								}
 							}
 						}
-
-						if ($mysessionqty >= 6){
-							$mysell = $rowMF->i_sell3;
-							if ($mysell == 0){
-								$mysell = $rowMF->i_sell4;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}else{
-								$mysell = $rowMF->i_sell3;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}
+						
+						if($_SESSION['typesell']=="grocier"){
+							$mysell = $rowMF->i_sell4;
+							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
 						}
 					} 	
            			 // Add this
@@ -446,9 +649,9 @@ if(!empty($_GET["action"])) {
 		$_SESSION["bayar"]=0;
 		$_SESSION["kembali"]=0;
 		$_SESSION['lblgrand']=0;
+		$_SESSION['typesell']="reguler";
 		break;
 	}
-
 }
 ?>
 
@@ -540,7 +743,7 @@ img.sticky {
 	  background-color:#fdffb6;
 	  font-size:24px;
   }
-}
+
 </style>
 
 <style>
@@ -558,10 +761,10 @@ img.sticky {
                max-height: 100px;
                
                filter: contrast(70%);
-               //filter: saturate(180%);
+               
                overflow: hidden;
                position: relative;
-               transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+               transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);
                &::before {
                  content: "";
              	  display: block;
@@ -667,8 +870,16 @@ img.sticky {
 					<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
 				</td>
 			</form>
-
-			<td align="right" class="txt-heading">
+			<td align="center">
+				<form action="salesdirect.php?action=changetype" method="post">
+					<label id="lbltypesell" style="font-size:28px;font-weight:bold;color:#0aefff;padding-right:20px;"> <?php echo strtoupper($_SESSION['typesell']); ?> </label>
+					<select name="typesell" onchange="this.form.submit();" style="width:150px;height:40px;font-size:18px;">
+						<option value="reguler" <?php if($_SESSION['typesell']=="reguler" ): ?>  selected="selected" <?php endif;?>>REGULER</option>
+						<option value="grocier" <?php if($_SESSION['typesell']=="grocier" ): ?>  selected="selected" <?php endif;?>>GROCIER</option>
+					</select>
+				</form>
+			</td>
+				<td align="right" class="txt-heading">
 				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
 				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
 				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
@@ -782,14 +993,12 @@ img.sticky {
 						}
 					}
 					?>
-				
-
 					<form method="post" action="">
 						<tr>
 							<td align="left" colspan="8" class="auto-style3" >
-							<input type="text" value="REGULER" style="text-decoration:none;font-size:32px;border:none;background-color:black;color:#8eecf5;" readonly></td>
+							</td>
 							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
-							<td align="right" class="auto-style3" style="">
+							<td align="right" class="auto-style3">
 								<input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo number_format($_SESSION['bayar']); ?>" />
 								<input type="submit" name="byrsubmit" value="submit" hidden/>
 							</td>
@@ -798,14 +1007,9 @@ img.sticky {
 				
 						<tr>
 							<td align="left" class="auto-style3" style="font-size: 16px;color:white;padding-left:15px;">
-								
-  									
-									  
-								
+							
 							</td>
 							<td align="left" colspan="7" class="auto-style3" style="font-size: 16px;color:white;">
-							
-								
 							</td>
 							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
 							<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
