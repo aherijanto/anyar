@@ -980,7 +980,7 @@ img.sticky {
 						if (isset($_POST['bayar'])){
 							$bayarvar = $_POST['bayar'];
 							
-							$a = (int) str_replace([',', ''], ['', '.'], $bayarvar);
+							$a = (int) str_replace(['.', ''], [',', '.'], $bayarvar);
 							if ($a < $grandtotal){
 								$_SESSION['bayar']=0;
 								$_SESSION['kembali']=0;
