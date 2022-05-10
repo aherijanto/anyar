@@ -926,7 +926,7 @@ img.sticky {
 			$nourut++;
 	?>
 		
-		<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post">
+		<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post" id="form-product">
 			<tr>
 				<td class="auto-style3" style="width:2%;"><?php echo $nourut;?></td>
 				<td class="auto-style3" style="width:10%;"><strong><?php echo $item["code"]; ?></strong>
@@ -936,7 +936,7 @@ img.sticky {
 				<td align="center" class="auto-style3" style="width:5%;" ><?php echo $item["artikel"]; ?></td>
 				<td align="center" class="auto-style3" style="width:5%;"><?php echo $item["warna"]; ?></td>
 				<td align="center" class="auto-style3" style="width:5%;">
-					<input type="text" name="xqty" id="xqty" value="<?php echo $item['qty'] ?>" style="width:50px;text-align: center;font-size: 12px;">
+					<input type="text" class="mf" name="xqty" id="xqty" value="<?php echo $item['qty'] ?>" style="width:50px;text-align: center;font-size: 12px;">
 				</td>
 		
 				<td align="right" class="auto-style3" style="width:8%;"><?php echo "Rp. ".number_format($item["cogs"]); ?></td>
@@ -1161,13 +1161,20 @@ $(document).ready(function(){
         	$("#bayar").focus().select();
     	}
 	});
+
+	$(document).on("keydown", function(e) {
+    	if (e.key === "F11" && e.shiftKey) {
+			
+        	e.preventDefault();
+			var ele = document.querySelectorAll('#xqty');
+			ele[ele.length - 1].focus();
+			ele[ele.length - 1].select();
+    	}
+	});
 	
     $("#bayar").on("keyup", function () {
-		
     	var n = parseInt($(this).val().replace(/\D/g,''),10);
     	$(this).val(n.toLocaleString());
-	
-		
     });  
 });  
 </script>  
