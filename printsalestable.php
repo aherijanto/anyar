@@ -28,7 +28,8 @@
 
 <?php
 session_start();
-ob_start();
+error_reporting(E_ALL);
+ini_set("display_errors","On");
 $_SESSION['reports']='0';
 $myinvno1=$_GET['invno'];
 
@@ -38,22 +39,22 @@ $payme=0;
 $changeme=0;
 
 $conn3=mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_anyar');
-$sqlcompany="SELECT * FROM wcompany;";
-$showcompany= mysqli_query($conn3,$sqlcompany) or die(mysql_error());
-$rowcompany = mysqli_fetch_array($showcompany);
-$name = $rowcompany['name'];
-$addr1 = $rowcompany['address1'];
-$addr2 = $rowcompany['address2'];
-$city = $rowcompany['city'];
-$phone = $rowcompany['phone'];
+//$sqlcompany="SELECT * FROM wcompany;";
+//$showcompany= mysqli_query($conn3,$sqlcompany);
+//$rowcompany = mysqli_fetch_array($showcompany);
+//$name = $rowcompany['name'];
+//$addr1 = $rowcompany['address1'];
+//$addr2 = $rowcompany['address2'];
+//$city = $rowcompany['city'];
+//$phone = $rowcompany['phone'];
 //mysqli_select_db('inventory');
 
 echo '<table width="100%">';
-echo '<tr><td colspan="2" class="headerbtm" align="center" >'.$name.'</td></tr>';
-echo '<tr><td colspan="2" class="headerbtm" align="center" >'.$addr1.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$addr2.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$city.'</td></tr>';
-echo '<tr><td colspan="2" align="center" class="headerbtm">'.$phone.'</td></tr>';
+echo '<tr><td colspan="2" class="headerbtm" align="center" >ANYAR SWALAYAN</td></tr>';
+echo '<tr><td colspan="2" class="headerbtm" align="center" >TELP : 0283 - 3466287</td></tr>';
+echo '<tr><td colspan="2" align="center" class="headerbtm">MARGASARI </td></tr>';
+//echo '<tr><td colspan="2" align="center" class="headerbtm">'.$city.'</td></tr>';
+//echo '<tr><td colspan="2" align="center" class="headerbtm">'.$phone.'</td></tr>';
 //echo '<tr><td colspan="2" class="headerbtm" align="center">'.$myinvno1.'</td></tr>';
 echo '<tr><td class="headerbtm" align="left">'.date('d-m-Y').'</td>';
 date_default_timezone_set("Asia/Jakarta");
@@ -141,8 +142,6 @@ $_SESSION['change']=0;
 unset($_SESSION['bayar']);
 unset($_SESSION['kembali']);
 ?>
-
-
 
 </html>
 

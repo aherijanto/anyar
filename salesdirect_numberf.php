@@ -500,13 +500,7 @@ if(!empty($_GET["action"])) {
 								$_SESSION["cart_item"] = $itemArray;
 							}	
                			}else{
-							echo "total not found barcode";
 						   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
-							$_SESSION['namesubmit']="ok";
-							$_POST['namesubmit']=$_SESSION['namesubmit'];
-							$_SESSION['itemname']=$i_code;
-							$_POST['itemname'] = $_SESSION['itemname'];
-						   header('Location:salesdirect.php?action=search');
 						}
 							   //echo '<script> alert("Barcode Tidak Ditemukan");</script>';
 					
@@ -866,12 +860,12 @@ img.sticky {
 	
 	<table>
 		<tr>		
-			<!-- <form method="post" action="salesdirect.php?action=search">
+			<form method="post" action="salesdirect.php?action=search">
 				<td align="left">
 					<input name="itemname" type="text" align="center" id="itemname">
 					<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
 				</td>
-			</form> -->
+			</form>
 			<td align="center">
 				<form action="salesdirect.php?action=changetype" method="post">
 					<label id="lbltypesell" style="font-size:28px;font-weight:bold;color:#0aefff;padding-right:20px;"> <?php echo strtoupper($_SESSION['typesell']); ?> </label>
@@ -986,7 +980,7 @@ img.sticky {
 						if (isset($_POST['bayar'])){
 							$bayarvar = $_POST['bayar'];
 							
-							$a = (int) str_replace([',', ''], ['', '.'], $bayarvar);
+							$a = (int) str_replace(['.', ''], [',', '.'], $bayarvar);
 							if ($a < $grandtotal){
 								$_SESSION['bayar']=0;
 								$_SESSION['kembali']=0;
@@ -1088,10 +1082,9 @@ img.sticky {
 
 <?php
 	if ($_GET['action']=='search'){
-		
-       	if (isset($_SESSION['namesubmit']))
+       	if (isset($_POST['namesubmit']))
         {    
-            $i_name=(string)$_SESSION['itemname'];
+            $i_name=(string)$_POST['itemname'];
             
             //$mname= '%'.$i_name.'%';
 			include ('class/_parkerconnection.php');
@@ -1125,7 +1118,7 @@ img.sticky {
                $iwarna=$row->i_color;
               	echo '<tr><form method="post" action="salesdirect.php?action=addname">'; 
                 echo '<td width="100px" class="auto-style3" >'.$mycode.'</td><input type="hidden" name="code" value="'.$mycode.'" />';
-                echo '<td width="250px" class="auto-style3" style="margin-left:15px;padding-left:25px;" >'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
+                echo '<td width="150px" class="auto-style3" >'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
                 echo '<td width="150px" class="auto-style3" >'.$myarticle.'</td><input type="hidden" name="iartikel" value="'.$myarticle.'" />';
                 echo '<td width="80px" class="auto-style3" >'.$iwarna.'</td><input type="hidden" name="iwarna" value="'.$iwarna.'" />';    
                 echo '<td width="80px" align="center" ><input type="text" name="qty" style="text-align: center;width:80px;" value="1" autofocus="true"></td>';
@@ -1155,18 +1148,12 @@ img.sticky {
 ?>
 <script>
 $(document).ready(function(){  
-	$(document).on("keydown", function(e) {
-    	if (e.key === "F8" && e.shiftKey) {
-        	e.preventDefault();
-        	$("#bayar").focus().select();
-    	}
-	});
-	
     $("#bayar").on("keyup", function () {
 		
-    	var n = parseInt($(this).val().replace(/\D/g,''),10);
-    	$(this).val(n.toLocaleString());
-	
+    var n = parseInt($(this).val().replace(/\D/g,''),10);
+    $(this).val(n.toLocaleString());
+       
+			
 		
     });  
 });  

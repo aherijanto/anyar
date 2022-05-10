@@ -6,7 +6,7 @@
 $dbhost = 'localhost';
 $dbuser = 'mimj5729_myroot';
 $dbpass = 'myroot@@##';
-$dbname = 'mimj5729_utama';
+$dbname = 'mimj5729_anyar';
 $tables = '*';
 
 //Call the core function
@@ -87,7 +87,7 @@ function backup_tables($host, $user, $pass, $dbname, $tables = '*') {
 
     //save file
     //.(md5(implode(',',$tables))).
-    $fileName = 'backup/utama-backup-'.date('YmdHis').'.sql';
+    $fileName = 'anyar-backup-'.date('YmdHis').'.sql';
     $handle = fopen($fileName,'w+');
     fwrite($handle,$return);
     if(fclose($handle)){
