@@ -1,8 +1,6 @@
 <?php
 ob_start();
 session_start();
-// require_once('./assets/requires/config.php');
-// require_once('./assets/requires/header1.php');
 error_reporting(E_ALL);
 ini_set("display_errors","On");
 date_default_timezone_set("Asia/Bangkok");
@@ -14,8 +12,7 @@ include "class/_parkersales.php";
 include "class/_parkerinvent.php";
 //include 'menuhtml.php';
 include 'class/number.php';
- require_once('./assets/requires/config.php');
- require_once('./assets/requires/headersales.php');
+
 $itemcode1="";
 $item_total = 0;
 
@@ -112,160 +109,14 @@ if(!empty($_GET["action"])) {
 			$_SESSION["xdate"]=date('Y-m-d');			
 			$_SESSION['myinvdrm']=setnoinv();
 			$_SESSION["totalcart"]=0;
-			$_SESSION["bayar"]=0;
+			$_SESSION["bayar"]='';
 			$_SESSION["kembali"]=0;
 			$_SESSION['selectpromo']='nonpromo';
-			$_SESSION['typesell']="reguler";
 			$total=0;
 			$stmt=0;
 			$_SESSION['lblgrand']=0;
 			break;
-		
-		case 'changetype':
-			if(isset($_POST['typesell'])){
-				include ('class/_parkerconnection.php');
-				$_SESSION['typesell'] = $_POST['typesell'];
-				$mytypeSales = $_SESSION['typesell'];
-				
-				if($mytypeSales=="reguler"){
-					if(isset($_SESSION['cart_item'])){
-						foreach ($_SESSION["cart_item"] as $key => &$val) {
-							$plucode = $_SESSION["cart_item"][$key]['code'];
-							try {
-								$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-								$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
-								$stmtMF = $pdo->prepare($sqlMF);
-								$stmtMF->execute();
-								$totalMF = $stmtMF->rowCount();
-								$rowMF = $stmtMF->fetchObject();
-							} catch(PDOException $e) {
-								echo $e->getMessage();
-							}
-							$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-								if (($mysessionqty == 1) || ($mysessionqty < 3)){
-									$mysell=$rowMF->i_sell;
-									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-								}
-								if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-									$mysell = $rowMF->i_sell2;
-									if ($mysell == 0){
-										$mysell = $rowMF->i_sell;
-										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-									}else{
-										$mysell = $rowMF->i_sell2;
-										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-									}
-								}
-		
-								if ($mysessionqty >= 6){
-									$mysell = $rowMF->i_sell3;
-									if ($mysell == 0){
-										$mysell = $rowMF->i_sell2;
-										if($mysell==0){
-											$mysell = $rowMF->i_sell;
-										}
-										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-									}else{
-										$mysell = $rowMF->i_sell3;
-										$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-									}
-								}			
-						}
-					}
-				}
-
-				if($mytypeSales=="grocier"){
-					if(isset($_SESSION['cart_item'])){
-						foreach ($_SESSION["cart_item"] as $key => &$val) {
-							$plucode = $_SESSION["cart_item"][$key]['code'];
-							try {
-								$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-								$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
-								$stmtMF = $pdo->prepare($sqlMF);
-								$stmtMF->execute();
-								$totalMF = $stmtMF->rowCount();
-								$rowMF = $stmtMF->fetchObject();
-							} catch(PDOException $e) {
-								echo $e->getMessage();
-							}
-						
-							$mysell = $rowMF->i_sell4;
-							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-						}
-					}
-		
-				}
-			}
-			break;
-		
-		case "grocier":
-			include ('class/_parkerconnection.php');
-			if(isset($_SESSION['cart_item'])){
-				foreach ($_SESSION["cart_item"] as $key => &$val) {
-					$plucode = $_SESSION["cart_item"][$key]['code'];
-					try {
-						$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-						$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
-						$stmtMF = $pdo->prepare($sqlMF);
-						$stmtMF->execute();
-						$totalMF = $stmtMF->rowCount();
-						$rowMF = $stmtMF->fetchObject();
-					} catch(PDOException $e) {
-						echo $e->getMessage();
-					}
-				
-					$mysell = $rowMF->i_sell4;
-					$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-				}
-			}
-			break;
-		
-		case "reguler":
-			include ('class/_parkerconnection.php');
-			if(isset($_SESSION['cart_item'])){
-				foreach ($_SESSION["cart_item"] as $key => &$val) {
-					$plucode = $_SESSION["cart_item"][$key]['code'];
-					try {
-						$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-						$sqlMF = "SELECT * FROM winventory WHERE i_barcode = '$plucode'";
-						$stmtMF = $pdo->prepare($sqlMF);
-						$stmtMF->execute();
-						$totalMF = $stmtMF->rowCount();
-						$rowMF = $stmtMF->fetchObject();
-					} catch(PDOException $e) {
-						echo $e->getMessage();
-					}
-					$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-						if (($mysessionqty == 1) || ($mysessionqty < 3)){
-							$mysell=$rowMF->i_sell;
-							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-						}
-						if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-							$mysell = $rowMF->i_sell2;
-							if ($mysell == 0){
-								$mysell = $rowMF->i_sell;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}else{
-								$mysell = $rowMF->i_sell2;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}
-						}
-
-						if ($mysessionqty >= 6){
-							$mysell = $rowMF->i_sell3;
-							if ($mysell == 0){
-								$mysell = $rowMF->i_sell2;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}else{
-								$mysell = $rowMF->i_sell3;
-								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-							}
-						}
-					
-				}
-			}
-			break;
-
+	
 		case "addname":		
 			if (isset($_POST['addtolist']))
 			{
@@ -285,7 +136,9 @@ if(!empty($_GET["action"])) {
 				if ($disc3=='') {
 					$disc3=0;
 				}
-							
+		
+				
+									
 				$mycodetr = $_POST['code'];
 				include ('class/_parkerconnection.php');
 				try {
@@ -299,42 +152,31 @@ if(!empty($_GET["action"])) {
 					echo $e->getMessage();
 				}
 				$mysessionqty = $_POST["qty"];
+				if (($mysessionqty == 1) || ($mysessionqty < 3)){
+					$mycogs=$rowMF->i_sell;
+				}
 
-				if($_SESSION['typesell']=="reguler"){
-					if (($mysessionqty == 1) || ($mysessionqty < 3)){
-						$mycogs=$rowMF->i_sell;
-					}
-
-					if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-						$mycogs = $rowMF->i_sell2;
-						if ($mycogs == 0){
-							$mycogs = $rowMF->i_sell;
+				if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+					$mycogs = $rowMF->i_sell2;
+					if ($mycogs == 0){
+						$mycogs = $rowMF->i_sell;
 						
-						}else{
-							$mycogs = $rowMF->i_sell2;
-						}
+					}else{
+						$mycogs = $rowMF->i_sell2;
 					}
+				}
 
-					if ($mysessionqty >= 6){
+				if ($mysessionqty >= 6){
+					$mycogs = $rowMF->i_sell3;
+					if ($mycogs == 0){
+						$mycogs = $rowMF->i_sell4;
+					}else{
 						$mycogs = $rowMF->i_sell3;
-						if ($mycogs == 0){
-							$mycogs = $rowMF->i_sell2;
-							if($mycogs==0){
-								$mycogs = $rowMF->i_sell;
-							}
-						}else{
-							$mycogs = $rowMF->i_sell3;
-						}
 					}
 				}
 
-				if($_SESSION['typesell']=="grocier"){
-					$mycogs = $rowMF->i_sell4;
-				}
-					$_SESSION["bayar"]=0;
-					$_SESSION["kembali"]=0;
-					$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
-					if(!empty($_SESSION["cart_item"])){
+				$itemArray = array($itemcode1=>array('code'=>$_POST["code"],'name'=>$_POST['itemname'], 'artikel'=>$_POST['iartikel'],'warna'=>$_POST['iwarna'],'qty'=>$_POST["qty"],'cogs'=>$mycogs,'disc1'=>$disc1,'disc2'=>$disc2,'disc3'=>$disc3));		
+				if(!empty($_SESSION["cart_item"])){
 					$itemcheck=$_SESSION['cart_item'];
 					if(in_array($itemcode1, array_column($itemcheck, 'code'))) {
     					$itemCheckSession = $_SESSION['cart_item'];
@@ -342,43 +184,32 @@ if(!empty($_GET["action"])) {
 							if($itemcode1 == $_SESSION["cart_item"][$key]["code"]){
 								$_SESSION["cart_item"][$key]['qty']=$_POST['qty'] ;
 								$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-								
-								if($_SESSION['typesell']=="reguler"){
-									if (($mysessionqty == 1) || ($mysessionqty < 3)){
-										$mycogs=$rowMF->i_sell;
+								if (($mysessionqty == 1) || ($mysessionqty < 3)){
+									$mycogs=$rowMF->i_sell;
+									$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+								}
+
+								if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+									$mycogs = $rowMF->i_sell2;
+									if ($mycogs == 0){
+										$mycogs = $rowMF->i_sell;
 										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-									}
-
-									if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-										$mycogs = $rowMF->i_sell2;
-										if ($mycogs == 0){
-											$mycogs = $rowMF->i_sell;
-											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
 						
-										}else{
-											$mycogs = $rowMF->i_sell2;
-											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-										}
-									}
-
-									if ($mysessionqty >= 6){
-										$mycogs = $rowMF->i_sell3;
-										if ($mycogs == 0){
-											$mycogs = $rowMF->i_sell2;
-											if($mycogs==0){
-												$mycogs = $rowMF->i_sell;
-											}
-											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-										}else{
-											$mycogs = $rowMF->i_sell3;
-											$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
-										}
+									}else{
+										$mycogs = $rowMF->i_sell2;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
 									}
 								}
 
-								if($_SESSION['typesell']=="grocier"){
-									$mycogs = $rowMF->i_sell4;
-									$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+								if ($mysessionqty >= 6){
+									$mycogs = $rowMF->i_sell3;
+									if ($mycogs == 0){
+										$mycogs = $rowMF->i_sell4;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+									}else{
+										$mycogs = $rowMF->i_sell3;
+										$_SESSION["cart_item"][$key]['cogs'] = $mycogs;
+									}
 								}
 							}
 						}									
@@ -425,8 +256,7 @@ if(!empty($_GET["action"])) {
                 		$stmt->execute();
                 		$total = $stmt->rowCount();
                 		$row = $stmt->fetchObject();
-						$_SESSION["bayar"]=0;
-						$_SESSION["kembali"]=0;
+               		
                			if ($total > 0){
                				$mycode=$row->i_barcode;
                				$myqty=$row->i_qty;
@@ -434,61 +264,38 @@ if(!empty($_GET["action"])) {
                				$myarticle=$row->i_article;
                				$itemname=$row->i_name;
                				$iwarna=$row->i_color;
-
-							if($_SESSION['typesell']=="reguler"){
-									$mysell=$row->i_sell;
-							}
-
-							if($_SESSION['typesell']=="grocier"){
-								$mysell = $row->i_sell4;
-							}
-							
-
                				$itemArray = array($mycode=>array('code'=>$mycode,'name'=>$itemname, 'artikel'=>$myarticle,'warna'=>$iwarna,'qty'=>1,'cogs'=>$mysell,'disc1'=>$discPromo,'disc2'=>0,'disc3'=>0));
-               				
-							   if(!empty($_SESSION["cart_item"])){
+               				if(!empty($_SESSION["cart_item"])){
 								$itemCheckSession = $_SESSION['cart_item'];
 								if(in_array($mycode, array_column($itemCheckSession, 'code'))) {
 									foreach ($_SESSION["cart_item"] as $key => $val) {
 										if($mycode == $_SESSION["cart_item"][$key]["code"]){
 											$_SESSION["cart_item"][$key]['qty'] =$_SESSION["cart_item"][$key]['qty']+1 ;
 											$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-											
-											if($_SESSION['typesell']=="reguler"){
-												if (($mysessionqty == 1) || ($mysessionqty < 3)){
-													$mysell=$row->i_sell;
+											if (($mysessionqty == 1) || ($mysessionqty < 3)){
+												$mysell=$row->i_sell;
+												$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+											}
+											if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+												$mysell = $row->i_sell2;
+												if ($mysell == 0){
+													$mysell = $row->i_sell;
 													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-												}
-												if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+												}else{
 													$mysell = $row->i_sell2;
-													if ($mysell == 0){
-														$mysell = $row->i_sell;
-														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-													}else{
-														$mysell = $row->i_sell2;
-														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-													}
-												}
-
-												if ($mysessionqty >= 6){
-													$mysell = $row->i_sell3;
-													if ($mysell == 0){
-														$mysell = $row->i_sell2;
-														if($mysell==0){
-															$mysell = $rowMF->i_sell;
-														}
-														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-													}else{
-														$mysell = $row->i_sell3;
-														$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-													}
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
 												}
 											}
 
-											if($_SESSION['typesell']=="grocier"){
-												
-												$mysell = $row->i_sell4;
-												$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+											if ($mysessionqty >= 6){
+												$mysell = $row->i_sell3;
+												if ($mysell == 0){
+													$mysell = $row->i_sell4;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}else{
+													$mysell = $row->i_sell3;
+													$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+												}
 											}
 										}
 									}									
@@ -500,16 +307,8 @@ if(!empty($_GET["action"])) {
 								$_SESSION["cart_item"] = $itemArray;
 							}	
                			}else{
-							echo "total not found barcode";
-						   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
-							$_SESSION['namesubmit']="ok";
-							$_POST['namesubmit']=$_SESSION['namesubmit'];
-							$_SESSION['itemname']=$i_code;
-							$_POST['itemname'] = $_SESSION['itemname'];
-						   header('Location:salesdirect.php?action=search');
-						}
-							   //echo '<script> alert("Barcode Tidak Ditemukan");</script>';
-					
+							   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
+						   }
             	} catch(PDOException $e) {
                 			echo $e->getMessage();
             		}
@@ -535,47 +334,36 @@ if(!empty($_GET["action"])) {
 						} catch(PDOException $e) {
 							echo $e->getMessage();
 						}
-						$_SESSION["bayar"]=0;
-						$_SESSION["kembali"]=0;
+
 						$_SESSION["cart_item"][$key]['qty'] = $_POST['xqty'];
 						$_SESSION["cart_item"][$key]['disc1'] = $_POST['xdisc1'];
 						$_SESSION["cart_item"][$key]['disc2'] = $_POST['xdisc2'];
 						$_SESSION["cart_item"][$key]['disc3'] = $_POST['xdisc3'];
 						$mysessionqty = $_SESSION["cart_item"][$key]['qty'];
-						if($_SESSION['typesell']=="reguler"){
-							if (($mysessionqty == 1) || ($mysessionqty < 3)){
-								$mysell=$rowMF->i_sell;
+						if (($mysessionqty == 1) || ($mysessionqty < 3)){
+							$mysell=$rowMF->i_sell;
+							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+						}
+						if (($mysessionqty >= 3) && ($mysessionqty < 6)){
+							$mysell = $rowMF->i_sell2;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell2;
 								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
 							}
-							if (($mysessionqty >= 3) && ($mysessionqty < 6)){
-								$mysell = $rowMF->i_sell2;
-								if ($mysell == 0){
-									$mysell = $rowMF->i_sell;
-									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-								}else{
-									$mysell = $rowMF->i_sell2;
-									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-								}
-							}
-
-							if ($mysessionqty >= 6){
-								$mysell = $rowMF->i_sell3;
-								if ($mysell == 0){
-									$mysell = $rowMF->i_sell2;
-									if($mysell==0){
-										$mysell = $rowMF->i_sell;
-									}
-									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-								}else{
-									$mysell = $rowMF->i_sell3;
-									$_SESSION["cart_item"][$key]['cogs'] = $mysell;
-								}
-							}
 						}
-						
-						if($_SESSION['typesell']=="grocier"){
-							$mysell = $rowMF->i_sell4;
-							$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+
+						if ($mysessionqty >= 6){
+							$mysell = $rowMF->i_sell3;
+							if ($mysell == 0){
+								$mysell = $rowMF->i_sell4;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}else{
+								$mysell = $rowMF->i_sell3;
+								$_SESSION["cart_item"][$key]['cogs'] = $mysell;
+							}
 						}
 					} 	
            			 // Add this
@@ -654,18 +442,37 @@ if(!empty($_GET["action"])) {
 		$_SESSION["bayar"]=0;
 		$_SESSION["kembali"]=0;
 		$_SESSION['lblgrand']=0;
-		$_SESSION['typesell']="reguler";
 		break;
 	}
+
 }
 ?>
 
 <html>
  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 	
+<script type="text/javascript">
+function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              $('#blah')
+                  .attr('src', e.target.result)
+                  .width(150)
+                  .height(100);
+          };
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+  
+					
+				
+  </script>
+
 <style type="text/css">
 .auto-style1 {
 	font-family: Calibri;
-	font-size:small;
+	font-size:medium;
 }
 .auto-style2 {
 	border-style: none;
@@ -677,20 +484,20 @@ if(!empty($_GET["action"])) {
 }
 .auto-style3 {
 	font-family: Calibri;
-	font-size: 14px;
+	font-size: 16px;
 	color:white;
 }
 
 table {
     font-family: arial, sans-serif;
-    /*border-collapse: collapse;*/
+    border-collapse: collapse;
     width: 100%;
 }
 
 td, th {
     color:white;
     font-size: 10px;
-    padding: 1px;
+    padding: 10px;
 }
 
 tr:nth-child(even) {
@@ -699,7 +506,7 @@ tr:nth-child(even) {
 
 input[type=text] {
   
-  width:260px;height:30px;
+  width:260px;height:40px;
   box-sizing: border-box;
   border: 1px solid #555;
   outline: none;
@@ -748,7 +555,7 @@ img.sticky {
 	  background-color:#fdffb6;
 	  font-size:24px;
   }
-
+}
 </style>
 
 <style>
@@ -766,10 +573,10 @@ img.sticky {
                max-height: 100px;
                
                filter: contrast(70%);
-               
+               //filter: saturate(180%);
                overflow: hidden;
                position: relative;
-               transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);
+               transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
                &::before {
                  content: "";
              	  display: block;
@@ -833,7 +640,7 @@ img.sticky {
                }
  </style>
 </head>
-<body style="background-color:#0000;" id="mybody">
+<body bgcolor="#00000">
 	<div>
 	<form action="" method="post">
 	<div>
@@ -847,6 +654,9 @@ img.sticky {
 		</table>
 	</div>
 	</form>
+		<br/>
+		<div class="txt-heading" align="right">
+	</div>
 	</div>
 
 <div class="product-item">
@@ -854,7 +664,7 @@ img.sticky {
 		<tr>
 			<form method="post" action="salesdirect.php?action=add">
 				<td>
-					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;height:80px;" id="itemcode" placeholder="..........." autofocus>
+					<input name="itemcode" type="text" style="color:yellow;background-color:black;font-size:60px;width:450px;border:none;padding:0px5px;height:80px;" id="itemcode" placeholder="..........." autofocus>
 					<input type="submit" name="idsubmit" style="background-color: #C0392B;" value="Search ID" hidden>
 				</td>
 			</form>
@@ -862,84 +672,67 @@ img.sticky {
 				<label id="grandtotal" style="color:white;font-size:60px;"><?php echo number_format($_SESSION['lblgrand']);?></label>
 			</td>
 		</tr>
-	</table>
-	
+			</table>
 	<table>
-		<tr>		
-			<!-- <form method="post" action="salesdirect.php?action=search">
-				<td align="left">
-					<input name="itemname" type="text" align="center" id="itemname">
-					<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
-				</td>
-			</form> -->
-			<td align="center">
-				<form action="salesdirect.php?action=changetype" method="post">
-					<label id="lbltypesell" style="font-size:28px;font-weight:bold;color:#0aefff;padding-right:20px;"> <?php echo strtoupper($_SESSION['typesell']); ?> </label>
-					<select name="typesell" onchange="this.form.submit();" style="width:150px;height:40px;font-size:18px;">
-						<option value="reguler" <?php if($_SESSION['typesell']=="reguler" ): ?>  selected="selected" <?php endif;?>>REGULER</option>
-						<option value="grocier" <?php if($_SESSION['typesell']=="grocier" ): ?>  selected="selected" <?php endif;?>>GROCIER</option>
-					</select>
-				</form>
-			</td>
-				<td align="right" class="txt-heading">
-				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
-				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
-				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
-			</td>
-		</tr>
-	</table>
+	
+	<tr>		
+		<form method="post" action="salesdirect.php?action=search">
+		<td align="left">
+			<input name="itemname" type="text" align="center" id="itemname">
+			<input type="submit" name="namesubmit" style="background-color: #B9770E;" value="Search Name" />
+		</td>
+		</form>
+
+		<td align="right" class="txt-heading">
+			<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
+			<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
+			<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
+		</td>
+	</tr>
+</table>
 </div>
 
 <div id="shopping-cart">						
-	<?php
-		if(isset($_SESSION["cart_item"])){
-    		$item_total = 0;
-	?>
-	<div class="table-responsive" >
-		<table class="table" id="tablelist"  cellspacing="1"  style="overflow-y:scroll;height:300px;display:block; max-width: 100%;">
-			<tr style="padding-top:1px;">
-			<thead bgcolor="#228FF5" style="padding-top:1px 1px;">
-				<!-- <tr bgcolor="#228FF5"> -->
-				<th align="center" class="auto-style1">No</th>
-					<th align="center" class="auto-style1" >PLU CODE</th>
-					<th class="auto-style1">PLU NAME</th>
-					<th class="auto-style1">ARTIKEL</th>
-					<th class="auto-style1">WARNA</th>
-					<th class="auto-style1" style="text-align:center;">QTY</th>
-					<th class="auto-style1" style="text-align:right;">HARGA</th>
-					<th class="auto-style1" style="text-align:right;">JUMLAH</th>
-					<th class="auto-style1" style="text-align:center;">DISC %1</th>
-					<th class="auto-style1" style="text-align:center;">DISC %2</th>
-					<th class="auto-style1" style="text-align:center;">DISC Rp</th>
-					<th class="auto-style1" style="text-align:right;">SUBTOTAL</th>
-					<th class="auto-style1" style="text-align:center;">ACTION</th>
-				<!-- </tr> -->
-			</thead>
-		</tr>
-			<tbody>
-		<?php
-		$grandtotal=0;
-		$totItem=0;
-		$nourut = 0;
-    	foreach ($_SESSION["cart_item"] as $item)
-    	{
-			$nourut++;
-	?>
-		
-		<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post">
-			<tr>
-				<td class="auto-style3" style="width:2%;"><?php echo $nourut;?></td>
-				<td class="auto-style3" style="width:10%;"><strong><?php echo $item["code"]; ?></strong>
+<?php
+if(isset($_SESSION["cart_item"])){
+    $item_total = 0;
+?>
+
+<table class="table" id="tablelist" cellpadding="10" cellspacing="1"  style="overflow-y:scroll;height:340px;display:block;width:auto;">
+<tbody>
+<tr bgcolor="#228FF5">
+<th align="center" class="auto-style1"><strong>KODE BARANG</strong></th>
+<th class="auto-style1"><strong>NAMA BARANG</strong></th>
+<th class="auto-style1"><strong>ARTIKEL</strong></th>
+<th class="auto-style1"><strong>WARNA</strong></th>
+<th class="auto-style1"><strong>QTY</strong></th>
+<th class="auto-style1"><strong>HARGA</strong></th>
+<th class="auto-style1"><strong>JUMLAH</strong></th>
+<th class="auto-style1"><strong>DISC %1</strong></th>
+<th class="auto-style1"><strong>DISC %2</strong></th>
+<th class="auto-style1"><strong>DISC Rp</strong></th>
+<th class="auto-style1"><strong>SUBTOTAL</strong></th>
+<th class="auto-style1"><strong>ACTION</strong></th>
+</tr>
+<?php
+$grandtotal=0;
+$totItem=0;
+    foreach ($_SESSION["cart_item"] as $item)
+    {
+		?>
+				<form action="salesdirect.php?action=updatearray&codetr=<?php echo $item["code"]; ?>" method="post">
+				<tr>
+				<td class="auto-style3"><strong><?php echo $item["code"]; ?></strong>
 					<input type="text" name="xcode" value="<?php echo $item['code'] ?>" hidden="true">
 				</td>
-				<td align="left" class="auto-style3" style="width:20%;"><?php echo $item["name"]; ?></td>
-				<td align="center" class="auto-style3" style="width:5%;" ><?php echo $item["artikel"]; ?></td>
-				<td align="center" class="auto-style3" style="width:5%;"><?php echo $item["warna"]; ?></td>
-				<td align="center" class="auto-style3" style="width:5%;">
+				<td align="left" class="auto-style3"><?php echo $item["name"]; ?></td>
+				<td align="left" class="auto-style3"><?php echo $item["artikel"]; ?></td>
+				<td align="left" class="auto-style3"><?php echo $item["warna"]; ?></td>
+				<td align="center" class="auto-style3">
 					<input type="text" name="xqty" id="xqty" value="<?php echo $item['qty'] ?>" style="width:50px;text-align: center;font-size: 12px;">
 				</td>
 		
-				<td align="right" class="auto-style3" style="width:8%;"><?php echo "Rp. ".number_format($item["cogs"]); ?></td>
+				<td align="right" class="auto-style3"><?php echo "Rp. ".number_format($item["cogs"]); ?></td>
 				<?php
 					$mysubtotal= $item["qty"] * $item["cogs"];
 					$totaldisc1 = $mysubtotal*(1-($item['disc1']/100));
@@ -947,20 +740,26 @@ img.sticky {
 					$totaldisc3 = $totaldisc2-$item['disc3'];
         			//$totaldisc3 = $totaldisc2*(1-($item['disc3']/100)); 
 				?>
-				<td align="right" class="auto-style3" style="width:8%;" > <?php echo 'Rp. '.number_format($mysubtotal,0); ?> </td>
-				<td style="width:8%;text-align:center;"><input type="text" name="xdisc1" id="xdisc1" value="<?php echo number_format($item['disc1'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-				<td style="width:8%;text-align:center;" ><input type="text" name="xdisc2" id="xdisc2" value="<?php echo number_format($item['disc2'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-				<td style="width:8%;text-align:center;"><input type="text" name="xdisc3" id="xdisc3" value="<?php echo $item['disc3'] ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
-				<td align="right" class="auto-style3" style="width:2%;"><?php echo number_format($totaldisc3); ?></td>
-				<td align="center" class="auto-style3" style="width:15%;"><a href="/salesdirect.php?action=remove&codetr=<?php echo $item["code"]; ?>" class="auto-style3" style="color:white;background-color:  #8e44ad; border-radius: 5px;text-decoration: none;padding: 10px 5px;margin:5px;">Remove Item</a></td>
-				<input type="submit" name="qtysubmit" value="qtysubmit" hidden="true">	
+				<td align="right" class="auto-style3"> <?php echo 'Rp. '.number_format($mysubtotal,0); ?> </td>
 				
-			</tr>
-		</form>
-		<?php
-        	$totItem++;
-			$grandtotal=$grandtotal+$totaldisc3;
-			$_SESSION['totalcart']=$grandtotal;
+				
+				<td><input type="text" name="xdisc1" id="xdisc1" value="<?php echo number_format($item['disc1'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+				
+				<td><input type="text" name="xdisc2" id="xdisc2" value="<?php echo number_format($item['disc2'],2) ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+
+				<td><input type="text" name="xdisc3" id="xdisc3" value="<?php echo $item['disc3'] ?>" style="width:60px;text-align: center;font-size: 12px;"></td>
+
+				<td align="right" class="auto-style3"><?php echo number_format($totaldisc3); ?></td>
+				<td align="center" class="auto-style3"><a href="/salesdirect.php?action=remove&codetr=<?php echo $item["code"]; ?>" class="auto-style3" style="color:white;background-color:  #8e44ad; border-radius: 5px;text-decoration: none;padding: 10px 5px;margin:5px;">Remove Item</a></td>
+
+				<input type="submit" name="qtysubmit" value="qtysubmit" hidden="true">	
+									
+				</tr>
+				</form>
+				<?php
+        		$totItem++;
+				$grandtotal=$grandtotal+$totaldisc3;
+				$_SESSION['totalcart']=$grandtotal;
 
 		}
 		echo '<script>
@@ -968,11 +767,10 @@ img.sticky {
 				div.scrollTop = div.scrollHeight - div.clientHeight;
 			 </script>';
 		?>
-		</table></div>
-		
-		<div id="payment" style="margin-right:15px;">
+				</table>
+	
 				<table>
-				<!-- <tr><td colspan="12" style="color:white;"><hr/></td></tr> -->
+				<tr><td colspan="12"><hr/></td></tr>
 				<tr>
 					<td align="left" style="color: yellow ;font-size: 12px;"><?php echo 'Item : '.$totItem.' record(s)';?></td>
 					<td colspan="3" align="left" style="color: yellow ;font-size: 15px;font-style: italic;">Untuk update QTY,DISC, silahkan isi angka kemudian tekan ENTER
@@ -980,105 +778,35 @@ img.sticky {
 					<td colspan="11" align="right" class="auto-style3" hidden><input type="text" name="gtotal"  style="text-align:right;width: 180px;background-color: #AED6F1;font-size:28px;" value="<?php echo number_format($grandtotal); ?>" readonly hidden></td>
 				</tr>
 				
-					
-				<?php 
-					if(isset($_POST['byrsubmit'])){
+					<?php 
 						if (isset($_POST['bayar'])){
-							$bayarvar = $_POST['bayar'];
-							
-							$a = (int) str_replace([',', ''], ['', '.'], $bayarvar);
-							if ($a < $grandtotal){
-								$_SESSION['bayar']=0;
-								$_SESSION['kembali']=0;
+							if ($_POST['bayar']<$grandtotal){
+								$_SESSION['bayar']='';
 							}
 
-							if($a>=$grandtotal){
-								$_SESSION['bayar']=$a;
-								$kembali=(int) $_SESSION['bayar']- $grandtotal;
-								$_SESSION['kembali']=$kembali;
+							if($_POST['bayar']>=$grandtotal){
+							
+							$_SESSION['bayar']=$_POST['bayar'];
+							$kembali=$_SESSION['bayar']- $grandtotal;
+							$_SESSION['kembali']=$kembali;
 							}
 						}
-					}
 					?>
-					<form method="post" action="">
-						<tr>
-							<td align="left" colspan="8" class="auto-style3" >
-							</td>
-							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
-							<td align="right" class="auto-style3">
-								<input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo number_format($_SESSION['bayar']); ?>" />
-								<input type="submit" name="byrsubmit" value="submit" hidden/>
-							</td>
-						</tr>
-					</form>
 				
-						<tr>
-							<td align="left" class="auto-style3" style="font-size: 16px;color:white;padding-left:15px;">
-							
-							</td>
-							<td align="left" colspan="7" class="auto-style3" style="font-size: 16px;color:white;">
-							</td>
-							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
-							<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
-							</td>
-						</tr>
-		</div>
-		
+				<form method="post" action="">
+				<tr>
+					<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
+					<td align="right" class="auto-style3" style=""><input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo ($_SESSION['bayar']); ?>" /></td>
+				</tr>
+				</form>
+				
+				<tr>
+					<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
+					<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
+					</td>
+				</tr>
 </tbody>
 </table>
-<div class="modal fade" id="SummaryModal" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-
-				<div class="modal-header">
-					<h1 class="modal-title" id="h1-2">Summary</h1>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="messagesummary" class="alert alert-danger"></div>
-						</div>
-					</div>
-
-					<div id="TableSummary"></div>
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="payme">Pay : <input type="text" class="input input-sm" id="txtpayment" style="text-align:right;margin-left:27px;width:164px;"></div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="mychange">Change : <input type="text" class="input input-sm" id="txtchange" style="text-align:right;margin-top:5px;width:164px;" readonly></div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="divdate">Days:
-								<input type="text" class="input input-sm" id="txtdays" style="text-align:right;margin-left:59px;width:164px;">&nbsp;&nbsp;<label style="font-size:12px;color:red;font-style:italic;">After typing press ENTER</label>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div id="divdate1">Due Date:
-								<input type="date" class="input input-sm" id="txtdate" style="text-align:right;margin-left:27px;width:164px; margin-top:5px;" readonly>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="btnsavedata">Save</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div>
 
   <?php
 }
@@ -1088,10 +816,9 @@ img.sticky {
 
 <?php
 	if ($_GET['action']=='search'){
-		
-       	if (isset($_SESSION['namesubmit']))
+       	if (isset($_POST['namesubmit']))
         {    
-            $i_name=(string)$_SESSION['itemname'];
+            $i_name=(string)$_POST['itemname'];
             
             //$mname= '%'.$i_name.'%';
 			include ('class/_parkerconnection.php');
@@ -1125,7 +852,7 @@ img.sticky {
                $iwarna=$row->i_color;
               	echo '<tr><form method="post" action="salesdirect.php?action=addname">'; 
                 echo '<td width="100px" class="auto-style3" >'.$mycode.'</td><input type="hidden" name="code" value="'.$mycode.'" />';
-                echo '<td width="250px" class="auto-style3" style="margin-left:15px;padding-left:25px;" >'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
+                echo '<td width="150px" class="auto-style3" >'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
                 echo '<td width="150px" class="auto-style3" >'.$myarticle.'</td><input type="hidden" name="iartikel" value="'.$myarticle.'" />';
                 echo '<td width="80px" class="auto-style3" >'.$iwarna.'</td><input type="hidden" name="iwarna" value="'.$iwarna.'" />';    
                 echo '<td width="80px" align="center" ><input type="text" name="qty" style="text-align: center;width:80px;" value="1" autofocus="true"></td>';
@@ -1136,38 +863,23 @@ img.sticky {
                	echo '<td ><input type="submit"   name="addtolist" style="text-align: center;background-color:#1F618D;padding:12px 5px;" value="Add to cart"/></td>';
                	echo '</tr></form>';
                 }
+                 
+
               echo '</table>';
               $total=0;
               $stmt=null;
-	     	
+	
+            	
     }           
 ?>
-	
+
 </body>
-
+ <!--<div id="mybutton" ><img src="/img/logo/doremi.jpg" width="180px" height="86px"></div>!-->
 </html>
-
 <?php
 
 }else { 
 	echo 'Process cannot continue, please <a href="slogin.php">Login </a>';
 }
 ?>
-<script>
-$(document).ready(function(){  
-	$(document).on("keydown", function(e) {
-    	if (e.key === "F8" && e.shiftKey) {
-        	e.preventDefault();
-        	$("#bayar").focus().select();
-    	}
-	});
-	
-    $("#bayar").on("keyup", function () {
-		
-    	var n = parseInt($(this).val().replace(/\D/g,''),10);
-    	$(this).val(n.toLocaleString());
-	
-		
-    });  
-});  
-</script>  
+ 

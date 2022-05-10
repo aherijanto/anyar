@@ -456,7 +456,7 @@ tr:nth-child(even) {
 							//echo $row->c_code;
 							$mycode=$row->s_code;
 				?>
-					<option value="<?php echo $mycode ?>" <?php if( $mycode == $_SESSION['scode'] ): ?>  selected="selected" <?php endif;?>><?php echo $row->s_name ?></option>
+							<option value="<?php echo $mycode ?>" <?php if( $mycode == $_SESSION['scode'] ): ?>  selected="selected" <?php endif;?>><?php echo $row->s_name ?></option>
 				<?php
 					 }
 

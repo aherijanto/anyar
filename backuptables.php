@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @function    backupDatabaseTables
+ * @author      CodexWorld
+ * @link        http://www.codexworld.com
+ * @usage       Backup database tables and save in SQL file
+ 
+ */
 error_reporting(E_ALL);
 ini_set("display_errors", "On");
 function backupDatabaseTables($dbHost, $dbUsername, $dbPassword, $dbName, $tables = '*')
@@ -52,9 +60,9 @@ function backupDatabaseTables($dbHost, $dbUsername, $dbPassword, $dbName, $table
     }
 
     //save file
-    $handle = fopen('db-backup-' . time() . '.sql', 'w+');
+    $handle = fopen('./home/bistique/Documents/db-backup-' . time() . '.sql', 'w+');
     fwrite($handle, $return);
     fclose($handle);
 }
 
-backupDatabaseTables('localhost', 'mimj5729_myroot', 'myroot@@##', 'mimj5729_anyar','*');
+backupDatabaseTables('localhost', 'mimj5729_myroot', 'myroot@@##', 'mimj5729_matahari');

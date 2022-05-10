@@ -661,10 +661,6 @@ $totItem=0;
 				</tr>
 </tbody>
 </table>
-
-
-
-
 <?php
 	}
 ?>
