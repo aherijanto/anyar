@@ -13,7 +13,7 @@ function getPurchaseHead($inv)
 {
 	try
        {
-         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_matahari', 'mimj5729_myroot', 'myroot@@##');
+         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_anyar', 'mimj5729_myroot', 'myroot@@##');
 
        }
        catch (PDOException $e)
@@ -58,7 +58,7 @@ if (!empty($_GET['invno']))
   $psupp=$_SESSION['psupp'];
 	try
        {
-         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_matahari', 'mimj5729_myroot', 'myroot@@##');
+         $pdo = new PDO('mysql:host=localhost;dbname=mimj5729_anyar', 'mimj5729_myroot', 'myroot@@##');
 
        }
        catch (PDOException $e)
@@ -116,7 +116,7 @@ tr:nth-child(even) {
 <body>
 <table height="40px" width="100%">
 	<tr>
-		<td>TB.MATAHARI<br/><br/>TEGAL<br/><br/><br/></td>
+		<td>ANYAR<br/><br/>MARGASARI<br/><br/><br/></td>
 		<td align="center" ><font face="calibri" color="black"><b><br/> PURCHASING</b></font></td>
 		<td></td>
 		<td align="right"><?php echo $_SESSION['psupp'];?> <br/> <?php echo $mys_name; ?><br/> <?php echo $mys_addr; ?><br/>
@@ -213,7 +213,7 @@ tr:nth-child(even) {
   </tr>
 </table>
 <div align="center">
-<footer align="center"><a href="purchase.php?action=new"><font face="calibri" size="2">&copyMatahari</font><a></footer>
+<footer align="center"><a href="purchase.php?action=new"><font face="calibri" size="2">&copyAnyar</font><a></footer>
             </div>
 </body>
 </html>
