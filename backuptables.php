@@ -1,12 +1,6 @@
 <?php
 
-/**
- * @function    backupDatabaseTables
- * @author      CodexWorld
- * @link        http://www.codexworld.com
- * @usage       Backup database tables and save in SQL file
- 
- */
+
 error_reporting(E_ALL);
 ini_set("display_errors", "On");
 function backupDatabaseTables($dbHost, $dbUsername, $dbPassword, $dbName, $tables = '*')
