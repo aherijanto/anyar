@@ -8,6 +8,7 @@
 
   if (isset($_SESSION['user'])!="" ){
   include 'class/_parkerinvent.php';
+  
 
   $mygroup1=0;
   $sequence='';
@@ -125,7 +126,7 @@
     <style>
       @font-face {
                 font-family: code39;
-                src: url(barcode/Code39Azalea.ttf);
+                src: url(barcode/Code39Azalea.ttf);}
     </style>
   </head>
 
@@ -495,3 +496,16 @@ if(isset($_POST['sub_search'])){
 <?php
 }else { echo 'Process cannot continue, please <a href="slogin.php">Login </a>';}
 ?>
+<script>
+$(document).ready(function(){  
+
+	$(document).on("keydown", function(e) {
+    	if (e.key === "Enter") {
+        	e.preventDefault();
+          //alert("you press " + e.key);
+        
+    	}
+	});
+
+});
+</script>
