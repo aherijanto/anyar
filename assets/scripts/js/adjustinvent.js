@@ -404,13 +404,38 @@ $(document).ready(function () {
   })
 
     $("#updateall").click(function(e){
+      var index=0;
+      var isell = $('input[name^=isell1]').map(function(s,element){
+        return $(element).val();
+       
+      });
+      var isell3 = $('input[name^=isell3]').map(function(index,element3){
+        return $(element3).val();
+       
+      });
+
+      var isell6 = $('input[name^=isell6]').map(function(index,element6){
+        return $(element6).val();
+        
+      });
+
+      var isellG = $('input[name^=isellG]').map(function(index,elementG){
+        return $(elementG).val();
+        
+      });
+
+      console.log(isell);
         $("[name='barcode']").each(function() {
+          
             var realbarcode = $(this).attr('id');
-            console.log("Edited Barcode : " + this.value + " REAL BARCODE : " + realbarcode);
+           
+           
+            console.log("Edited Barcode : " + this.value + " REAL BARCODE : " + realbarcode + " "+"ISELL : " + isell.get(index)+" "
+           + "ISELL3 : " + isell3.get(index)+" "+ "ISELL6 : " + isell6.get(index)+ "ISELL-G : " + isellG.get(index));
             $.ajax({
               type: "POST",
               url: "/assets/scripts/ajax/updateinventbarcode.php",
-              data: "barcode=" + realbarcode.trim() +"&edited=" + this.value.trim(),
+              data: "barcode=" + realbarcode.trim() +"&edited=" + this.value.trim()+"&isell="+isell.get(index)+"&isell3="+isell3.get(index)+"&isell6="+isell6.get(index)+"&isellG="+isellG.get(index),
               success: function (response) {
                 if(response=='NotFound'){
                     alert('Data Not Found');
@@ -419,7 +444,8 @@ $(document).ready(function () {
                   
                 }
               }
-          });        
+           });
+            index++;      
         });
         $("#queryResult").html("");
         $("#updateall").hide();

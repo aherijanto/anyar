@@ -8,7 +8,8 @@ require_once('./assets/requires/header1.php');
 include './class/_parkerconnection.php';
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title> Adjustment Inventory</title>
         <h1 align="center">Inventory Adjustment</h1>
