@@ -40,7 +40,16 @@ if (isset($_POST['xlogin'])) {
 
 		if ($count == 1 && $row['cdtuserpwd'] == $password) {
 			$_SESSION['user'] = $row['cdtusername'];
-			header("Location: dashboard.php");
+			$_SESSION['iduser'] = $row['cdtusercode'];
+			$_SESSION['usertype'] = $row['cdtpic'];
+
+			if($_SESSION['usertype']==='user'){
+				header("Location: salesdirect.php?action=new");
+			}
+			if($_SESSION['usertype']==='admin'){
+				header("Location: dashboard.php");
+			}
+			
 		} else {
 
 			$errMSG = "Incorrect Credentials, Try again...";

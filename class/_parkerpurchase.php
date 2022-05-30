@@ -22,10 +22,6 @@ class Purchase
     var $i_disc2;
     var $i_disc3;
     
-
-
-
-
 function __construct($b_code,$b_refno,$b_date,$b_dateinput,$s_code,$u_code,$g_code,$i_code,$i_name,$i_qty,$i_cogs,$i_disc1,$i_disc2,$i_disc3)
    {
         $this->b_code=$b_code;
@@ -42,8 +38,6 @@ function __construct($b_code,$b_refno,$b_date,$b_dateinput,$s_code,$u_code,$g_co
         $this->i_disc1=$i_disc1;
         $this->i_disc2=$i_disc2;
         $this->i_disc3=$i_disc3;
-        
-
     }
 
 
@@ -241,8 +235,15 @@ function save_purchase_tail($expdate)
             echo $e->getMessage();
         }
 
+/*Update Price */
 
-
+try {
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmtprice = "UPDATE winventory set i_cogs='$i_cogs' WHERE i_barcode='$i_code'";
+        $pdo->exec($stmtprice);
+} catch(PDOException $e) {
+    echo $e->getMessage();
+}
 
     
 

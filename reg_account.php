@@ -37,6 +37,8 @@ ini_set("display_errors","On");
   $pass2 = strip_tags($pass2);
   $pass2 = htmlspecialchars($pass2);
   
+  $type = trim($_POST['type']);
+
   $mphone=trim($_POST['mphone']);
   // basic name validation
   if (empty($fname) || empty($lname)) {
@@ -111,7 +113,7 @@ ini_set("display_errors","On");
    
    try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = "INSERT INTO xloginuser (cdtusercode,cdtusername,cdtuserpwd,cdtfullname,cdtemail,cdtmphone,cdtpic) VALUES ('$cdtusercode','$uname','$password','$fullname','$email','$mphone','0')";
+            $stmt = "INSERT INTO xloginuser (cdtusercode,cdtusername,cdtuserpwd,cdtfullname,cdtemail,cdtmphone,cdtpic) VALUES ('$cdtusercode','$uname','$password','$fullname','$email','$mphone','$type')";
                 //echo '<br/>'.$stmt;
             $pdo->exec($stmt);
         } catch(PDOException $e) {
@@ -220,7 +222,15 @@ ini_set("display_errors","On");
 		<td class="auto-style3" style="width: 138px">Confirm Password</td>
 		<td style="width: 157px"><input name="pwd2" type="password" /></td>
 	</tr>
-	
+	<tr>
+		<td class="auto-style3" style="width: 138px">Type</td>
+		<td style="width: 157px">
+      <select name="type" id="type">
+        <option value="user" selected>User</option>
+        <option value="admin">Administrator</option>
+      </select>
+    </td>
+	</tr>
 	
 	<tr>
 		<td class="auto-style4" colspan="3">

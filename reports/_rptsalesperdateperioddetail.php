@@ -69,13 +69,13 @@ if (isset($_POST['datesubmit'])) {
     $mydate2 = date('Y-m-d', strtotime($_POST['mydate2']));
     $_SESSION['reports'] = '1';
     $mytype = $_POST['slcttype'];
-
+    $ucode = $_SESSION['user'];
     include $upone . "/class/_parkerconnection.php";
 
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$selectpcsGlob="SELECT * FROM `wbuyhead`,`wbuytail` WHERE wbuytail.b_code=wbuyhead.b_code";
-        $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype'";
+        $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype' AND u_code='$ucode'";
         $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
 

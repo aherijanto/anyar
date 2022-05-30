@@ -36,10 +36,6 @@ $subtotal1=0;
 return $subtotal1;
 }
 
-
-
-
-
 if(!empty($_GET["action"]))
 {
 	switch($_GET["action"])
@@ -64,9 +60,6 @@ if(!empty($_GET["action"]))
 		case "add":
 			if (isset($_POST['addtolist']))
 			{
-
-
-
 				$itemcode1=$_POST['code'];
 				$barcode1=$_POST['barcode'];
 				$tglexp=$_POST['tglexp'];
@@ -77,9 +70,6 @@ if(!empty($_GET["action"]))
 				else{
 					$tglexp=$_POST['tglexp'];
 					}
-
-
-
 				$disc1=$_POST['disc1'];
 				$disc2=$_POST['disc2'];
 				$disc3=$_POST['disc3'];
@@ -125,8 +115,6 @@ if(!empty($_GET["action"]))
 						{
 							$_SESSION["cart_item"] = $itemArray;
 						}
-
-
 			}
 			break;
 
@@ -644,26 +632,16 @@ if($_GET["action"]='search'){
                 echo '<td width="100px">'.$mycode.'</td><input type="hidden" name="code" value="'.$mycode.'" />';
                 echo '<td width="100px">'.$ibarcode.'</td><input type="hidden" name="barcode" value="'.$ibarcode.'" />';
                 echo '<td width="250px">'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
-
-
                 echo '<td width="80px" align="center"><input type="text" name="qty" style="text-align: center;width:80px;" value="1" autofocus/></td>';
                 echo '<td width="100px" align="center"><input type="text" name="cogs" style="text-align: center;width:100px;" value="'.$mycogs.'"/></td>';
                 echo '<td width="50px" align="center"><input type="text" name="disc1" style="text-align: center;width:20px;" /></td>';
                 echo '<td width="50px"align="center"><input type="text" name="disc2" style="text-align: center;width:20px;" /></td>';
                 echo '<td width="50px" align="center"><input type="text" name="disc3" style="text-align: center;width:20px;" /></td>';
-
                 echo '<td width="100px" align="center"><input type="date" name="tglexp" /></td>';
-
                	echo '<td><input type="submit" name="addtolist" style="text-align: center;" value="Add to cart"/></td>';
                	echo '</tr></form>';
                 }
-
-
               echo '</table></html>';
-
-
-
-
 }
 ?>
 
