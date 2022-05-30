@@ -882,6 +882,7 @@ img.sticky {
 				</form>
 			</td>
 				<td align="right" class="txt-heading">
+				<button id="btnOpen" style="color:white;background-color:#2a9d8f;margin-right:20px; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">Open New Trans</button>
 				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
 				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
 				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
@@ -1175,6 +1176,10 @@ $(document).ready(function(){
     $("#bayar").on("keyup", function () {
     	var n = parseInt($(this).val().replace(/\D/g,''),10);
     	$(this).val(n.toLocaleString());
-    });  
+    });
+	
+	$("#btnOpen").click(function(e){
+		window.open("salesdirect.php?action=new","_blank");
+	});
 });  
 </script>  
