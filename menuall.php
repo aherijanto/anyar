@@ -64,6 +64,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
             <a class="dropdown-item" href="company.php">Company Header</a>
             <a class="dropdown-item" href="#">Company Footer</a>
             <a class="dropdown-item" href="warehouse.php">Warehouse</a>
+            <a class="dropdown-item" href="reg_account.php">User Management</a>
           </div>
         </li>
         <li class="nav-item  active">

@@ -1181,6 +1181,8 @@ img.sticky {
 ?>
 <script>
 $(document).ready(function(){  
+
+	
 	$(document).on("keydown", function(e) {
     	if (e.key === "F8" && e.shiftKey) {
         	e.preventDefault();

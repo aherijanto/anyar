@@ -140,8 +140,9 @@ if (isset($_POST['datesubmit'])) {
 $_SESSION['reports'] = '0';
 ?>
 <footer align="center">
-    <label id="back" style="color:blue;cursor:pointer;padding:12px 12px;" onclick="window.open('/reginvent.php','_self')">
-        &copyAnyar</label>
+    <?php
+        include 'rptfooter.php';
+    ?>
 </footer>
 
 </html>

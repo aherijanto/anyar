@@ -15,3 +15,12 @@
 <script src="./sweetalert/sweetalert.min.js"></script>
 
 <link rel="icon" href=".\img\logo\cappa_icon.jpg">
+<?php
+    if($_SESSION['usertype']=="user"){
+        include 'menuuser.php';
+    }
+    if($_SESSION['usertype']=="admin"){
+        include 'menuall.php';
+    }
+
+?>
