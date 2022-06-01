@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ^login/?$ slogin.php [L]
+RewriteRule ^home/?$ dashboard.php [L]
+RewriteRule ^sales/?$ salesdirect.php?action=new [L]
+RewriteRule ^sales111/([^/\.]+)/?$ salesdirect.php?id1=$1 [L]

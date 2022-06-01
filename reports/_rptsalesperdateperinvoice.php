@@ -59,12 +59,18 @@ if (isset($_POST['datesubmit'])) {
     $inputinv = $_POST['inputinv'];
     $ucode = $_SESSION['user'];
     include $upone . "/class/_parkerconnection.php";
-
+    $usertype = $_SESSION['usertype'];
+    switch($usertype){
+        case 'admin':
+            $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_code='$inputinv'";
+        case 'user':
+            $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_code='$inputinv' AND u_code='$ucode'";
+    }
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$selectpcsGlob="SELECT * FROM `wbuyhead`,`wbuytail` WHERE wbuytail.b_code=wbuyhead.b_code";
-        $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_code='$inputinv' AND u_code='$ucode'";
-        $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
+        // $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_code='$inputinv' AND u_code='$ucode'";
+        // $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
 
         $stmtpcsGlob->execute();
