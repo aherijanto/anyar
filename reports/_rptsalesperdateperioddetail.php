@@ -4,6 +4,7 @@ ini_set("display_errors", "On");
 session_start();
 ob_start();
 $upone = dirname(__DIR__, 1);
+$_SESSION['reports']='1';
 ?>
 
 <html>
@@ -52,10 +53,35 @@ $upone = dirname(__DIR__, 1);
         To : &nbsp;&nbsp;<input type="date" class="me_date" name="mydate2" id="mydate2">
     </div>
     <div align="center" style="padding:20px;">
+        Select Type :&nbsp;&nbsp;
         <select id="slcttype" name="slcttype" style="font-size:14px;width:200px;">
             <option value="0" selected>Select Type</option>
             <option value="Cash">Cash</option>
             <option value="A/R">A/R</option>
+        </select>
+    </div>
+    <div align="center" style="padding:20px;">
+        Select User : &nbsp;&nbsp;
+        <?php
+            include $upone."/class/_parkerconnection.php";
+            
+             try {
+                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                 $selectuser = "SELECT * FROM xloginuser";
+                 $stmtuser = $pdo->prepare($selectuser);        
+                 $stmtuser->execute();
+                 $totaluser = $stmtuser->rowCount();
+                 echo '<select id="slctuser" name="slctuser" style="font-size:14px;width:200px;">';
+                 while ($rowuser=$stmtuser->fetchObject()) {
+                     echo '<option value="'.$rowuser->cdtusername.'">'.$rowuser->cdtusername.'</option>';
+                 }
+                 echo '</select>';
+             } catch (PDOException $e) {
+                 echo $e->getMessage();
+             }
+             
+
+        ?>
         </select>
     </div>
     <div align="center"><input type="submit" name="datesubmit" value="Process">
@@ -70,19 +96,20 @@ if (isset($_POST['datesubmit'])) {
     $_SESSION['reports'] = '1';
     $mytype = $_POST['slcttype'];
     $ucode = $_SESSION['user'];
+    $usercode = $_POST['slctuser'];
     include $upone . "/class/_parkerconnection.php";
     $usertype = $_SESSION['usertype'];
-    switch($usertype){
-        case 'admin':
-            $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type = '$mytype'";
-        case 'user':
-            $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type = '$mytype' AND u_code='$ucode'";
-    }
+    // switch($usertype){
+    //     case 'admin':
+    //         $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type = '$mytype'";
+    //     case 'user':
+    //         $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type = '$mytype' AND u_code='$ucode'";
+    // }
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$selectpcsGlob="SELECT * FROM `wbuyhead`,`wbuytail` WHERE wbuytail.b_code=wbuyhead.b_code";
-        // $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype' AND u_code='$ucode'";
-        // $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
+        $selectpcsGlob = "SELECT * FROM wsellhead WHERE s_date BETWEEN '$mydate1' AND '$mydate2' AND type='$mytype' AND u_code='$usercode'";
+        $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
 
         $stmtpcsGlob->execute();
@@ -93,7 +120,7 @@ if (isset($_POST['datesubmit'])) {
 
 
     echo '<table width="100%">';
-    echo '<th>NO FAKTUR</th><th>CUSTOMER</th><th>TGL NOTA</th><th>JTH.TEMPO</th><th>TYPE</td>';
+    echo '<th>NO FAKTUR</th><th>CUSTOMER</th><th>TGL NOTA</th><th>JTH.TEMPO</th><th>TYPE</td><th>USER</th>';
     echo '</table>';
     $grandtotal1 = 0;
     while ($rowpcsGlob = $stmtpcsGlob->fetchObject()) {
@@ -121,7 +148,7 @@ if (isset($_POST['datesubmit'])) {
         $mysubtotal = 0;
 
         echo '<table width="100%"> <tr>';
-        echo '<td width="20%">' . $gcodeHead . '</td><td width="30%">' .  $cname . '</td><td width="20%">' . date('d-m-Y', strtotime($date1)) . '</td><td width="20%">' . date('d-m-Y', strtotime($duedate)) . '</td><td width="20%">' . $type . '</td>';
+        echo '<td width="20%">' . $gcodeHead . '</td><td width="30%">' .  $cname . '</td><td width="20%">' . date('d-m-Y', strtotime($date1)) . '</td><td width="20%">' . date('d-m-Y', strtotime($duedate)) . '</td><td width="20%">' . $type . '</td><td width="20%">' . $usercode . '</td>';
         echo '</tr></table>';
 
         echo '<table width="100%" class="mf">';
