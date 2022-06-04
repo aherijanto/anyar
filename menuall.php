@@ -50,6 +50,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:
             Reports
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/reports/_rptsalesperdateperiodglobal.php">Sales Per Period Global</a>
             <a class="dropdown-item" href="/reports/_rptsalesperdateperiod.php">Sales Per Period</a>
             <a class="dropdown-item" href="/reports/_rptsalesperdateperioddetail.php">Sales Per Period Detail</a>
             <a class="dropdown-item" href="/reports/_rptsalesperdateperinvoice.php">Sales Per Invoice</a>
