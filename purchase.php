@@ -171,7 +171,7 @@ if(!empty($_GET["action"]))
 						$myExp=$myItem["tglexp"];
 
 						$purchaseDetail = new Purchase($myInvNo,$myrefno,$mydate1,$mydateon,$mysupp,$myuser,$myItemCode,$myBarcode,$myItemName,$myQty,$myPrice,$myDisc1,$myDisc2,$myDisc3);
-
+						
 						$purchaseDetail->save_purchase_tail($myExp);
 
 
@@ -180,7 +180,7 @@ if(!empty($_GET["action"]))
 
 						$myinvent->update_inventory_purchase($myItemCode,$myQty);
 				}
-				var_dump($myInvNo);
+				
 				header ("Location:printpurchase.php?invno=$myInvNo");
 
 

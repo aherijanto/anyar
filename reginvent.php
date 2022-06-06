@@ -409,7 +409,7 @@
 <div>
     <form action="" method="post">
         <input type="text" name="searchname" width="300px style="padding:5px;height:10px;">
-        <input type="submit" name="sub_search" value="Search Name" style="padding:8px 8px;border-radius:5px;width:120px;background-color:007f5f;height:40px;">
+        <input type="submit" name="sub_search" value="Search" style="padding:8px 8px;border-radius:5px;width:120px;background-color:007f5f;height:40px;">
     </form>
 </div>
 
@@ -439,6 +439,25 @@ if(isset($_POST['sub_search'])){
        
             $stmt->execute();
             $total = $stmt->rowCount();
+            
+            if($total==0){
+              
+              if(is_numeric($item_name)){
+                try {
+                  //echo '<script> alert("here");</script>';
+                  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                  $sql = "SELECT * FROM winventory WHERE i_barcode = '$item_name'";
+                  $stmt = $pdo->prepare($sql);
+                  $stmt->execute();
+                  $total = $stmt->rowCount();
+                  if($total==0){
+                    echo '<script> alert("Barcode Not Found")</script>';
+                  }
+                } catch(PDOException $e) {
+                  echo $e->getMessage();
+                }
+              }
+            }
        
         } catch(PDOException $e) {
             echo $e->getMessage();

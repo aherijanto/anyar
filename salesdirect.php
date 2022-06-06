@@ -514,13 +514,16 @@ if(!empty($_GET["action"])) {
 								$_SESSION[$sessionCart] = $itemArray;
 							}	
                			}else{
-							echo "total not found barcode";
-						   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
-							$_SESSION['namesubmit']="ok";
-							$_POST['namesubmit']=$_SESSION['namesubmit'];
-							$_SESSION['itemname']=$i_code;
-							$_POST['itemname'] = $_SESSION['itemname'];
-						   header('Location:salesdirect.php?action=search');
+							if(is_numeric($i_code)){
+								echo '<script> alert("Barcode Tidak Ditemukan");</script>';
+							}else{
+						   	
+								$_SESSION['namesubmit']="ok";
+								$_POST['namesubmit']=$_SESSION['namesubmit'];
+								$_SESSION['itemname']=$i_code;
+								$_POST['itemname'] = $_SESSION['itemname'];
+						   		header('Location:salesdirect.php?action=search');
+							}
 						}
 							   //echo '<script> alert("Barcode Tidak Ditemukan");</script>';
 					
@@ -668,13 +671,15 @@ if(!empty($_GET["action"])) {
 
 		case "empty":
 			$sessionCart=$_SESSION['myinvdrm'];
-		unset($_SESSION[$sessionCart]);
-		$_SESSION["totalcart"]=0;
-		$_SESSION["bayar"]=0;
-		$_SESSION["kembali"]=0;
-		$_SESSION['lblgrand']=0;
-		$_SESSION['typesell']="reguler";
-		break;
+			unset($_SESSION[$sessionCart]);
+			$_SESSION["totalcart"]=0;
+			$_SESSION["bayar"]=0;
+			$_SESSION["kembali"]=0;
+			$_SESSION['lblgrand']=0;
+			$_SESSION['typesell']="reguler";
+			break;
+		
+			
 	}
 }
 ?>

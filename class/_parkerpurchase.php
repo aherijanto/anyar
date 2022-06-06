@@ -221,8 +221,7 @@ function save_purchase_tail($expdate)
       $i_disc2=$this->i_disc2;
       $i_disc3=$this->i_disc3;
       
-
-
+     
 
 /*-------------INSERT INTO WBUYTAIL----------------------------------------------------------------------------*/
 
@@ -231,6 +230,8 @@ function save_purchase_tail($expdate)
             $stmt = "INSERT INTO wbuytail (b_code,g_code,i_code,i_name,i_qty,i_cogs,i_disc1,i_disc2,i_disc3,tglexp)
                 VALUES('$b_code','$g_code','$i_code','$i_name','$i_qty','$i_cogs','$i_disc1','$i_disc2','$i_disc3','$expdate')";
                 $pdo->exec($stmt);
+            
+                
         } catch(PDOException $e) {
             echo $e->getMessage();
         }
