@@ -405,6 +405,14 @@ $(document).ready(function () {
 
     $("#updateall").click(function(e){
       var index=0;
+      var iqty = $('input[name^=iqty]').map(function(s,element){
+        return $(element).val();
+       
+      });
+      var icogs = $('input[name^=icogs]').map(function(s,element){
+        return $(element).val();
+       
+      });
       var isell = $('input[name^=isell1]').map(function(s,element){
         return $(element).val();
        
@@ -435,7 +443,7 @@ $(document).ready(function () {
             $.ajax({
               type: "POST",
               url: "/assets/scripts/ajax/updateinventbarcode.php",
-              data: "barcode=" + realbarcode.trim() +"&edited=" + this.value.trim()+"&isell="+isell.get(index)+"&isell3="+isell3.get(index)+"&isell6="+isell6.get(index)+"&isellG="+isellG.get(index),
+              data: "barcode=" + realbarcode.trim() +"&edited=" + this.value.trim()+"&iqty="+iqty.get(index)+"&icogs="+icogs.get(index)+"&isell="+isell.get(index)+"&isell3="+isell3.get(index)+"&isell6="+isell6.get(index)+"&isellG="+isellG.get(index),
               success: function (response) {
                 if(response=='NotFound'){
                     alert('Data Not Found');
