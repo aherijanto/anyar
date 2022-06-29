@@ -501,15 +501,16 @@ if(!empty($_GET["action"])) {
 								$_SESSION["cart_item"] = $itemArray;
 							}	
                			}else{
-							echo "total not found barcode";
-						   echo '<script> alert("Barcode Tidak Ditemukan");</script>';
-							$_SESSION['namesubmit']="ok";
-							$_POST['namesubmit']=$_SESSION['namesubmit'];
-							$_SESSION['itemname']=$i_code;
-							$_POST['itemname'] = $_SESSION['itemname'];
-						   header('Location:salesdirect.php?action=search');
-						}
-							   //echo '<script> alert("Barcode Tidak Ditemukan");</script>';
+							if(is_numeric($i_code)){
+								echo '<script> alert("Barcode Tidak Ditemukan");</script>';
+							}else{
+								$_SESSION['namesubmit']="ok";
+								$_POST['namesubmit']=$_SESSION['namesubmit'];
+								$_SESSION['itemname']=$i_code;
+								$_POST['itemname'] = $_SESSION['itemname'];
+						   		header('Location:salesdirect.php?action=search');
+							}
+						}	   //echo '<script> alert("Barcode Tidak Ditemukan");</script>';
 					
             	} catch(PDOException $e) {
                 			echo $e->getMessage();
@@ -1125,11 +1126,12 @@ img.sticky {
                $myarticle=$row->i_article;
                $itemname=$row->i_name;
                $iwarna=$row->i_color;
-              	echo '<tr><form method="post" action="salesdirect.php?action=addname">'; 
-                echo '<td width="100px" class="auto-style3" >'.$mycode.'</td><input type="hidden" name="code" value="'.$mycode.'" />';
+              	echo '<tr style="color:white;"><form method="post" action="salesdirect.php?action=addname">'; 
+                echo '<td width="100px" class="auto-style3" style="padding:10px 10px;" >'.$mycode.'</td><input type="hidden" name="code" value="'.$mycode.'" />';
                 echo '<td width="250px" class="auto-style3" style="margin-left:15px;padding-left:25px;" >'.$itemname.'</td><input type="hidden" name="itemname" value="'.$itemname.'" />';
-                echo '<td width="150px" class="auto-style3" >'.$myarticle.'</td><input type="hidden" name="iartikel" value="'.$myarticle.'" />';
-                echo '<td width="80px" class="auto-style3" >'.$iwarna.'</td><input type="hidden" name="iwarna" value="'.$iwarna.'" />';    
+                //echo '<td width="150px" class="auto-style3" >'.$myarticle.'</td><input type="hidden" name="iartikel" value="'.$myarticle.'" />';
+                //echo '<td width="80px" class="auto-style3" >'.$iwarna.'</td><input type="hidden" name="iwarna" value="'.$iwarna.'" />'; 
+				echo '<td width="150px" class="auto-style3" style="padding:10px 10px;">'.number_format($mysell).'</td>';
                 echo '<td width="80px" align="center" ><input type="text" name="qty" style="text-align: center;width:80px;" value="1" autofocus="true"></td>';
                // echo '<td width="100px" align="center" ><input type="text" name="cogs" style="text-align: center;width:100px;" value="'.$mysell.'" readonly/></td>';
                 echo '<td width="50px" align="center" ><input type="text" name="disc1" style="text-align: center;width:20px;" /></td>';
