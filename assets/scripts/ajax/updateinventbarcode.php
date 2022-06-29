@@ -5,6 +5,8 @@
     $upone = dirname(__DIR__);
 
     $barcode = $_POST['barcode'];
+    $iqty =  $_POST['iqty'];
+    $icogs = $_POST['icogs'];
     $isell = $_POST['isell'];
     $isell3 = $_POST['isell3'];
     $isell6 = $_POST['isell6'];
@@ -26,7 +28,7 @@
 
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $selectpcsGlob = "UPDATE winventory SET i_barcode = '$editedbarcode',i_sell='$isell',i_sell2='$isell3',i_sell3='$isell6',i_sell4='$isellG' WHERE i_barcode = '$barcode'";
+        $selectpcsGlob = "UPDATE winventory SET i_barcode = '$editedbarcode',i_qty='$iqty',i_cogs='$icogs',i_sell='$isell',i_sell2='$isell3',i_sell3='$isell6',i_sell4='$isellG' WHERE i_barcode = '$barcode'";
         $stmtpcsGlob = $pdo->prepare($selectpcsGlob);
         $stmtpcsGlob->execute();
         $totalpcsGlob = $stmtpcsGlob->rowCount();
