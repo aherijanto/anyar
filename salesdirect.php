@@ -1184,5 +1184,13 @@ $(document).ready(function(){
 	$("#btnOpen").click(function(e){
 		window.open("salesdirect.php?action=new","_blank");
 	});
+
+	$("#btnsavedata").on("keydown",function(e){
+		if (e.key === "s" && e.ctrlKey){
+			e.preventDefault();
+			window.open("salesdirect.php?action=save","_self");
+		}
+		
+	})
 });  
 </script>  
