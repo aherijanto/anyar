@@ -34,7 +34,7 @@ require_once('./assets/requires/headerdshbd.php');
                 <p class="card-text">Available Soon.</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Sales - Transaction</small>
+                <small class="text-muted"><a href="salesdirect.php?action=new">Sales - Transaction</a></small>
             </div>
         </div>
 
@@ -44,7 +44,7 @@ require_once('./assets/requires/headerdshbd.php');
                 <p class="card-text">Available Soon</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Account Receivable</small>
+                <small class="text-muted"><a href="account_r.php">Account Receivable</a></small>
             </div>
         </div>
 
@@ -54,7 +54,7 @@ require_once('./assets/requires/headerdshbd.php');
                 <p class="card-text">Available Soon</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Purchasing - Transaction</small>
+                <small class="text-muted"><a href="purchase.php?action=new">Purchasing - Transaction</a></small>
             </div>
         </div>
 
@@ -64,7 +64,7 @@ require_once('./assets/requires/headerdshbd.php');
                 <p class="card-text">Available Soon</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Account Payable</small>
+                <small class="text-muted"><a href="account_p.php">Account Payable</a></small>
             </div>
         </div>
     </div>
