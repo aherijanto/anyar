@@ -1006,7 +1006,7 @@ img.sticky {
 						<tr>
 							<td align="left" colspan="8" class="auto-style3" >
 							</td>
-							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
+							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >  PAY</td>
 							<td align="right" class="auto-style3">
 								<input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo number_format($_SESSION['bayar']); ?>" />
 								<input type="submit" name="byrsubmit" value="submit" hidden/>
@@ -1020,7 +1020,7 @@ img.sticky {
 							</td>
 							<td align="left" colspan="7" class="auto-style3" style="font-size: 16px;color:white;">
 							</td>
-							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
+							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">CHANGE</td>
 							<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
 							</td>
 						</tr>
@@ -1189,7 +1189,7 @@ $(document).ready(function(){
 			e.preventDefault();
 			window.open("salesdirect.php?action=save","_self");
 		}
-		
+
 		if (e.key == "S" && e.ctrlKey){
 			e.preventDefault();
 			window.open("salesdirect.php?action=save","_self");
