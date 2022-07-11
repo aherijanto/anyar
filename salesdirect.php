@@ -775,13 +775,12 @@ img.sticky {
                &::before {
                  content: "";
              	  display: block;
-                 padding-top: 56.25%; // 16:9 aspect ratio
+                 padding-top: 56.25%; 
                }
 
                @media(min-width: 40rem) {
                  &::before {
-                   padding-top: 66.6%; // 3:2 aspect ratio
-                 }
+                   padding-top: 66.6%; 
                }
              }
 
@@ -886,7 +885,7 @@ img.sticky {
 				<td align="right" class="txt-heading">
 				<button id="btnOpen" style="color:white;background-color:#2a9d8f;margin-right:20px; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">Open New Trans</button>
 				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
-				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
+				<a id="btnSave" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
 				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
 			</td>
 		</tr>
@@ -1185,8 +1184,9 @@ $(document).ready(function(){
 		window.open("salesdirect.php?action=new","_blank");
 	});
 
-	$("#btnsavedata").on("keydown",function(e){
-		if (e.key === "s" && e.ctrlKey){
+	$(document).on("keydown", function(e) {
+		if (e.key == "s" && e.ctrlKey){
+			console.log("save is processing");
 			e.preventDefault();
 			window.open("salesdirect.php?action=save","_self");
 		}
