@@ -1186,7 +1186,11 @@ $(document).ready(function(){
 
 	$(document).on("keydown", function(e) {
 		if (e.key == "s" && e.ctrlKey){
-			console.log("save is processing");
+			e.preventDefault();
+			window.open("salesdirect.php?action=save","_self");
+		}
+		
+		if (e.key == "S" && e.ctrlKey){
 			e.preventDefault();
 			window.open("salesdirect.php?action=save","_self");
 		}
