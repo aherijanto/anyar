@@ -38,51 +38,51 @@ function setnoinv(){
 	return $xdate;
 }
 
-function promoDoremi($itempromo,$myqty,$mysell,$disc01,$disc02,$disc03)
-{
-	include ('class/_parkerconnection.php');
-				$mfpromo=$_SESSION['selectpromo'];
-				switch ($mfpromo) {
-				case 'promo1':
-					break;
-				case 'promo2':
-  	        	  try {
-             		   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                		$searchpromoitem="SELECT * FROM wpromoitemhead,wpromoitemtail WHERE (wpromoitemtail.i_code='$itempromo') AND (wpromoitemtail.s_code=wpromoitemhead.s_code) ";
-                	$stmt = $pdo->prepare($searchpromoitem);
-                //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
-                	$stmt->execute();
-                	$totalpromoitem = $stmt->rowCount();
-               		$rowpromo = $stmt->fetchObject(); 
-            	} catch(PDOException $e) {
-                	echo $e->getMessage();
-            	}
+// function promoDoremi($itempromo,$myqty,$mysell,$disc01,$disc02,$disc03)
+// {
+// 	include ('class/_parkerconnection.php');
+// 				$mfpromo=$_SESSION['selectpromo'];
+// 				switch ($mfpromo) {
+// 				case 'promo1':
+// 					break;
+// 				case 'promo2':
+//   	        	  try {
+//              		   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//                 		$searchpromoitem="SELECT * FROM wpromoitemhead,wpromoitemtail WHERE (wpromoitemtail.i_code='$itempromo') AND (wpromoitemtail.s_code=wpromoitemhead.s_code) ";
+//                 	$stmt = $pdo->prepare($searchpromoitem);
+//                 //$stmt->bindParam(':c_code', $mcode, PDO::PARAM_STR);
+//                 	$stmt->execute();
+//                 	$totalpromoitem = $stmt->rowCount();
+//                		$rowpromo = $stmt->fetchObject(); 
+//             	} catch(PDOException $e) {
+//                 	echo $e->getMessage();
+//             	}
 
-            	if ($totalpromoitem > 0){
+//             	if ($totalpromoitem > 0){
             		
-            		$promcode=$itempromo;
-            		$promCode0=$rowpromo->s_code;
-            		$promname=$rowpromo->i_name.'- PROMO';
-            		$promartikel=$rowpromo->i_article;
-            		$promowarna=$rowpromo->i_color;
-            		$discPromo=$rowpromo->i_disc;
+//             		$promcode=$itempromo;
+//             		$promCode0=$rowpromo->s_code;
+//             		$promname=$rowpromo->i_name.'- PROMO';
+//             		$promartikel=$rowpromo->i_article;
+//             		$promowarna=$rowpromo->i_color;
+//             		$discPromo=$rowpromo->i_disc;
             		
-            		$itemArrayPromoItem = array($promcode=>array('code'=>$promcode,'name'=>'PROMO', 'artikel'=>$promartikel,'warna'=>$promowarna,'qty'=>$myqty,'cogs'=>$mysell,'disc1'=>$discPromo,'disc2'=>0,'disc3'=>0));
+//             		$itemArrayPromoItem = array($promcode=>array('code'=>$promcode,'name'=>'PROMO', 'artikel'=>$promartikel,'warna'=>$promowarna,'qty'=>$myqty,'cogs'=>$mysell,'disc1'=>$discPromo,'disc2'=>0,'disc3'=>0));
             		
-            		if(in_array($promCode0, array_column($_SESSION['cart_item'], 'code'))) {
-            		}else{
+//             		if(in_array($promCode0, array_column($_SESSION['cart_item'], 'code'))) {
+//             		}else{
             		
-            			$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArrayPromoItem);
-            		}
+//             			$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArrayPromoItem);
+//             		}
             		
-            	}
-            	//}
-            	break;
-			default:
-				# code...
-				break;
-		}
-}
+//             	}
+//             	//}
+//             	break;
+// 			default:
+// 				# code...
+// 				break;
+// 		}
+// }
 
 function calculateGrandTotal(){
 	if(isset($_SESSION['cart_item'])){
@@ -612,6 +612,16 @@ if(!empty($_GET["action"])) {
 				}
 				$myinvno=$_SESSION['myinvdrm'];
 				$myrefno=$myinvno;
+				//check noinv exist
+				$conExist = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
+				$resultExist = mysqli_query($conn2,"select * from wsellhead where s_code='$myrefno'");
+            	$recNum = mysqli_num_rows($resultExist);
+				if($recNum > 0){
+					$myrefno = setnoinv();
+				}
+				mysqli_close($conExist);
+				
+				
 				$mydate1=date('Y-m-d');
 				$mydateon=date('Y-m-d');
 				$myuser=$_SESSION['user'];
