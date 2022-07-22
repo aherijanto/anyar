@@ -785,13 +785,12 @@ img.sticky {
                &::before {
                  content: "";
              	  display: block;
-                 padding-top: 56.25%; // 16:9 aspect ratio
+                 padding-top: 56.25%; 
                }
 
                @media(min-width: 40rem) {
                  &::before {
-                   padding-top: 66.6%; // 3:2 aspect ratio
-                 }
+                   padding-top: 66.6%; 
                }
              }
 
@@ -896,7 +895,7 @@ img.sticky {
 				<td align="right" class="txt-heading">
 				<button id="btnOpen" style="color:white;background-color:#2a9d8f;margin-right:20px; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">Open New Trans</button>
 				<a id="btnNew" href="/salesdirect.php?action=new" style="color:white;background-color:   #2874a6   ; border-radius: 5px;text-decoration: none;padding: 10px; font-size: 16px;" width="120px">New</a>     
-				<a id="btnEmpty" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
+				<a id="btnSave" href="/salesdirect.php?action=save" style="color:white;background-color: #229954; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Save</a> 
 				<a id="btnEmpty" href="/salesdirect.php?action=empty" style="color:white;background-color:  #cb4335  ; border-radius: 5px;text-decoration: none;padding: 10px;font-size: 16px;">Clear</a>
 			</td>
 		</tr>
@@ -1017,7 +1016,7 @@ img.sticky {
 						<tr>
 							<td align="left" colspan="8" class="auto-style3" >
 							</td>
-							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >BAYAR</td>
+							<td align="right" colspan="11" class="auto-style3" style="font-size: 28px;color:white;" >  PAY</td>
 							<td align="right" class="auto-style3">
 								<input type="text" name="bayar" id="bayar" style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;"  onblur="this.form.submit();" value="<?php echo number_format($_SESSION['bayar']); ?>" />
 								<input type="submit" name="byrsubmit" value="submit" hidden/>
@@ -1031,7 +1030,7 @@ img.sticky {
 							</td>
 							<td align="left" colspan="7" class="auto-style3" style="font-size: 16px;color:white;">
 							</td>
-							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">KEMBALI</td>
+							<td align="right" colspan="11" class="auto-style3" style="color: white;font-size: 28px;">CHANGE</td>
 							<td align="right" class="auto-style3" style=""><input type="text" name="kembali"  style="text-align:right;width: 180px;background-color: #000000;font-size: 28px;color:white;" onblur="this.form.submit();" value="<?php echo number_format($_SESSION['kembali']); ?>" readonly/>
 							</td>
 						</tr>
@@ -1195,8 +1194,13 @@ $(document).ready(function(){
 		window.open("salesdirect.php?action=new","_blank");
 	});
 
-	$("#btnsavedata").on("keydown",function(e){
-		if (e.key === "s" && e.ctrlKey){
+	$(document).on("keydown", function(e) {
+		if (e.key == "s" && e.ctrlKey){
+			e.preventDefault();
+			window.open("salesdirect.php?action=save","_self");
+		}
+
+		if (e.key == "S" && e.ctrlKey){
 			e.preventDefault();
 			window.open("salesdirect.php?action=save","_self");
 		}
