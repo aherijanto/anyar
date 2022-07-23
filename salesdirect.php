@@ -616,6 +616,7 @@ if(!empty($_GET["action"])) {
 				$conExist = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
 				$resultExist = mysqli_query($conn2,"select * from wsellhead where s_code='$myrefno'");
             	$recNum = mysqli_num_rows($resultExist);
+				//check number exist
 				if($recNum > 0){
 					$myrefno = setnoinv();
 				}
