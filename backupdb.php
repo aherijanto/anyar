@@ -1,7 +1,4 @@
 <?php
-
-
-
 //MySQL server and database
 $dbhost = 'localhost';
 $dbuser = 'mimj5729_myroot';
