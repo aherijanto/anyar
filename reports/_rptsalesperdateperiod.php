@@ -44,7 +44,7 @@ $_SESSION['reports']='1';
         font-size: 16px;
     }
 </style>
-<div align="center" style="background-color:#D35400;font-weight: bold;font;font-size: 30px;color:#F9E79F">SALES PER DATE PERIOD</div>
+<div align="center" style="background-color:#D35400;font-weight: bold;font-size: 30px;color:#F9E79F">SALES PER DATE PERIOD</div>
 <div><br></div>
 <div><br></div>
 <div align="center" style="padding:15px;">SELECT DATE</div>
@@ -154,12 +154,12 @@ if (isset($_POST['datesubmit'])) {
             $i_price = $rowpcsGlob1->i_sell;
             $disc1 = $rowpcsGlob1->i_disc1;
             $disc2 = $rowpcsGlob1->i_disc2;
-            $disc3 = $rowpcsGlob1->i_disc2;
+            $disc3 = $rowpcsGlob1->i_disc3;
             $mysubtotal = $i_qty * $i_price;
 
             $totaldisc1 = $mysubtotal * (1 - ($disc1 / 100));
             $totaldisc2 = $totaldisc1 * (1 - ($disc2 / 100));
-            $totaldisc3 = $totaldisc2 * (1 - ($disc3 / 100));
+            $totaldisc3 = $totaldisc2 - $disc3;
 
             $grandtotal = $grandtotal + $totaldisc3;
         } //
