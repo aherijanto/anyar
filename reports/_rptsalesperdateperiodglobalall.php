@@ -44,7 +44,7 @@ $_SESSION['reports']='1';
         font-size: 16px;
     }
 </style>
-<div align="center" style="background-color:#D35400;font-weight: bold;font;font-size: 30px;color:#F9E79F">SALES PER DATE PERIOD - ALL</div>
+<div align="center" style="background-color:#D35400;font-weight: bold;font-size: 30px;color:#F9E79F">SALES PER DATE PERIOD - ALL</div>
 <div><br></div>
 <div><br></div>
 <div align="center" style="padding:15px;">SELECT DATE</div>
