@@ -86,6 +86,7 @@ function backup_tables($host, $user, $pass, $dbname, $tables = '*') {
     //.(md5(implode(',',$tables))).
     $fileName = 'anyar-backup-'.date('YmdHis').'.sql';
     $handle = fopen($fileName,'w+');
+    
     fwrite($handle,$return);
     if(fclose($handle)){
         $msg="Data has already Backup";
