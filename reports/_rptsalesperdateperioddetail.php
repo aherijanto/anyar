@@ -146,7 +146,7 @@ if (isset($_POST['datesubmit'])) {
 
         $grandtotal = 0;
         $mysubtotal = 0;
-
+        $grandtotal1=0;
         echo '<table width="100%"> <tr>';
         echo '<td width="20%">' . $gcodeHead . '</td><td width="30%">' .  $cname . '</td><td width="20%">' . date('d-m-Y', strtotime($date1)) . '</td><td width="20%">' . date('d-m-Y', strtotime($duedate)) . '</td><td width="20%">' . $type . '</td><td width="20%">' . $usercode . '</td>';
         echo '</tr></table>';
@@ -159,7 +159,7 @@ if (isset($_POST['datesubmit'])) {
             $disc2 = $rowpcsGlob1->i_disc2;
             $disc3 = $rowpcsGlob1->i_disc2;
             $mysubtotal = $i_qty * $i_price;
-
+            
             $totaldisc1 = $mysubtotal * (1 - ($disc1 / 100));
             $totaldisc2 = $totaldisc1 * (1 - ($disc2 / 100));
             $totaldisc3 = $totaldisc2 * (1 - ($disc3 / 100));
@@ -169,8 +169,10 @@ if (isset($_POST['datesubmit'])) {
             echo '<td style="padding-left:20px;" width="15%">' . $rowpcsGlob1->i_name . '</td><td width="15%" align="center">' . $i_qty . '</td><td width="15%" align="right">' . number_format($i_price) . '</td><td width="15%" align="right">' . number_format($disc1, 3) . '</td><td width="15%" align="right">' . number_format($rowpcsGlob1->i_disc3) . '</td><td width="15%" align="right">' . number_format($grandtotal) . '</td>';
             echo '</tr>';
             $grandtotal1 = $grandtotal1 + $grandtotal;
-            $grandtotal = 0;
+            $grandtotal=0;
+            
         } //
+        echo '<tr><td colspan="6" align="right">'.number_format($grandtotal1).'</td></tr>';
         echo '</table>';
     } //while*/
     echo '<table width="100%">';

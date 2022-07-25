@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model usrlogin {
+  name     String @db.VarChar(35)
+  username String @db.VarChar(10)
+  pwd      String @db.VarChar(100)
+  status   String @db.VarChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model waddpoint {
+  p_addno String @db.VarChar(20)
+  c_code  String @db.VarChar(30)
+  p_code  String @db.VarChar(20)
+  p_qty   Int
+
+  @@ignore
+}
+
+model wbuyhead {
+  b_code      String   @db.VarChar(30)
+  b_refno     String   @db.VarChar(25)
+  b_date      DateTime @db.Date
+  b_dateinput DateTime @db.Date
+  s_code      String   @db.VarChar(15)
+  u_code      String   @db.VarChar(15)
+  id          Int      @id @default(autoincrement())
+}
+
+model wbuytail {
+  b_code  String   @db.VarChar(30)
+  g_code  String   @db.VarChar(30)
+  i_code  String   @db.VarChar(15)
+  i_name  String   @db.VarChar(30)
+  i_qty   Float    @db.Float
+  i_cogs  Float    @db.Float
+  i_disc1 Float    @default(0) @db.Float
+  i_disc2 Float    @default(0) @db.Float
+  i_disc3 Float    @default(0) @db.Float
+  tglexp  DateTime @db.Date
+  id      Int      @id @default(autoincrement())
+}
+
+model wcustomers {
+  c_code   String   @unique(map: "c_code") @db.VarChar(15)
+  c_id     String   @db.VarChar(20)
+  c_name   String   @db.Text
+  c_pob    String   @db.Text
+  c_dob    DateTime @db.Date
+  c_addr   String   @db.Text
+  c_rt     String   @db.Text
+  c_kel    String   @db.Text
+  c_kec    String   @db.Text
+  c_gender String   @db.VarChar(1)
+  c_phone  String   @db.VarChar(20)
+  c_join   DateTime @db.Date
+}
+
+model wgroups {
+  g_code String @unique(map: "g_code") @db.VarChar(15)
+  g_name String @db.VarChar(30)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model winvent {
+  c_code   String @db.VarChar(15)
+  c_group  String @db.VarChar(10)
+  c_name   String @db.VarChar(50)
+  c_cogs   Float  @db.Float
+  c_sales  Float  @db.Float
+  c_status String @db.VarChar(1)
+
+  @@ignore
+}
+
+model winventory {
+  i_code    String @unique(map: "i_code") @db.VarChar(15)
+  g_code    String @db.VarChar(15)
+  i_supp    String @db.VarChar(10)
+  i_barcode String @db.VarChar(20)
+  i_name    String @db.VarChar(60)
+  i_qty     Float  @db.Float
+  i_qtymin  Float  @db.Float
+  i_unit    String @db.VarChar(10)
+  i_size    String @db.VarChar(20)
+  i_color   String @db.VarChar(20)
+  i_brands  String @db.VarChar(20)
+  i_article String @db.Text
+  i_cogs    Float  @db.Float
+  i_kdsell  String @db.VarChar(10)
+  i_sell    Float  @db.Float
+  i_sell2   Float  @db.Float
+  i_sell3   Float  @db.Float
+  i_sell4   Float  @db.Float
+  i_sell5   Float  @db.Float
+  i_sell6   Float  @db.Float
+  i_sell7   Float  @db.Float
+  i_sell8   Float  @db.Float
+  i_sell9   Float  @db.Float
+  i_sell10  Float  @db.Float
+  i_status  String @db.VarChar(1)
+  ware_id   String @db.VarChar(10)
+  id        Int    @id @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model wpoint {
+  p_code String @db.VarChar(25)
+  p_name String @db.VarChar(60)
+  p_qty  Float  @db.Float
+
+  @@ignore
+}
+
+model wpromoitemhead {
+  s_code      String   @unique(map: "s_code") @db.VarChar(25)
+  s_date      DateTime @db.Date
+  s_dateinput DateTime @db.Date
+  c_code      String   @db.VarChar(25)
+  u_code      String   @db.VarChar(25)
+  s_premi     Float    @db.Float
+  s_deduct    Float    @db.Float
+}
+
+model wpromoitemtail {
+  s_code    String @db.VarChar(30)
+  i_code    String @db.VarChar(50)
+  i_name    String @db.VarChar(50)
+  i_article String @db.Text
+  i_color   String @db.Text
+  i_disc    Float  @db.Float
+  id        Int    @id @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model wredpoint {
+  pred_no  String @db.VarChar(20)
+  c_code   String @db.VarChar(20)
+  pred_qty Int
+
+  @@ignore
+}
+
+model wretpcsdetail {
+  rs_code   String   @db.VarChar(20)
+  rs_date   DateTime @db.Date
+  s_code    String   @db.VarChar(20)
+  i_barcode Int
+  i_name    String   @db.Text
+  i_qty     Float    @db.Float
+  id        Int      @id @default(autoincrement())
+}
+
+model wretsalesdetail {
+  rs_code   String   @db.VarChar(20)
+  rs_date   DateTime @db.Date
+  s_code    String   @db.VarChar(20)
+  i_barcode String   @db.VarChar(20)
+  i_name    String   @db.Text
+  i_qty     Float    @db.Float
+  id        Int      @id @default(autoincrement())
+}
+
+model wsellhead {
+  s_code      String   @unique(map: "s_code") @db.VarChar(30)
+  s_date      DateTime @db.Date
+  s_dateinput DateTime @db.Date
+  type        String   @db.VarChar(15)
+  c_code      String   @db.VarChar(25)
+  u_code      String   @db.VarChar(25)
+  s_premi     Float    @db.Float
+  s_deduct    Float    @db.Float
+}
+
+model wselltail {
+  s_code  String @db.VarChar(30)
+  i_code  String @db.VarChar(50)
+  i_name  String @db.VarChar(50)
+  i_qty   Float  @db.Float
+  i_sell  Float  @db.Float
+  i_disc1 Float  @default(0) @db.Float
+  i_disc2 Float  @default(0) @db.Float
+  i_disc3 Float  @default(0) @db.Float
+  id      Int    @id @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model wsuppliers {
+  s_code    String @db.VarChar(15)
+  s_name    String @db.VarChar(30)
+  s_contact String @db.VarChar(30)
+  s_addr    String @db.VarChar(60)
+  s_phone   String @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model xloginuser {
+  cdtusercode String @db.Text
+  cdtusername String @db.Text
+  cdtuserpwd  String @db.Text
+  cdtfullname String @db.Text
+  cdtemail    String @db.Text
+  cdtmphone   String @db.Text
+  cdtpic      String @db.Text
+
+  @@ignore
+}
