@@ -612,6 +612,7 @@ if(!empty($_GET["action"])) {
 				}
 				$myinvno=$_SESSION['myinvdrm'];
 				$myrefno=$myinvno;
+				
 				//check noinv exist
 				$conExist = mysqli_connect('localhost','mimj5729_myroot','myroot@@##','mimj5729_matahari');
 				$resultExist = mysqli_query($conn2,"select * from wsellhead where s_code='$myrefno'");
@@ -621,7 +622,6 @@ if(!empty($_GET["action"])) {
 					$myrefno = setnoinv();
 				}
 				mysqli_close($conExist);
-				
 				
 				$mydate1=date('Y-m-d');
 				$mydateon=date('Y-m-d');
@@ -642,9 +642,7 @@ if(!empty($_GET["action"])) {
 						$myDisc1=$myItem["disc1"];
 						$myDisc2=$myItem["disc2"];
 						$myDisc3=$myItem["disc3"];
-						
 						$salesDetail = new Sales($myinvno,$mydate1,$mydateon,$mytype,$mysupp,$myuser,'0','0',$myItemCode,$myItemName,$myQty,$myPrice,$myDisc1,$myDisc2,$myDisc3); 
-				
 						$salesDetail->save_sell_tail();
 						
 					/*UPDATE INVENTORY*/
