@@ -28,11 +28,15 @@ return $subtotal1;
 }
 
 function setnoinv(){
+	$timestamp = mt_rand(2, time());
+	$myhash = hash('sha256',$timestamp);
+	$stringhash = substr($myhash,0,5);
+
 	$myRandNo=rand(10000,99999);
 	$nowM=date('Ymd');
 	$mydaternd=strtotime($nowM);
 	
-	$xdate='ANR'.$nowM.$myRandNo;
+	$xdate='ANR'.$nowM.$stringhash;
 	
 	$_SESSION['myinvdrm']=$xdate;
 	return $xdate;
